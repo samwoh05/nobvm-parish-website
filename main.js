@@ -49,9 +49,33 @@ const LITURGY_MINISTRIES = [
     contact: CONTACT_SECRETARIAT
   },
   {
-    title: 'Choir',
-    image: 'image/church_1.jpg',
-    description: 'The choir leads the congregation in worship through sacred music, enriching the liturgical experience at Mass.',
+    title: 'Teochew Choir',
+    image: 'image/Teochew Choir.jpeg',
+    description: 'The Teochew Choir leads the congregation in worship through sacred music, enriching the liturgical experience at Mass.',
+    contact: CONTACT_SECRETARIAT
+  },
+  {
+    title: 'St. Thomas Aquinas Choir',
+    image: 'image/St. Thomas Aquinas Choir.jpeg',
+    description: 'The St. Thomas Aquinas Choir leads the congregation in worship through sacred music, enriching the liturgical experience at Mass.',
+    contact: CONTACT_SECRETARIAT
+  },
+  {
+    title: "St. Hilary's Choir",
+    image: 'image/St. Hilary Choir.jpeg',
+    description: "St. Hilary's Choir leads the congregation in worship through sacred music, enriching the liturgical experience at Mass.",
+    contact: CONTACT_SECRETARIAT
+  },
+  {
+    title: 'St. Gabriel Choir',
+    image: 'image/St. Gabriel Choir.jpeg',
+    description: 'The St. Gabriel Choir leads the congregation in worship through sacred music, enriching the liturgical experience at Mass.',
+    contact: CONTACT_SECRETARIAT
+  },
+  {
+    title: 'Holy Spirit Choir',
+    image: 'image/Holy Spirit Choir.jpeg',
+    description: 'The Holy Spirit Choir leads the congregation in worship through sacred music, enriching the liturgical experience at Mass.',
     contact: CONTACT_SECRETARIAT
   },
   {
@@ -62,13 +86,13 @@ const LITURGY_MINISTRIES = [
   },
   {
     title: 'Wardens',
-    image: 'image/church_2.jpg',
+    image: 'image/Wardens_page-0001.jpg',
     description: 'Wardens maintain order and assist parishioners during Mass, ensuring a safe and welcoming environment for all.',
     contact: CONTACT_SECRETARIAT
   },
   {
     title: 'Lectors',
-    image: 'image/church_1.jpg',
+    image: 'image/English Lectors.jpeg',
     description: 'Lectors proclaim the Word of God at Mass, reading from Scripture with clarity and reverence to the assembled community.',
     contact: CONTACT_SECRETARIAT
   },
@@ -107,7 +131,7 @@ const PRAYER_MINISTRIES = [
   },
   {
     title: 'Christian Meditation',
-    image: 'image/church_1.jpg',
+    image: 'image/Christian Mediation with Our Lady of Silence.jpg',
     description: 'Christian Meditation offers a contemplative practice of silent prayer, deepening one\'s relationship with God through stillness.',
     contact: CONTACT_SECRETARIAT
   },
@@ -120,10 +144,10 @@ const PASTORAL_MINISTRIES = [
     description: 'The Funeral Ministry accompanies families through the loss of a loved one, providing pastoral support and assistance with funeral rites.',
     contact: CONTACT_PASTORAL
   },
-  {
-    title: 'Bereavement Ministry',
-    image: 'image/church_1.jpg',
-    description: 'The Bereavement Ministry walks alongside those who are grieving, offering care and companionship in their time of loss.',
+  {// completed no updated contact
+    title: 'St Elizabeth Ann Seton Bereavement Ministry',
+    image: 'image/St Elizabeth Ann Seton Bereavement Ministry.jpg',
+    description: 'Walking alongside grieving families with compassionate hearts and faithful support, bringing comfort, prayer and the hope of Christ.',
     contact: CONTACT_PASTORAL
   },
   {
@@ -138,9 +162,9 @@ const PASTORAL_MINISTRIES = [
     description: 'The SSVP serves those in need through direct, person-to-person charitable works, living out the Gospel call to love our neighbour.',
     contact: CONTACT_PASTORAL
   },
-  {
+  {//updated photos only no description
     title: 'Care for Creation',
-    image: 'image/church_1.jpg',
+    image: 'image/Care for Creation.jpeg',
     description: 'Care for Creation promotes environmental stewardship within the parish, responding to the Church\'s call to care for our common home.',
     contact: CONTACT_PASTORAL
   },
@@ -148,18 +172,29 @@ const PASTORAL_MINISTRIES = [
 
 const FAITH_MINISTRIES = [
   { title: 'Catechesis', image: 'image/cat_class.jpeg', description: 'Catechesis provides faith formation for children and youth, guiding them through the teachings of the Church on their journey of discipleship.', contact: CONTACT_SECRETARIAT },
-  { title: 'RCIA (English)', image: 'image/church_2.jpg', description: 'The Rite of Christian Initiation of Adults welcomes those who wish to explore or enter the Catholic faith, journeying together in community.', contact: CONTACT_SECRETARIAT },
-  { title: 'RCIA (Mandarin)', image: 'image/church_1.jpg', description: '慕道班欢迎有意了解或加入天主教信仰的人士，在团体中共同踏上信仰旅程。', contact: CONTACT_SECRETARIAT },
-  { title: 'Adult Faith Formation', image: 'image/church_3.png', description: 'Adult Faith Formation offers ongoing opportunities for Catholics to deepen their understanding of the faith through talks, courses, and retreats.', contact: CONTACT_SECRETARIAT },
-  { title: 'Chinese Bible Group', image: 'image/church_2.jpg', description: '中文圣经小组定期聚会，共同研读圣经，在团体中加深对天主圣言的认识与热爱。', contact: CONTACT_SECRETARIAT },
+  { title: 'RCIA (English)', 
+    image: 'image/RCIA English Picture 1.jpg', 
+    description: 'RCIA is a journey together in faith for adults who wish to discover more about God and the Catholic faith, and for those considering becoming Catholic. Through Scripture, prayer, sharing and fellowship, we journey together to know Jesus Christ more deeply and experience the love of God in our lives.', 
+    contact: CONTACT_SECRETARIAT },
+  { title: 'RCIA (Mandarin)', image: 'image/RCIA (Mandarin).jpeg', description: '慕道班欢迎有意了解或加入天主教信仰的人士，在团体中共同踏上信仰旅程。', contact: CONTACT_SECRETARIAT },
+  { title: 'Adult Faith Formation', image: 'image/Adults Faith Formation.jpeg', description: 'Adult Faith Formation offers ongoing opportunities for Catholics to deepen their understanding of the faith through talks, courses, and retreats.', contact: CONTACT_SECRETARIAT },
+  { title: 'Chinese Bible Group', image: 'image/Chinese Bible Group.jpeg', description: '中文圣经小组定期聚会，共同研读圣经，在团体中加深对天主圣言的认识与热爱。', contact: CONTACT_SECRETARIAT },
 ];
 
 const COMMUNITY_MINISTRIES = [
-  { title: 'Nativity Family Life Ministry', image: 'image/church_1.jpg', description: 'The Family Life Ministry supports families at every stage of life, offering programs and resources to help families grow in faith together.', contact: CONTACT_SECRETARIAT },
-  { title: 'Couples for Christ', image: 'image/church_2.jpg', description: 'Couples for Christ is a movement that helps married couples grow in their faith and build Christ-centred families and communities.', contact: CONTACT_SECRETARIAT },
+  { title: 'Nativity Family Life Ministry', 
+    image: 'image/Nativity Family Life.jpg', 
+    description: 'A ministry that strengthens marriages and family life through Christian formation and family empowering events.', 
+    contact: CONTACT_SECRETARIAT 
+  },
+  { title: 'Couples for Christ', 
+    image: 'image/Couples For Christ Nativity Aug2026 Landscape.jpg', 
+    description: 'Couples for Christ is a movement that helps married couples grow in their faith and build Christ-centred families and communities.',
+     contact: CONTACT_SECRETARIAT 
+    },
   { title: 'Neocatechumenal Way', image: 'image/church_3.png', description: 'The Neocatechumenal Way is a post-baptismal catechetical journey that helps Catholics rediscover and live their baptismal faith more deeply.', contact: CONTACT_SECRETARIAT },
   { title: 'Neighbourhood Christian Community (NCC)', image: 'image/church_1.jpg', description: 'NCCs are small faith communities that gather in homes and neighbourhoods, building relationships and supporting one another in daily Christian living.', contact: CONTACT_SECRETARIAT },
-  { title: 'Chinese & Teochew Group', image: 'image/church_2.jpg', description: '华语及潮州堂区团体定期举办活动，凝聚华语堂区成员，在信仰与文化中共融。', contact: CONTACT_SECRETARIAT },
+  { title: 'Chinese & Teochew Group', image: 'image/church_3.png', description: '华语及潮州堂区团体定期举办活动，凝聚华语堂区成员，在信仰与文化中共融。', contact: CONTACT_SECRETARIAT },
 ];
 
 
@@ -354,8 +389,8 @@ document.addEventListener("DOMContentLoaded", () => {
             PRAYER_MINISTRIES,
             "carouselTrack2",
             "carouselViewport2",
-            "prevBtn2",
-            "nextBtn2"
+            "prevBtn",
+            "nextBtn"
         );
 
         return;

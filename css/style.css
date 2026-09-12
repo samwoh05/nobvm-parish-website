@@ -7,10 +7,14 @@
 }
 
 @font-face {
-    font-family: LexendExa_Font;
-    src: url("../font/LexendExa-VariableFont_wght.woff");
+    font-family: Montserrat_Font;
+    src: url("../font/Montserrat-Bold.woff");
 }
 
+@font-face {
+    font-family: DMSans_Font;
+    src: url("../font/DMSans-Regular.woff");
+}
 /*============================
         * & elements 
 =============================*/
@@ -47,7 +51,7 @@ img {
 p,
 a,
 td {
-    font-family: LexendExa_Font;
+    font-family: Montserrat_Font;
 }
 
 /* ======================
@@ -297,6 +301,7 @@ footer>div>p {
     text-align: center;
     align-self: self-end;
     font-size: clamp(3rem, 10vw, 10rem);
+    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 #home>div:nth-child(1)>div {
@@ -307,13 +312,19 @@ footer>div>p {
     min-width: 90vw;
 }
 
+#home> div:nth-child(1)>p{
+    font-size: clamp(3rem, 3vw, 3rem);
+    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
+}
+
 #home>div:nth-child(1) a {
     font-size: clamp(0.85rem, 2vw, 2rem);
     border: solid 5px #2F3E46;
-    border-radius: 3vw;
+    border-radius: 0.25vw;
     min-width: 20vw;
     text-decoration: none;
-    background-color: #f8fafc2e;
+    background-color: rgba(47, 62, 70, 0.67);
+    color: #f7fbfcbe;
 }
 
 #massSchedule h1,
@@ -323,8 +334,9 @@ footer>div>p {
     grid-column: 1/span 2;
     text-align: center;
     max-height: fit-content;
-    font-size: clamp(1.75rem, 4.5vw, 5rem);
+    font-size: clamp(2.75rem, 5.5vw, 6rem);
     padding: 2vh 2vw;
+    font-family: Gloock_Font;
 }
 
 /* ======================
@@ -344,15 +356,17 @@ footer>div>p {
     grid-row: 2;
     grid-column: 1;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, auto);
+    /* grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, auto); */
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(2, auto);
     padding: 2vh 2vw;
     row-gap: 5vh;
     border-right: 6px solid #2F3E46;
 }
 
 /* images */
-#massSchedule>div:nth-of-type(1)>div:nth-child(1) {
+/* #massSchedule>div:nth-of-type(1)>div:nth-child(1) {
     grid-row: 1/span 2;
     grid-column: 1/span 2;
 }
@@ -368,6 +382,17 @@ footer>div>p {
     grid-column: 1/span 4;
     align-self: self-end;
     justify-self: center;
+} */
+
+#massSchedule>div:nth-of-type(1)>div:nth-child(1) {
+    grid-row: 1;
+    justify-self: center;
+
+}
+#massSchedule>div:nth-of-type(1)>div:nth-child(2) {
+    grid-row: 2;
+    justify-self: center;
+
 }
 
 #massSchedule>div:nth-of-type(1)>div:nth-child(1)>img {
@@ -402,6 +427,10 @@ footer>div>p {
     font-size: clamp(0.75rem, 1.5vw, 1.75rem);
 }
 
+#massSchedule * :not(#massSchedule>h1), #confessionSch * :not(#confessionSch h1) {
+    font-family: DMSans_Font;
+
+}
 #massSchedule #mass {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -474,7 +503,7 @@ footer>div>p {
     color: #F7FBFC;
 }
 
-#confessionSch h1>u,
+#confessionSch h1,
 #confessionSch p {
     color: #F7FBFC;
 }
@@ -604,6 +633,12 @@ footer>div>p {
     text-align: center;
     align-self: self-end;
     font-size: clamp(3rem, 10vw, 12rem);
+    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#contactMenu> div:nth-child(1)>p{
+    font-size: clamp(3rem, 3vw, 3rem);
+    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 #contactMenu>div:nth-child(1)>div {
@@ -617,11 +652,11 @@ footer>div>p {
 #contactMenu>div:nth-child(1) a {
     font-size: clamp(0.85rem, 2vw, 2.5rem);
     border: solid 5px #2F3E46;
-    border-radius: 3vw;
+    border-radius: 0.25vw;
     min-width: 20vw;
     text-decoration: none;
-    background-color: #f8fafc2e;
-}
+    background-color: rgba(47, 62, 70, 0.67);
+    color: #f7fbfcbe;}
 
 #officeDirectory {
     background-color: #192434c0;
@@ -693,7 +728,7 @@ footer>div>p {
     min-height: 105vh;
     padding: 5vh 2vw;
     column-gap: 3vw;
-    background-image: url('../image/placeholder.jpg');
+    background-image: url('../image/gregoire.jpg');
     background-position: 10% center;
     background-repeat: no-repeat;
     background-size: 40vw auto;
@@ -1003,7 +1038,7 @@ footer>div>p {
     font-size: clamp(1.5rem, 3.5vw, 4.5rem);
 }
 
-.sacramentpg main>section:not(.sacramentNPastroalMenue, #sacrament, #pastroal, #house) {
+.sacramentpg main>section:not(.sacramentNPastroalMenue, #sacrament, #pastroal, #house, #sick) {
     min-height: 105vh;
     background-color: #F7FBFC;
     padding: 5vh 5vw;
@@ -1270,6 +1305,8 @@ footer>div>p {
     color: #192434;
     align-self: end;
     justify-self: end;
+    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
+
 }
 
 #donationTop>p {
@@ -1357,6 +1394,7 @@ footer>div>p {
     color: #e8d9b5;
     line-height: 1;
     border-bottom: 1px solid #e8d9b5;
+    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 #ministryHero p {
@@ -1452,7 +1490,7 @@ footer>div>p {
 }
 
 .ministryBack {
-    font-family: LexendExa_Font;
+    font-family: Montserrat_Font;
     font-size: clamp(.65rem, .85vw, .9rem);
     color: rgba(247, 251, 252, .7);
     text-decoration: none;
@@ -1496,7 +1534,7 @@ footer>div>p {
 }
 
 .ministryContactBtn {
-    font-family: LexendExa_Font;
+    font-family: Montserrat_Font;
     font-size: clamp(.65rem, .9vw, .85rem);
     letter-spacing: .1em;
     text-decoration: none;
@@ -1908,6 +1946,7 @@ footer>div>p {
 
     #home>div:nth-child(1)>h1 {
         font-size: clamp(2.5rem, 14vw, 5rem);
+
     }
 
     #home>div:nth-child(1)>div {

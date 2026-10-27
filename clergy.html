@@ -10,89 +10,85 @@
     <!-- changing of website icon -->
     <link rel="icon" type="image/x-icon" href="logo/mother-mary-icon.png">
 
+    <!-- fonts used on every page -->
+    <link rel="preload" href="font/Gloock-Regular.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+
     <!-- link to external css file under css folder -->
     <link href="css/style.css" type="text/css" rel="stylesheet">
 
-    <!-- link to external js file under js folder -->
+    <!-- link to external js file -->
     <script src="main.js" defer></script>
     <!-- <link rel="manifest" href="manifest.json"> -->
 
+    <meta name="theme-color" content="#FAF8F4">
+
     <!-- meta description -->
     <meta name="description"
-        content="Church of the Nativity of the Blessed Virgin Mary - Information on Church Timing, Clergy, Sacrements, Ministry and more" />
+        content="Church of the Nativity of the Blessed Virgin Mary - Information on Church Timing, Clergy, Sacraments, Ministry and more" />
 </head>
 
 <body class="clergypg">
-    <!-- menue bar -->
-    <header>
-        <div id="menu" class="menuGrid">
-            <!-- logo layout -->
-            <div>
-                <a href="index.html">
-                    <img src="logo/nativityChurchLogo.png" alt="logo">
-                </a>
-            </div>
-            <div>
-                <a href="index.html">
+    <a class="skip-link" href="#main">Skip to content</a>
 
-                    <h1><b>
-                            Church of the Nativity of the Blessed Virgin Mary</b>
-                    </h1>
-                    <h1><b>
-                            圣母圣诞堂
-                    </b></h1>
-                </a>
-            </div>
+    <!-- menu bar -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <!-- logo & church name -->
+            <a class="brand" href="index.html">
+                <img class="brand-logo" src="logo/nativityChurchLogo.png" alt="logo" width="750" height="1016">
+                <span class="brand-text">
+                    <span class="brand-name">Church of the Nativity of the Blessed Virgin Mary</span>
+                    <span class="brand-zh" lang="zh-Hans">圣母圣诞堂</span>
+                </span>
+            </a>
+
+            <!-- menu button (smaller screens) -->
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+                Menu
+            </button>
+
             <!-- navigation -->
-            <nav>
-                <button class="homeBtn">
-                    <a href='index.html'>Home</a>
-                </button>
-                <!-- <button class="aboutBtn">
-                    <a href='about.html'>About Us</a>
-                </button> -->
-                <button class="clergyBtn">
-                    <a href='clergy.html'>Contact Us</a>
-                </button>
-                <button class="scaramentBtn">
-                    <a href='scarament.html'>
-                        <span>Sacraments</span>
-                        <span>&amp;</span>
-                        <span>Pastoral&nbsp;Services</span>
-                    </a>
-                </button>
-                <button class="ministryBtn">
-                    <a href='ministry.html'>Ministries</a>
-                </button>
-                <button class="donateBtn">
-                    <a href='donate.html'>Donate</a>
-                </button>
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <!-- <li><a href="about.html">About Us</a></li> -->
+                    <li><a href="clergy.html" aria-current="page">Contact Us</a></li>
+                    <li><a href="scarament.html">Sacraments &amp; Pastoral Services</a></li>
+                    <li><a href="ministry.html">Ministries</a></li>
+                    <li><a href="donate.html" class="nav-donate">Donate</a></li>
+                </ul>
             </nav>
+        </div>
     </header>
 
     <!-- content -->
-    <main>
-        <section id="contactMenu">
-            <div>
-                <h1>
-                    CONTACT US
-                </h1>
-                <p>Connect with our parish community, priests, and staff</p>
+    <main id="main">
+        <section id="contactMenu" class="page-hero">
+            <div class="container page-hero-grid">
                 <div>
-                    <a href="#officeDirectory">Office Directory</a>
-                    <a href="#mainParish">Our Priests</a>
+                    <h1 class="page-title">CONTACT US</h1>
+                    <p class="page-sub">Connect with our parish community, priests, and staff</p>
+                    <div class="jump-links">
+                        <a class="btn btn--jump" href="#officeDirectory">Office Directory</a>
+                        <a class="btn btn--jump" href="#mainParish">Our Priests</a>
+                    </div>
+                </div>
+                <div class="page-hero-media">
+                    <img src="image/background_1.jpg" alt="" width="1536" height="1536">
                 </div>
             </div>
         </section>
 
         <!-- Office Directory -->
-        <section id="officeDirectory">
-            <div>
-                <h1>
-                    Office Directory
-                </h1>
+        <section id="officeDirectory" class="section">
+            <div class="container">
+                <h2 class="section-title">Office Directory</h2>
                 <div class="directoryList">
-                    <div class="directoryItem" id="officeHours">
+                    <div class="directoryItem directoryItem--hours" id="officeHours">
                         <h3>Office Hours</h3>
                         <table class="officeHoursTable">
                             <tbody>
@@ -131,57 +127,69 @@
                         <h3>Bookings, Enquiries &amp; Sacraments</h3>
                         <p>For booking of rooms, general enquiries, application and request for sacraments, house
                             blessings, etc.</p>
-                        <p><b>Email: </b> <u>cnbvm.secretariat@catholic.org.sg</u></p>
-                        <p><b>Phone no.: </b><u>+65 6280 0980</u></p>
+                        <p class="directory-contact"><b>Email: </b> <a
+                                href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></p>
+                        <p class="directory-contact"><b>Phone no.: </b><a href="tel:+6562800980">+65 6280 0980</a></p>
                     </div>
                     <div class="directoryItem">
                         <h3>Pastoral Enquiries</h3>
                         <p>For weddings, funerals, communion to the homebound and other pastoral enquiries.</p>
-                        <p><b>Email: </b><u>pastoraloffice.cnbvm@catholic.org.sg</u></p>
-                        <p><b>Phone no.: </b><u>+65 6281 0306</u></p>
+                        <p class="directory-contact"><b>Email: </b><a
+                                href="mailto:pastoraloffice.cnbvm@catholic.org.sg">pastoraloffice.cnbvm@catholic.org.sg</a>
+                        </p>
+                        <p class="directory-contact"><b>Phone no.: </b><a href="tel:+6562810306">+65 6281 0306</a></p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Parish -->
-        <section id="mainParish">
-            <div>
-                <h1>Our<br>Priests</h1>
-                <div>
-                    <h2>Rev Fr Gregoire van Giang</h2>
-                    <p>Parish Priest</p>
-                    <p>Phone: +65 6737 9285</p>
-                    <p>Email: giang@catholic.org.sg</p>
-                </div>
-            </div>
-            <div id="mainPriestPhoto">
-                <img src="image/gregoire.jpg" alt="Rev Fr Gregoire van Giang">
-            </div>
-        </section>
-        <section id="otherParishPriests">
-            <div id="priest">
-                <img src='image/john.jpg' alt="Rev Fr Sam Thadatheil John">
-                <h3>Rev Fr Sam Thadatheil John</h3>
-                <p>Assistant Priest</p>
-                <div>
-                    <p>Phone: +65 6291 9272</p>
-                    <p>Email: sam.john@catholic.org.sg</p>
-                </div>
-            </div>
-            <div id="priest">
-                <img src='image/kevin_wee.jpg' alt="Rev Fr Kevin Wee">
-                <h3>Rev Fr Kevin Wee</h3>
-                <p>Assistant Parish Priest</p>
-                <div>
-                    <p>Phone: +65 6291 9272</p>
-                    <p>Email: kevin.wee@catholic.org.sg</p>
+        <!-- Parish priests -->
+        <section id="mainParish" class="section section--stone">
+            <div class="container">
+                <h2 class="section-title">Our Priests</h2>
+                <div class="priest-grid">
+                    <div class="priest">
+                        <div class="priest-photo arch" id="mainPriestPhoto">
+                            <img src="image/gregoire.jpg" alt="Rev Fr Gregoire van Giang" width="458" height="458"
+                                loading="lazy">
+                        </div>
+                        <h3>Rev Fr Gregoire van Giang</h3>
+                        <p class="priest-role">Parish Priest</p>
+                        <div class="priest-contact">
+                            <p>Phone: <a href="tel:+6567379285">+65 6737 9285</a></p>
+                            <p>Email: <a href="mailto:giang@catholic.org.sg">giang@catholic.org.sg</a></p>
+                        </div>
+                    </div>
+                    <div class="priest">
+                        <div class="priest-photo arch">
+                            <img src="image/john.jpg" alt="Rev Fr Sam Thadatheil John" width="458" height="458"
+                                loading="lazy">
+                        </div>
+                        <h3>Rev Fr Sam Thadatheil John</h3>
+                        <p class="priest-role">Assistant Priest</p>
+                        <div class="priest-contact">
+                            <p>Phone: <a href="tel:+6562919272">+65 6291 9272</a></p>
+                            <p>Email: <a href="mailto:sam.john@catholic.org.sg">sam.john@catholic.org.sg</a></p>
+                        </div>
+                    </div>
+                    <div class="priest">
+                        <div class="priest-photo arch">
+                            <img src="image/kevin_wee.jpg" alt="Rev Fr Kevin Wee" width="419" height="419"
+                                loading="lazy">
+                        </div>
+                        <h3>Rev Fr Kevin Wee</h3>
+                        <p class="priest-role">Assistant Parish Priest</p>
+                        <div class="priest-contact">
+                            <p>Phone: <a href="tel:+6562919272">+65 6291 9272</a></p>
+                            <p>Email: <a href="mailto:kevin.wee@catholic.org.sg">kevin.wee@catholic.org.sg</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- gallery -->
-        <section id="horizontalGallery">
+        <section id="horizontalGallery" class="gallery">
             <div class="scrollable-Horizontal">
                 <div class="timeline_H">
                     <img src="image/background_1.jpg" alt="placeholder">
@@ -194,66 +202,75 @@
                     <img src="image/Stained Glass.1.jpg" alt="placeholder">
 
                     <!--duplicate all the image to make it look like its infinite -->
-                    <img src="image/background_1.jpg" alt="placeholder">
-                    <img src="image/background_2.jpg" alt="placeholder">
-                    <img src="image/church_2.jpg" alt="placeholder">
-                    <img src="image/confession_1.jpg" alt="placeholder">
-                    <img src="image/church_1.jpg" alt="placeholder">
-                    <img src="image/church_2.jpg" alt="placeholder">
-                    <img src="image/mother_mary.jpg" alt="placeholder">
-                    <img src="image/Stained Glass.1.jpg" alt="placeholder">
-
+                    <img src="image/background_1.jpg" alt="placeholder" aria-hidden="true">
+                    <img src="image/background_2.jpg" alt="placeholder" aria-hidden="true">
+                    <img src="image/church_2.jpg" alt="placeholder" aria-hidden="true">
+                    <img src="image/confession_1.jpg" alt="placeholder" aria-hidden="true">
+                    <img src="image/church_1.jpg" alt="placeholder" aria-hidden="true">
+                    <img src="image/church_2.jpg" alt="placeholder" aria-hidden="true">
+                    <img src="image/mother_mary.jpg" alt="placeholder" aria-hidden="true">
+                    <img src="image/Stained Glass.1.jpg" alt="placeholder" aria-hidden="true">
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="logo">
-            <!-- nav for homescreen -->
-            <button class="homeButton">
-                <img src="logo/nativityChurchLogo.png" alt="logo" title="logo">
-            </button>
-        </div>
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <!-- back to homescreen -->
+                <a class="footer-logo" href="index.html">
+                    <img src="logo/nativityChurchLogo.png" alt="logo" title="logo" width="750" height="1016">
+                </a>
+            </div>
 
-        <!-- nav to other pg of the website -->
-        <div>
-            <h4><u>Content</u></h4>
-            <nav>
-                <button class="index"><a href='index.html'>Home</a></button>
-                <!-- <button class="aboutBtn"><a href='about.html'>About Us</a></button> -->
-                <button class="clergyBtn"><a href='clergy.html'>Contact Us</a></button>
-                <button class="scaramentBtn"><a href='scarament.html'>Sacraments & Pastoral Services</a></button>
-                <button class="ministryBtn"><a href='ministry.html'>Ministries</a></button>
-                <button class="donateBtn"><a href='donate.html'>Donate</a></button>
-            </nav>
-        </div>
-
-        <!-- for the google form -->
-        <div>
-            <h4><u>Connect with us</u></h4>
-            <img src="image/qrCode.jpg" alt="QR code to access website on mobile" title="qr code">
-        </div>
-
-        <div>
-            <h4><u>Reaching out?</u></h4>
-            <p><b>Email: </b>cnbvm.secretariat@catholic.org.sg</p>
-            <p><b>Phone no.: </b>+65 6280 0980</p>
-            <p><b>Address: </b>1259 Upper Serangoon Road Singapore 534795</p>
+            <!-- nav to other pg of the website -->
             <div>
-                <a href="https://mycatholic.sg/parish/nativityofblessedvirgin" target="_blank" class="web Logo"></a>
+                <h2 class="footer-heading">Content</h2>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <!-- <li><a href="about.html">About Us</a></li> -->
+                        <li><a href="clergy.html">Contact Us</a></li>
+                        <li><a href="scarament.html">Sacraments &amp; Pastoral Services</a></li>
+                        <li><a href="ministry.html">Ministries</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                    </ul>
+                </nav>
+            </div>
 
-                <a href="https://www.facebook.com/ChurchOfTheNativityOfTheBlessedVirginMary/mentions/" target="_blank"
-                    class="fb Logo"></a>
+            <!-- for the google form -->
+            <div>
+                <h2 class="footer-heading">Connect with us</h2>
+                <img class="footer-qr" src="image/qrCode.jpg" alt="QR code to access website on mobile" title="qr code"
+                    width="350" height="350">
+            </div>
 
-                <a href="https://www.instagram.com/nativitychurchsg/" target="_blank" class="ig Logo"></a>
+            <div class="footer-contact">
+                <h2 class="footer-heading">Reaching out?</h2>
+                <p><b>Email: </b><a href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></p>
+                <p><b>Phone no.: </b><a href="tel:+6562800980">+65 6280 0980</a></p>
+                <p><b>Address: </b><a
+                        href="https://www.google.com/maps/search/?api=1&amp;query=1259+Upper+Serangoon+Road+Singapore+534795"
+                        target="_blank" rel="noopener">1259 Upper Serangoon Road Singapore 534795</a></p>
+                <div class="social">
+                    <a href="https://mycatholic.sg/parish/nativityofblessedvirgin" target="_blank" rel="noopener"
+                        class="social-link" aria-label="myCatholic.sg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></a>
 
+                    <a href="https://www.facebook.com/ChurchOfTheNativityOfTheBlessedVirginMary/mentions/" target="_blank"
+                        rel="noopener" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21h2.9z"/></svg></a>
+
+                    <a href="https://www.instagram.com/nativitychurchsg/" target="_blank" rel="noopener"
+                        class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+                </div>
             </div>
         </div>
 
-        <h6>© 2026 Church of the Nativity of the Blessed Virgin Mary. All rights reserved. Website designed and
-            developed by Catarina Chai.</h6>
+        <div class="container footer-bottom">
+            <p>© 2026 Church of the Nativity of the Blessed Virgin Mary. All rights reserved. Website designed and
+                developed by Samuel Yee.</p>
+        </div>
     </footer>
 </body>
 

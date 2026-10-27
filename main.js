@@ -1,27 +1,82 @@
+// ================================
+//   NAVIGATION — menu button on smaller screens
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector('.nav-toggle');
+  if (!header || !toggle) return;
 
-// for the horizontal gallery
+  function setOpen(open) {
+    header.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  }
+
+  toggle.addEventListener('click', () => {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  header.querySelectorAll('.site-nav a').forEach(link => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && header.classList.contains('nav-open')) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!header.contains(e.target)) setOpen(false);
+  });
+
+  window.matchMedia('(min-width: 1200px)').addEventListener('change', e => {
+    if (e.matches) setOpen(false);
+  });
+});
+
+// ================================
+//   CONTACT US — highlight today's office hours
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
+  const rows = document.querySelectorAll('.officeHoursTable tr');
+  if (!rows.length) return;
+
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long', timeZone: 'Asia/Singapore' });
+  rows.forEach(row => {
+    if (row.cells[0].textContent.trim() === today) row.classList.add('is-today');
+  });
+});
+
+// ================================
+//   CONTACT US — horizontal gallery
+// ================================
 window.addEventListener('load', () => {
-  if (!window.location.pathname.includes('clergy.html')) return;
   const track = document.querySelector('.timeline_H');
+  if (!track) return;
+
+  // people who prefer less motion can scroll the gallery themselves
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const viewport = track.parentElement;
   const imgs = track.querySelectorAll('img');
-  const half = imgs.length / 2;  // 8
+  const half = imgs.length / 2;
 
   let pos = 0;
-  const speed = 1; // px per frame, increase to go faster
+  let paused = false;
+  const speed = 0.5; // px per frame, increase to go faster
+
+  viewport.addEventListener('mouseenter', () => { paused = true; });
+  viewport.addEventListener('mouseleave', () => { paused = false; });
 
   function scroll() {
-    pos += speed;
+    // width of the first set of images (including spacing)
+    const loopWidth = imgs[half].offsetLeft - imgs[0].offsetLeft;
 
-    // Measure the exact width of the first set of images
-    let firstHalfWidth = 0;
-    for (let i = 0; i < half; i++) {
-      firstHalfWidth += imgs[i].getBoundingClientRect().width;
-    }
+    if (!paused) pos += speed;
 
-    // Reset once we've scrolled exactly one full set
-    if (pos >= firstHalfWidth) {
-      pos = 0;
-    }
+    // reset once we've scrolled exactly one full set
+    if (pos >= loopWidth) pos -= loopWidth;
 
     track.style.transform = `translateX(-${pos}px)`;
     requestAnimationFrame(scroll);
@@ -197,239 +252,36 @@ const COMMUNITY_MINISTRIES = [
   { title: 'Chinese & Teochew Group', image: 'image/church_3.png', description: '华语及潮州堂区团体定期举办活动，凝聚华语堂区成员，在信仰与文化中共融。', contact: CONTACT_SECRETARIAT },
 ];
 
-
-
-const VISIBLE_COLLAPSED = 4;
-const GAP = 1;
+const MINISTRY_GROUPS = {
+  liturgy: LITURGY_MINISTRIES,
+  prayer: PRAYER_MINISTRIES,
+  pastoral: PASTORAL_MINISTRIES,
+  faith: FAITH_MINISTRIES,
+  community: COMMUNITY_MINISTRIES,
+};
 
 function buildCard(item) {
-  const card = document.createElement("div");
-  card.className = "proj-card";
+  const card = document.createElement('article');
+  card.className = 'proj-card';
 
   card.innerHTML = `
-    <img class="card-thumb" src="${item.image}" alt="${item.title}">
+    <img class="card-thumb" src="${item.image}" alt="${item.title}" loading="lazy">
     <div class="card-body">
-      <p class="card-title">${item.title}</p>
-
-      <div class="card-detail">
-        <p class="card-desc">${item.description}</p>
-        <a class="card-link" href="${item.contact}">
-          Get Involved →
-        </a>
-      </div>
+      <h3 class="card-title">${item.title}</h3>
+      <p class="card-desc">${item.description}</p>
+      <a class="card-link" href="${item.contact}">Get Involved →</a>
     </div>
   `;
-
-  card.addEventListener("click", e => {
-    if (e.target.classList.contains("card-link")) return;
-
-    if (card.classList.contains("open")) {
-      card.classList.remove("open");
-      return;
-    }
-
-    closeAllIn(card.closest(".carousel-track"));
-    card.classList.add("open");
-  });
 
   return card;
 }
 
-function closeAllIn(track) {
-  track.querySelectorAll(".proj-card.open")
-    .forEach(card => card.classList.remove("open"));
-}
-
-
-function initCarousel(items, trackId, viewportId, prevBtnId, nextBtnId) {
-
-  const DURATION = 420;
-
-  const track = document.getElementById(trackId);
-  const viewport = document.getElementById(viewportId);
-
-  if (!track || !viewport) return;
-
-  // Find buttons
-  let prevBtn;
-  let nextBtn;
-
-  if (prevBtnId && nextBtnId) {
-    // Used by ministry.html (2 carousels)
-    prevBtn = document.getElementById(prevBtnId);
-    nextBtn = document.getElementById(nextBtnId);
-  }
-  else {
-    // Used by Pastoral/Faith/Community pages
-    const wrapper = viewport.closest(".carousel-wrapper");
-    prevBtn = wrapper.querySelector("#prevBtn");
-    nextBtn = wrapper.querySelector("#nextBtn");
-  }
-
-  const N = items.length;
-  const CLONE_COUNT = Math.min(VISIBLE_COLLAPSED + 1, N);
-
-  let pos = CLONE_COUNT;
-  let isAnimating = false;
-  let realCards = [];
-
-  function cardWidth() {
-    const gapPx = GAP * window.innerWidth / 100;
-    return (realCards[0]?.offsetWidth || 220) + gapPx;
-  }
-
-  function jumpTo(index) {
-    track.style.transition = "none";
-    track.style.transform = `translateX(-${index * cardWidth()}px)`;
-    pos = index;
-  }
-
-  function slideTo(index) {
-
-    if (isAnimating) return;
-
-    isAnimating = true;
-
-    closeAllIn(track);
-
-    track.style.transition =
-      `transform ${DURATION}ms cubic-bezier(0.4,0,0.2,1)`;
-
-    track.style.transform =
-      `translateX(-${index * cardWidth()}px)`;
-
-    pos = index;
-
-    setTimeout(() => {
-
-      if (pos < CLONE_COUNT)
-        jumpTo(pos + N);
-
-      else if (pos >= CLONE_COUNT + N)
-        jumpTo(pos - N);
-
-      isAnimating = false;
-
-    }, DURATION + 10);
-  }
-
-  // Front clones
-  for (let i = N - CLONE_COUNT; i < N; i++) {
-
-    const clone = buildCard(items[i]);
-    clone.classList.add("clone");
-    track.appendChild(clone);
-
-  }
-
-  // Real cards
-  realCards = items.map(item => {
-
-    const card = buildCard(item);
-
-    track.appendChild(card);
-
-    return card;
-
+// ================================
+//   INIT — fill every ministry list on the page
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-ministries]').forEach(list => {
+    const items = MINISTRY_GROUPS[list.dataset.ministries] || [];
+    items.forEach(item => list.appendChild(buildCard(item)));
   });
-
-  // Back clones
-  for (let i = 0; i < CLONE_COUNT; i++) {
-
-    const clone = buildCard(items[i]);
-    clone.classList.add("clone");
-
-    track.appendChild(clone);
-
-  }
-
-  jumpTo(CLONE_COUNT);
-
-  prevBtn.addEventListener("click", () => slideTo(pos - 1));
-  nextBtn.addEventListener("click", () => slideTo(pos + 1));
-
-  let touchX = 0;
-
-  viewport.addEventListener("touchstart", e => {
-    touchX = e.touches[0].clientX;
-  }, { passive: true });
-
-  viewport.addEventListener("touchend", e => {
-
-    const dx = touchX - e.changedTouches[0].clientX;
-
-    if (Math.abs(dx) > 50)
-      slideTo(dx > 0 ? pos + 1 : pos - 1);
-
-  }, { passive: true });
-
-  window.addEventListener("resize", () => jumpTo(pos));
-}
-
-// ================================
-//   INIT — detect which page we're on
-// ================================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    // ministry.html (2 carousels)
-
-    if (document.getElementById("carouselTrack1") &&
-        document.getElementById("carouselTrack2")) {
-
-        initCarousel(
-            LITURGY_MINISTRIES,
-            "carouselTrack1",
-            "carouselViewport1",
-            "prevBtn1",
-            "nextBtn1"
-        );
-
-        initCarousel(
-            PRAYER_MINISTRIES,
-            "carouselTrack2",
-            "carouselViewport2",
-            "prevBtn",
-            "nextBtn"
-        );
-
-        return;
-    }
-
-    // All other ministry pages (1 carousel)
-
-    if (!document.getElementById("carouselTrack")) return;
-
-    const path = window.location.pathname;
-
-    if (path.includes("ministry-pastoral")) {
-
-        initCarousel(
-            PASTORAL_MINISTRIES,
-            "carouselTrack",
-            "carouselViewport"
-        );
-
-    }
-
-    else if (path.includes("ministry-faith")) {
-
-        initCarousel(
-            FAITH_MINISTRIES,
-            "carouselTrack",
-            "carouselViewport"
-        );
-
-    }
-
-    else if (path.includes("ministry-community")) {
-
-        initCarousel(
-            COMMUNITY_MINISTRIES,
-            "carouselTrack",
-            "carouselViewport"
-        );
-
-    }
-
 });

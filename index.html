@@ -10,236 +10,261 @@
     <!-- changing of website icon -->
     <link rel="icon" type="image/x-icon" href="logo/mother-mary-icon.png">
 
+    <!-- fonts used on every page -->
+    <link rel="preload" href="font/Gloock-Regular.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+
     <!-- link to external css file under css folder -->
     <link href="css/style.css" type="text/css" rel="stylesheet">
 
-    <!-- link to external js file under js folder -->
+    <!-- link to external js file -->
     <script src="main.js" defer></script>
     <!-- <link rel="manifest" href="manifest.json"> -->
 
+    <meta name="theme-color" content="#FAF8F4">
+
     <!-- meta description -->
     <meta name="description"
-        content="Church of the Nativity of the Blessed Virgin Mary - Information on Church Timing, Clergy, Sacrements, Ministry and more" />
+        content="Church of the Nativity of the Blessed Virgin Mary - Information on Church Timing, Clergy, Sacraments, Ministry and more" />
 </head>
 
 <body class="indexpg">
-    <!-- menue bar -->
-    <header>
-        <div id="menu" class="menuGrid">
-            <!-- logo layout -->
-            <div>
-                <a href="index.html">
-                    <img src="logo/nativityChurchLogo.png" alt="logo">
-                </a>
-            </div>
-            <div>
-                <a href="index.html">
+    <a class="skip-link" href="#main">Skip to content</a>
 
-                    <h1><b>
-                            Church of the Nativity of the Blessed Virgin Mary</b>
-                    </h1>
-                    <h1><b>
-                            圣母圣诞堂
-                    </b></h1>
-                </a>
-            </div>
+    <!-- menu bar -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <!-- logo & church name -->
+            <a class="brand" href="index.html">
+                <img class="brand-logo" src="logo/nativityChurchLogo.png" alt="logo" width="750" height="1016">
+                <span class="brand-text">
+                    <span class="brand-name">Church of the Nativity of the Blessed Virgin Mary</span>
+                    <span class="brand-zh" lang="zh-Hans">圣母圣诞堂</span>
+                </span>
+            </a>
+
+            <!-- menu button (smaller screens) -->
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+                Menu
+            </button>
+
             <!-- navigation -->
-            <nav>
-                <button class="homeBtn">
-                    <a href='index.html'>Home</a>
-                </button>
-                <!-- <button class="aboutBtn">
-                    <a href='about.html'>About Us</a>
-                </button> -->
-                <button class="clergyBtn">
-                    <a href='clergy.html'>Contact Us</a>
-                </button>
-                <button class="scaramentBtn">
-                    <a href='scarament.html'>
-                        <span>Sacraments</span>
-                        <span>&amp;</span>
-                        <span>Pastoral&nbsp;Services</span>
-                    </a>
-                </button>
-                <button class="ministryBtn">
-                    <a href='ministry.html'>Ministries</a>
-                </button>
-                <button class="donateBtn">
-                    <a href='donate.html'>Donate</a>
-                </button>
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="index.html" aria-current="page">Home</a></li>
+                    <!-- <li><a href="about.html">About Us</a></li> -->
+                    <li><a href="clergy.html">Contact Us</a></li>
+                    <li><a href="scarament.html">Sacraments &amp; Pastoral Services</a></li>
+                    <li><a href="ministry.html">Ministries</a></li>
+                    <li><a href="donate.html" class="nav-donate">Donate</a></li>
+                </ul>
             </nav>
+        </div>
     </header>
 
     <!-- content -->
-    <main>
+    <main id="main">
         <!-- home page -->
         <article id="home">
-            <div>
-                <h1>NATIVITY CHURCH</h1>
-                <!-- can put a short one liner here -->
-                <p>Church of the Blessed Virgin Mary</p>
-                <div>
-                    <a href="#confessionSch">Confession</a>
-                    <a href="#massSchedule">Mass Timings</a>
-                    <a href="#holyHour">Holy Hour</a>
-                </div>
-            </div>
-            <!-- mass schedule -->
-            <section id="massSchedule">
-                <h1>Mass Timings</h1>
-                <!-- images on the left -->
-                <div>
-                    <div>
-                        <img src="image/background_1.jpg" alt="mass photo 1">
+            <section class="hero">
+                <div class="container hero-grid">
+                    <div class="hero-text">
+                        <h1>NATIVITY CHURCH</h1>
+                        <!-- can put a short one liner here -->
+                        <p class="hero-sub lead">Church of the Blessed Virgin Mary</p>
+                        <div class="hero-actions">
+                            <a class="btn btn--jump" href="#confessionSch">Confession</a>
+                            <a class="btn btn--jump" href="#massSchedule">Mass Timings</a>
+                            <a class="btn btn--jump" href="#holyHour">Holy Hour</a>
+                        </div>
                     </div>
-                    <!-- <div>
-                        <img src="image/mother_mary.jpg" alt="mass photo 2">
-                    </div> -->
-                    <div>
-                        <img src="image/Stained Glass.1.jpg" alt="mass photo 3">
+                    <div class="hero-media arch">
+                        <img src="image/background_2.jpg" alt="" width="768" height="1024" fetchpriority="high">
                     </div>
                 </div>
-                <!-- details -->
-                <div>
-                    <!-- weekday detail -->
-                    <h3><u>WEEKDAY</u></h3>
-                    <div id="mass">
-                        <h4>Monday - Friday</h4>
-                        <p>6:00PM</p>
-                        <p>English</p>
-                    </div>
-                    <div id="mass">
-                        <h4>Saturday</h4>
-                        <p>7:00AM</p>
-                        <p>English</p>
-                    </div>
+            </section>
 
-                    <!-- weekend detail -->
-                    <h3><u>WEEKEND</u></h3>
-                    <div id="mass">
-                        <h4>Saturday</h4>
-                        <p>6:00PM</p>
-                        <p>English</p>
+            <!-- mass schedule -->
+            <section id="massSchedule" class="section">
+                <div class="container">
+                    <h2 class="section-title">Mass Timings</h2>
+                    <div class="mass-layout">
+                        <!-- images on the left -->
+                        <div class="mass-media">
+                            <div>
+                                <img src="image/background_1.jpg" alt="mass photo 1" width="1536" height="1536"
+                                    loading="lazy">
+                            </div>
+                            <!-- <div>
+                                <img src="image/mother_mary.jpg" alt="mass photo 2">
+                            </div> -->
+                            <div>
+                                <img src="image/Stained Glass.1.jpg" alt="mass photo 3" width="913" height="617"
+                                    loading="lazy">
+                            </div>
+                        </div>
+
+                        <!-- details -->
+                        <div class="mass-times">
+                            <!-- weekday detail -->
+                            <h3 class="mass-group">WEEKDAY</h3>
+                            <div class="mass-row">
+                                <h4>Monday - Friday</h4>
+                                <p class="mass-time">6:00PM</p>
+                                <p class="mass-lang">English</p>
+                            </div>
+                            <div class="mass-row">
+                                <h4>Saturday</h4>
+                                <p class="mass-time">7:00AM</p>
+                                <p class="mass-lang">English</p>
+                            </div>
+
+                            <!-- weekend detail -->
+                            <h3 class="mass-group">WEEKEND</h3>
+                            <div class="mass-row">
+                                <h4>Saturday</h4>
+                                <p class="mass-time">6:00PM</p>
+                                <p class="mass-lang">English</p>
+                            </div>
+                            <div class="mass-row">
+                                <h4>Sunday</h4>
+                                <p class="mass-time">8:00AM</p>
+                                <p class="mass-lang">Chinese</p>
+                            </div>
+                            <div class="mass-row">
+                                <h4>Sunday</h4>
+                                <p class="mass-time">9:30AM, 11:15AM, 5:00PM</p>
+                                <p class="mass-lang">English</p>
+                            </div>
+                            <!-- <div class="mass-row">
+                                <h4>Mass</h4>
+                                <p class="mass-time">11:15AM</p>
+                                <p class="mass-lang">English</p>
+                            </div>
+                            <div class="mass-row">
+                                <h4>Mass</h4>
+                                <p class="mass-time">5:00PM</p>
+                                <p class="mass-lang">English</p>
+                            </div> -->
+                        </div>
                     </div>
-                    <div id="mass">
-                        <h4>Sunday</h4>
-                        <p>8:00AM</p>
-                        <p>Chinese</p>
-                    </div>
-                    <div id="mass">
-                        <h4>Sunday</h4>
-                        <p>9:30AM, 11:15AM, 5:00PM</p>
-                        <p>English</p>
-                    </div>
-                    <!-- <div id="mass">
-                        <h4>Mass</h4>
-                        <p>11:15AM</p>
-                        <p>English</p>
-                    </div>
-                    <div id="mass">
-                        <h4>Mass</h4>
-                        <p>5:00PM</p>
-                        <p>English</p>
-                    </div> -->
                 </div>
             </section>
 
             <!-- confession schedule -->
-            <section id="confessionSch">
-                <div>
+            <section id="confessionSch" class="section section--stone">
+                <div class="container split">
                     <!-- details on the left -->
-                    <div>
-                        <h1>Confession</h1>
-                        <p>The Sacrement of Penance & Reconciliation</p>
+                    <div class="split-body">
+                        <h2 class="section-title">Confession</h2>
+                        <p class="lead">The Sacrament of Penance &amp; Reconciliation</p>
+                        <div class="info-card">
+                            <p class="info-card-label">Every Friday</p>
+                            <p class="info-card-time">7:30PM - 8:30PM</p>
+                            <p class="info-card-place">Main Church</p>
+                        </div>
+                        <p class="verse">"If we confess our sins, he is faithful and just and will forgive us our sins and
+                            purify us from all unrighteousness." - 1 John 1:9</p>
                     </div>
                     <!-- img on the right -->
-                    <div>
-                        <div>
-                            <p><u>Every Friday</u></p>
-                            <p>7:30PM - 8:30PM</p>
-                            <p>Main Church</p>
-                        </div>
-                        <p><small><i>"If we confess our sins, he is faithful and just and will forgive us our sins and
-                                    purify us from all unrighteousness." - 1 John 1:9</i></small></p>
-                    </div>
-                    <div>
-                        <img src="image/confession_1.jpg" alt="image of the confession booth in the church">
+                    <div class="split-media">
+                        <img src="image/confession_1.jpg" alt="image of the confession booth in the church" width="500"
+                            height="322" loading="lazy">
                     </div>
                 </div>
             </section>
 
             <!-- holy hour -->
-            <section id="holyHour">
-
-                <!-- details -->
-                <h1>HOLY HOUR</h1>
-                <p>A time of quiet prayer, reflection, and adoration.</p>
-                <div>
-                    <div>
-                        <img src="image/calender_icon.png" alt="calender_icon">
-                        <p>Every 1st Friday of each month</p>
-                    </div>
-                    <div>
-                        <img src="image/clock_icon.png" alt="clock_icon">
-                        <p>7:30PM to 8:30PM</p>
-                    </div>
-                    <div>
-                        <img src="image/church_icon.png" alt="church_icon">
-                        <p>Main Church</p>
+            <section id="holyHour" class="section">
+                <div class="container">
+                    <div class="holy-panel">
+                        <!-- details -->
+                        <div class="holy-body">
+                            <h2 class="section-title">HOLY HOUR</h2>
+                            <p class="lead">A time of quiet prayer, reflection, and adoration.</p>
+                            <ul class="holy-list">
+                                <li>
+                                    <img src="image/calender_icon.png" alt="" width="75" height="75">
+                                    <p>Every 1st Friday of each month</p>
+                                </li>
+                                <li>
+                                    <img src="image/clock_icon.png" alt="" width="75" height="75">
+                                    <p>7:30PM to 8:30PM</p>
+                                </li>
+                                <li>
+                                    <img src="image/church_icon.png" alt="" width="75" height="75">
+                                    <p>Main Church</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="holy-media">
+                            <img src="image/church_2.jpg" alt="" width="746" height="1076" loading="lazy">
+                        </div>
                     </div>
                 </div>
-
             </section>
-
         </article>
     </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="logo">
-            <!-- nav for homescreen -->
-            <button class="homeButton">
-                <img src="logo/nativityChurchLogo.png" alt="logo" title="logo">
-            </button>
-        </div>
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <!-- back to homescreen -->
+                <a class="footer-logo" href="index.html">
+                    <img src="logo/nativityChurchLogo.png" alt="logo" title="logo" width="750" height="1016">
+                </a>
+            </div>
 
-        <!-- nav to other pg of the website -->
-        <div>
-            <h4><u>Content</u></h4>
-            <nav>
-                <button class="index"><a href='index.html'>Home</a></button>
-                <!-- <button class="aboutBtn"><a href='about.html'>About Us</a></button> -->
-                <button class="clergyBtn"><a href='clergy.html'>Contact Us</a></button>
-                <button class="scaramentBtn"><a href='scarament.html'>Sacraments & Pastoral Services</a></button>
-                <button class="ministryBtn"><a href='ministry.html'>Ministries</a></button>
-                <button class="donateBtn"><a href='donate.html'>Donate</a></button>
-            </nav>
-        </div>
-
-        <!-- for the google form -->
-        <div>
-            <h4><u>Connect with us</u></h4>
-            <img src="image/qrCode.jpg" alt="QR code to access website on mobile" title="qr code">
-        </div>
-
-        <div>
-            <h4><u>Reaching out?</u></h4>
-            <p><b>Email: </b>cnbvm.secretariat@catholic.org.sg</p>
-            <p><b>Phone no.: </b>+65 6280 0980</p>
-            <p><b>Address: </b>1259 Upper Serangoon Road Singapore 534795</p>
+            <!-- nav to other pg of the website -->
             <div>
-                <a href="https://mycatholic.sg/parish/nativityofblessedvirgin" target="_blank" class="web Logo"></a>
+                <h2 class="footer-heading">Content</h2>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <!-- <li><a href="about.html">About Us</a></li> -->
+                        <li><a href="clergy.html">Contact Us</a></li>
+                        <li><a href="scarament.html">Sacraments &amp; Pastoral Services</a></li>
+                        <li><a href="ministry.html">Ministries</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                    </ul>
+                </nav>
+            </div>
 
-                <a href="https://www.facebook.com/ChurchOfTheNativityOfTheBlessedVirginMary/mentions/" target="_blank"
-                    class="fb Logo"></a>
+            <!-- for the google form -->
+            <div>
+                <h2 class="footer-heading">Connect with us</h2>
+                <img class="footer-qr" src="image/qrCode.jpg" alt="QR code to access website on mobile" title="qr code"
+                    width="350" height="350">
+            </div>
 
-                <a href="https://www.instagram.com/nativitychurchsg/" target="_blank" class="ig Logo"></a>
+            <div class="footer-contact">
+                <h2 class="footer-heading">Reaching out?</h2>
+                <p><b>Email: </b><a href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></p>
+                <p><b>Phone no.: </b><a href="tel:+6562800980">+65 6280 0980</a></p>
+                <p><b>Address: </b><a
+                        href="https://www.google.com/maps/search/?api=1&amp;query=1259+Upper+Serangoon+Road+Singapore+534795"
+                        target="_blank" rel="noopener">1259 Upper Serangoon Road Singapore 534795</a></p>
+                <div class="social">
+                    <a href="https://mycatholic.sg/parish/nativityofblessedvirgin" target="_blank" rel="noopener"
+                        class="social-link" aria-label="myCatholic.sg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></a>
 
+                    <a href="https://www.facebook.com/ChurchOfTheNativityOfTheBlessedVirginMary/mentions/" target="_blank"
+                        rel="noopener" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21h2.9z"/></svg></a>
+
+                    <a href="https://www.instagram.com/nativitychurchsg/" target="_blank" rel="noopener"
+                        class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+                </div>
             </div>
         </div>
 
-        <h6>© 2026 Church of the Nativity of the Blessed Virgin Mary. All rights reserved. Website designed and
-            developed by Catarina Chai.</h6>
+        <div class="container footer-bottom">
+            <p>© 2026 Church of the Nativity of the Blessed Virgin Mary. All rights reserved. Website designed and
+                developed by Samuel Yee.</p>
+        </div>
     </footer>
 </body>
 

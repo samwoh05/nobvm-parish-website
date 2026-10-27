@@ -10,170 +10,154 @@
     <!-- changing of website icon -->
     <link rel="icon" type="image/x-icon" href="logo/mother-mary-icon.png">
 
+    <!-- fonts used on every page -->
+    <link rel="preload" href="font/Gloock-Regular.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+
     <!-- link to external css file under css folder -->
     <link href="css/style.css" type="text/css" rel="stylesheet">
 
-    <!-- link to external js file under js folder -->
+    <!-- link to external js file -->
     <script src="main.js" defer></script>
     <!-- <link rel="manifest" href="manifest.json"> -->
 
+    <meta name="theme-color" content="#FAF8F4">
+
     <!-- meta description -->
     <meta name="description"
-        content="Church of the Nativity of the Blessed Virgin Mary - Information on Church Timing, Clergy, Sacrements, Ministry and more" />
+        content="Church of the Nativity of the Blessed Virgin Mary - Information on Church Timing, Clergy, Sacraments, Ministry and more" />
 </head>
 
 <body class="sacramentpg">
-    <!-- menue bar -->
-    <header>
-        <div id="menu" class="menuGrid">
-            <!-- logo layout -->
-            <div>
-                <a href="index.html">
-                    <img src="logo/nativityChurchLogo.png" alt="logo">
-                </a>
-            </div>
-            <div>
-                <a href="index.html">
+    <a class="skip-link" href="#main">Skip to content</a>
 
-                    <h1><b>
-                            Church of the Nativity of the Blessed Virgin Mary</b>
-                    </h1>
-                    <h1><b>
-                            圣母圣诞堂
-                    </b></h1>
-                </a>
-            </div>
+    <!-- menu bar -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <!-- logo & church name -->
+            <a class="brand" href="index.html">
+                <img class="brand-logo" src="logo/nativityChurchLogo.png" alt="logo" width="750" height="1016">
+                <span class="brand-text">
+                    <span class="brand-name">Church of the Nativity of the Blessed Virgin Mary</span>
+                    <span class="brand-zh" lang="zh-Hans">圣母圣诞堂</span>
+                </span>
+            </a>
+
+            <!-- menu button (smaller screens) -->
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+                Menu
+            </button>
+
             <!-- navigation -->
-            <nav>
-                <button class="homeBtn">
-                    <a href='index.html'>Home</a>
-                </button>
-                <!-- <button class="aboutBtn">
-                    <a href='about.html'>About Us</a>
-                </button> -->
-                <button class="clergyBtn">
-                    <a href='clergy.html'>Contact Us</a>
-                </button>
-                <button class="scaramentBtn">
-                    <a href='scarament.html'>
-                        <span>Sacraments</span>
-                        <span>&amp;</span>
-                        <span>Pastoral&nbsp;Services</span>
-                    </a>
-                </button>
-                <button class="ministryBtn">
-                    <a href='ministry.html'>Ministries</a>
-                </button>
-                <button class="donateBtn">
-                    <a href='donate.html'>Donate</a>
-                </button>
+            <nav class="site-nav" id="site-nav" aria-label="Main">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <!-- <li><a href="about.html">About Us</a></li> -->
+                    <li><a href="clergy.html">Contact Us</a></li>
+                    <li><a href="scarament.html" aria-current="page">Sacraments &amp; Pastoral Services</a></li>
+                    <li><a href="ministry.html">Ministries</a></li>
+                    <li><a href="donate.html" class="nav-donate">Donate</a></li>
+                </ul>
             </nav>
+        </div>
     </header>
-    
-    <!-- content -->
-    <main>
-        <!-- header -->
-        <section class="sacramentNPastroalMenue">
-            <div class="sacramentMenue">
-                <h1>SACRAMENTS</h1>
-                <p>sacred rites of the church</p>
-                <div>
-                    <div>
-                        <a href="#confession">CONFESSION</a>
-                        <a href="#sick">ANOINTING OF THE SICK</a>
-                        <a href="#wedding">MATRIMONY</a>
-                        <a href="#infant">INFANT BAPTISM</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- pastoral service menue -->
-            <div class="pastroalMenue">
-                <h1>PASTORAL</h1>
-                <p>pastoral services we offered</p>
-                <div>
-                    <!-- 1st row of directory -->
-                    <div>
-                        <a href="#house">HOUSE BLESSING</a>
-                        <a href="#catechism">CATECHISM REGISTRATION</a>
-                        <a href="#rcia">RCIA INQUIRIES</a>
-                    </div>
+    <!-- content -->
+    <main id="main">
+        <!-- header -->
+        <section class="sacramentNPastroalMenue page-hero">
+            <div class="container sacrament-index">
+                <div class="menu-card sacramentMenue">
+                    <h1>SACRAMENTS</h1>
+                    <p class="lead">sacred rites of the church</p>
+                    <ul class="menu-links">
+                        <li><a href="#confession">CONFESSION</a></li>
+                        <li><a href="#sick">ANOINTING OF THE SICK</a></li>
+                        <li><a href="#wedding">MATRIMONY</a></li>
+                        <li><a href="#infant">INFANT BAPTISM</a></li>
+                    </ul>
+                </div>
+
+                <!-- pastoral service menu -->
+                <div class="menu-card pastroalMenue">
+                    <h2>PASTORAL</h2>
+                    <p class="lead">pastoral services we offer</p>
+                    <ul class="menu-links">
+                        <li><a href="#house">HOUSE BLESSING</a></li>
+                        <li><a href="#catechism">CATECHISM REGISTRATION</a></li>
+                        <li><a href="#rcia">RCIA INQUIRIES</a></li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <!-- sacrament breaker -->
-        <section id="sacrament">
-            <div>
-            </div>
-            <div>
-                <h3><i>
-                        "Our Lord in the Blessed Sacrament has His hands full of graces, and He is ready to bestow them
-                        on anyone who asks for them."
-                    </i></h3>
-                <p>- St Peter of Alcantara</p>
+        <section id="sacrament" class="quote-band">
+            <div class="container">
+                <div class="quote-media"></div>
+                <blockquote>
+                    <p class="quote-text"><i>"Our Lord in the Blessed Sacrament has His hands full of graces, and He is
+                            ready to bestow them on anyone who asks for them."</i></p>
+                    <p class="quote-cite">- St Peter of Alcantara</p>
+                </blockquote>
             </div>
         </section>
 
         <!-- confession -->
-        <section id="confession" class="left">
-            <div>
-                <h2>The Sacrament of Penance & Reconciliation</h2>
-                <p><i>
-                        "The whole power of the sacrament of Penance consists in restoring us to God's grace and joining
-                        us
-                        with him in an intimate friendship.
-                        Reconciliation with God is thus the purpose and effect of this sacrament. For those who receive
-                        the
-                        sacrament of Penance with contrite
-                        heart and religious disposition, reconciliation is usually followed by peace and serenity of
-                        conscience with strong spiritual consolation.
-                        Indeed the sacrament of Reconciliation with God brings about a true "spiritual resurrection,"
-                        restoration of the dignity and blessings of
-                        the life of the children of God, of which the most precious is friendship with God."
-                    </i>
-                    - CCC 1468
-                </p>
-                <h3>
-                    Confession Schedule:
-                </h3>
-                <div>
-                    <p>Every Friday</p>
-                    <p>7:30PM - 8:30PM</p>
-                    <p>Main Church - Confession Booth</p>
+        <section id="confession" class="feature left">
+            <div class="container">
+                <div class="feature-body">
+                    <h2>The Sacrament of Penance &amp; Reconciliation</h2>
+                    <p class="feature-quote"><i>"The whole power of the sacrament of Penance consists in restoring us to
+                            God's grace and joining us with him in an intimate friendship. Reconciliation with God is
+                            thus the purpose and effect of this sacrament. For those who receive the sacrament of
+                            Penance with contrite heart and religious disposition, reconciliation is usually followed
+                            by peace and serenity of conscience with strong spiritual consolation. Indeed the sacrament
+                            of Reconciliation with God brings about a true "spiritual resurrection," restoration of the
+                            dignity and blessings of the life of the children of God, of which the most precious is
+                            friendship with God."</i>
+                        - CCC 1468
+                    </p>
+                    <h3>Confession Schedule:</h3>
+                    <div>
+                        <p>Every Friday</p>
+                        <p>7:30PM - 8:30PM</p>
+                        <p>Main Church - Confession Booth</p>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <img src="image/confession_img.jpg">
+                <div class="feature-media">
+                    <img src="image/confession_img.jpg" alt="" width="650" height="433" loading="lazy">
+                </div>
             </div>
         </section>
 
         <!-- anointing of the sick -->
-        <section id="sick" class="right">
-            <div>
-                <img src="image/annoiting-of-the-sick.jpg">
-            </div>
-            <div>
-                <h2>The Sacrament of the Anointing of The Sick</h2>
-                <p><i>
-                        "By the sacred anointing of the sick and the prayer of the priests the whole Church commends
-                        those who are ill
-                        to the suffering and glorified Lord, that he may raise them up and save them. And indeed she
-                        exhorts them to
-                        contribute to the good of the People of God by freely uniting themselves to the Passion and
-                        death of Christ."
-                    </i>
-                    - CCC 1532
-                </p>
-                <h3>
-                    Receiving this sacrament:
-                </h3>
-                <div>
-                    <p>Please call the parish office in case of serious illness or hospitalisation as soon as possible
-                        to make arrangements.</p>
-                    <p><b>Pastoral Office: +65 6281 0306</b></p>
-                    <p><b>Email: pastoraloffice.cnbvm@catholic.org.sg</b></p>
-                    <!-- <p>You may also contact the parish nearest to the hospital:</p> -->
+        <section id="sick" class="feature right">
+            <div class="container">
+                <div class="feature-media">
+                    <img src="image/annoiting-of-the-sick.jpg" alt="" width="300" height="200" loading="lazy">
+                </div>
+                <div class="feature-body">
+                    <h2>The Sacrament of the Anointing of The Sick</h2>
+                    <p class="feature-quote"><i>"By the sacred anointing of the sick and the prayer of the priests the
+                            whole Church commends those who are ill to the suffering and glorified Lord, that he may
+                            raise them up and save them. And indeed she exhorts them to contribute to the good of the
+                            People of God by freely uniting themselves to the Passion and death of Christ."</i>
+                        - CCC 1532
+                    </p>
+                    <h3>Receiving this sacrament:</h3>
+                    <div>
+                        <p>Please call the parish office in case of serious illness or hospitalisation as soon as
+                            possible to make arrangements.</p>
+                        <p><b>Pastoral Office: <a href="tel:+6562810306">+65 6281 0306</a></b></p>
+                        <p><b>Email: <a
+                                    href="mailto:pastoraloffice.cnbvm@catholic.org.sg">pastoraloffice.cnbvm@catholic.org.sg</a></b>
+                        </p>
+                        <!-- <p>You may also contact the parish nearest to the hospital:</p> -->
+                    </div>
                 </div>
             </div>
             <!-- <table id="hospitalTable">
@@ -289,226 +273,246 @@
         </section>
 
         <!-- MATRIMONY -->
-        <section id="wedding" class="left">
-            <div>
-                <h2>The Sacrament of Holy Matrimony</h2>
-                <p><i>
-                        "The matrimonial covenant, by which a man and a woman establish between themselves
-                        a partnership of the whole of life, is by its nature ordered toward the good of the
-                        spouses and the procreation and education of offspring; this covenant between baptised
-                        persons has been raised by Christ the Lord to the dignity of a sacrament."
-                    </i>
-                    — CCC 1601
-                </p>
-                <h3>Marriage Preparation:</h3>
-                <div>
-                    <p>
-                        Couples are strongly encouraged to begin their marriage preparation journey
-                        <b>at least one year in advance</b> by meeting with a priest to discuss
-                        the sacrament and what it means to enter into a Catholic marriage.
+        <section id="wedding" class="feature left">
+            <div class="container">
+                <div class="feature-body">
+                    <h2>The Sacrament of Holy Matrimony</h2>
+                    <p class="feature-quote"><i>"The matrimonial covenant, by which a man and a woman establish between
+                            themselves a partnership of the whole of life, is by its nature ordered toward the good of
+                            the spouses and the procreation and education of offspring; this covenant between baptised
+                            persons has been raised by Christ the Lord to the dignity of a sacrament."</i>
+                        — CCC 1601
                     </p>
-                    <p>
-                        To begin your journey or enquire about using the church for your wedding,
-                        please contact the parish office.
-                    </p>
-                    <p><b>Pastoral Office: +65 6281 0306</b></p>
-                    <p><b>Email: pastoraloffice.cnbvm@catholic.org.sg</b></p>
+                    <h3>Marriage Preparation:</h3>
+                    <div>
+                        <p>
+                            Couples are strongly encouraged to begin their marriage preparation journey
+                            <b>at least one year in advance</b> by meeting with a priest to discuss
+                            the sacrament and what it means to enter into a Catholic marriage.
+                        </p>
+                        <p>
+                            To begin your journey or enquire about using the church for your wedding,
+                            please contact the parish office.
+                        </p>
+                        <p><b>Pastoral Office: <a href="tel:+6562810306">+65 6281 0306</a></b></p>
+                        <p><b>Email: <a
+                                    href="mailto:pastoraloffice.cnbvm@catholic.org.sg">pastoraloffice.cnbvm@catholic.org.sg</a></b>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <img src="image/wedding.jpg" alt="Matrimony">
+                <div class="feature-media">
+                    <img src="image/wedding.jpg" alt="Matrimony" width="750" height="500" loading="lazy">
+                </div>
             </div>
         </section>
 
         <!-- infant -->
-        <section id="infant" class="right">
-            <div>
-                <img src="image/infant_bap.jpg">
-            </div>
-            <div>
-                <h2>The Sacrament of Infant Baptism</h2>
-                <p><i>
-                        "Let the children come to me; do not hinder them, for to such belongs the kingdom of God."
-                    </i>
-                    — Mark 10:14
-                </p>
-                <h3>Baptism Schedule:</h3>
-                <div>
-                    <p>Infant Baptism is held <b>once every two months.</b></p>
-                    <p><b>Odd months</b> — Baptism ceremony</p>
-                    <p><b>Even months</b> — Preparation session</p>
+        <section id="infant" class="feature right">
+            <div class="container">
+                <div class="feature-media">
+                    <img src="image/infant_bap.jpg" alt="" width="750" height="500" loading="lazy">
                 </div>
-                <h3>Preparation:</h3>
-                <div>
-                    <p>Both <b>parents and godparents</b> are required to attend the
-                        preparation session prior to the baptism.</p>
-                    <p>To register your child for baptism, please submit a request
-                        through the parish office.</p>
-                    <p><b>Parish Office: +65 6280 0980</b></p>
-                    <p><b>Email: cnbvm.secretariat@catholic.org.sg</b></p>
+                <div class="feature-body">
+                    <h2>The Sacrament of Infant Baptism</h2>
+                    <p class="feature-quote"><i>
+                            "Let the children come to me; do not hinder them, for to such belongs the kingdom of God."
+                        </i>
+                        — Mark 10:14
+                    </p>
+                    <h3>Baptism Schedule:</h3>
+                    <div>
+                        <p>Infant Baptism is held <b>once every two months.</b></p>
+                        <p><b>Odd months</b> — Baptism ceremony</p>
+                        <p><b>Even months</b> — Preparation session</p>
+                    </div>
+                    <h3>Preparation:</h3>
+                    <div>
+                        <p>Both <b>parents and godparents</b> are required to attend the
+                            preparation session prior to the baptism.</p>
+                        <p>To register your child for baptism, please submit a request
+                            through the parish office.</p>
+                        <p><b>Parish Office: <a href="tel:+6562800980">+65 6280 0980</a></b></p>
+                        <p><b>Email: <a
+                                    href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></b>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- pastoral breaker -->
-        <section id="pastroal">
-            <div>
-                <h3><i>
-                        "They devoted themselves to the apostles' teaching
-                        and fellowship, to the breaking of bread and the prayers."
-                    </i></h3>
-                <p>— Acts 2:42</p>
-            </div>
-            <div>
+        <section id="pastroal" class="quote-band">
+            <div class="container">
+                <blockquote>
+                    <p class="quote-text"><i>"They devoted themselves to the apostles' teaching
+                            and fellowship, to the breaking of bread and the prayers."</i></p>
+                    <p class="quote-cite">— Acts 2:42</p>
+                </blockquote>
+                <div class="quote-media"></div>
             </div>
         </section>
 
         <!-- house blessing -->
-        <section id="house" class="right">
-            <div>
-                <img src="image/church_priest.jpg" alt="House Blessing">
-            </div>
-            <div>
-                <h2>House Blessing</h2>
-                <p><i>
-                        "The Lord bless you and keep you; the Lord make his face shine on you
-                        and be gracious to you; the Lord turn his face toward you
-                        and give you peace."
-                    </i>
-                    — Numbers 6:24-26
-                </p>
-                <h3>Book a House Blessing:</h3>
-                <div>
-                    <p>To request a house blessing, please contact the parish office
-                        and we will arrange for a priest to visit your home.</p>
-                    <p><b>Parish Office: +65 6280 0980</b></p>
-                    <p><b>Email: cnbvm.secretariat@catholic.org.sg</b></p>
+        <section id="house" class="feature right">
+            <div class="container">
+                <div class="feature-media">
+                    <img src="image/church_priest.jpg" alt="House Blessing" width="750" height="478" loading="lazy">
+                </div>
+                <div class="feature-body">
+                    <h2>House Blessing</h2>
+                    <p class="feature-quote"><i>"The Lord bless you and keep you; the Lord make his face shine on you
+                            and be gracious to you; the Lord turn his face toward you
+                            and give you peace."</i>
+                        — Numbers 6:24-26
+                    </p>
+                    <h3>Book a House Blessing:</h3>
+                    <div>
+                        <p>To request a house blessing, please contact the parish office
+                            and we will arrange for a priest to visit your home.</p>
+                        <p><b>Parish Office: <a href="tel:+6562800980">+65 6280 0980</a></b></p>
+                        <p><b>Email: <a
+                                    href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></b>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- catechism -->
-        <section id="catechism" class="left">
-            <div>
-                <h2>Catechism Registration</h2>
-                <p><i>
-                        "Let the little children come to me and do not hinder them, for the kingdom of heaven belongs to
-                        such as these."
-                    </i>
-                    — Matthew 19:14
-                </p>
-                <h3>About Catechism:</h3>
-                <p>
-                    Catechism classes are the beginning of a lifelong journey of faith formation.
-                    Children are guided through the teachings of the Church, preparing them to
-                    receive the Sacraments of <b>First Reconciliation and First Eucharist</b>
-                    (typically in Primary 3), and ultimately <b>Confirmation</b>
-                    (typically in Secondary 3 or 4).
-                </p>
-                <h3>Class Schedule:</h3>
-                <div>
-                    <p>Both <b>English and Chinese</b> classes are held every <b>Sunday</b></p>
-                    <p>Time: <b>9:30AM — 10:30AM</b></p>
+        <section id="catechism" class="feature left">
+            <div class="container">
+                <div class="feature-body">
+                    <h2>Catechism Registration</h2>
+                    <p class="feature-quote"><i>"Let the little children come to me and do not hinder them, for the
+                            kingdom of heaven belongs to such as these."</i>
+                        — Matthew 19:14
+                    </p>
+                    <h3>About Catechism:</h3>
+                    <p>
+                        Catechism classes are the beginning of a lifelong journey of faith formation.
+                        Children are guided through the teachings of the Church, preparing them to
+                        receive the Sacraments of <b>First Reconciliation and First Eucharist</b>
+                        (typically in Primary 3), and ultimately <b>Confirmation</b>
+                        (typically in Secondary 3 or 4).
+                    </p>
+                    <h3>Class Schedule:</h3>
+                    <div>
+                        <p>Both <b>English and Chinese</b> classes are held every <b>Sunday</b></p>
+                        <p>Time: <b>9:30AM — 10:30AM</b></p>
+                    </div>
+                    <h3>Registration:</h3>
+                    <div>
+                        <p>L1 Catechism is open to children who are <b>7 years old / Primary 1.</b></p>
+                        <p>Children are encouraged to be <b>baptised Catholics</b> before enrolling.
+                            If your child has not yet been baptised, please contact us to discuss further.</p>
+                        <p>To register or find out more, please contact the parish office.</p>
+                        <p><b>Parish Office: <a href="tel:+6562800980">+65 6280 0980</a></b></p>
+                        <p><b>Email: <a
+                                    href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></b>
+                        </p>
+                    </div>
                 </div>
-                <h3>Registration:</h3>
-                <div>
-                    <p>L1 Catechism is open to children who are <b>7 years old / Primary 1.</b></p>
-                    <p>Children are encouraged to be <b>baptised Catholics</b> before enrolling.
-                        If your child has not yet been baptised, please contact us to discuss further.</p>
-                    <p>To register or find out more, please contact the parish office.</p>
-                    <p><b>Parish Office: +65 6280 0980</b></p>
-                    <p><b>Email: cnbvm.secretariat@catholic.org.sg</b></p>
+                <div class="feature-media">
+                    <img src="image/cat_class.jpeg" alt="Catechism" width="750" height="562" loading="lazy">
                 </div>
-            </div>
-            <div>
-                <img src="image/cat_class.jpeg" alt="Catechism">
             </div>
         </section>
 
         <!-- rcia -->
-        <section id="rcia" class="right">
-            <div>
-                <img src="image/church_2.jpg" alt="RCIA">
-            </div>
-            <div>
-                <h2>RCIA INQUIRIES</h2>
-                <p><i>
-                        "Go therefore and make disciples of all nations, baptising them in the name
-                        of the Father and of the Son and of the Holy Spirit."
-                    </i>
-                    — Matthew 28:19
-                </p>
-                <h3>English RCIA:</h3>
-                <div>
-                    <p>Starts: <b>Every Saturday</b></p>
-                    <p>Time: <b>3:30PM - 5:30PM</b></p>
-                    <p>Venue: <b>C3-1 Hall</b></p>
+        <section id="rcia" class="feature right">
+            <div class="container">
+                <div class="feature-media">
+                    <img src="image/church_2.jpg" alt="RCIA" width="746" height="1076" loading="lazy">
                 </div>
-                <h3>Chinese RCIA:</h3>
-                <div>
-                    <p>Starts: <b>Every Tuesday</b></p>
-                    <p>Time: <b>7:30PM</b></p>
-                    <p>Venue: <b>B2-1</b></p>
+                <div class="feature-body">
+                    <h2>RCIA INQUIRIES</h2>
+                    <p class="feature-quote"><i>"Go therefore and make disciples of all nations, baptising them in the
+                            name of the Father and of the Son and of the Holy Spirit."</i>
+                        — Matthew 28:19
+                    </p>
+                    <h3>English RCIA:</h3>
+                    <div>
+                        <p>Starts: <b>Every Saturday</b></p>
+                        <p>Time: <b>3:30PM - 5:30PM</b></p>
+                        <p>Venue: <b>C3-1 Hall</b></p>
+                    </div>
+                    <h3>Chinese RCIA:</h3>
+                    <div>
+                        <p>Starts: <b>Every Tuesday</b></p>
+                        <p>Time: <b>7:30PM</b></p>
+                        <p>Venue: <b>B2-1</b></p>
+                    </div>
+                    <p>For enquiries, please contact the parish office.</p>
+                    <p><b>Parish Office: <a href="tel:+6562800980">+65 6280 0980</a></b></p>
+                    <p><b>Email: <a href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></b>
+                    </p>
+                    <p>
+                        Have questions about RCIA or becoming Catholic?
+                        <a href="https://www.catholic.sg/becomingcatholic/#content" target="_blank" rel="noopener">
+                            Find out more here.
+                        </a>
+                    </p>
                 </div>
-                <p>For enquiries, please contact the parish office.</p>
-                <p><b>Parish Office: +65 6280 0980</b></p>
-                <p><b>Email: cnbvm.secretariat@catholic.org.sg</b></p>
-                <p>
-                    Have questions about RCIA or becoming Catholic?
-                    <a href="https://www.catholic.sg/becomingcatholic/#content" target="_blank">
-                        Find out more here.
-                    </a>
-                </p>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="logo">
-            <!-- nav for homescreen -->
-            <button class="homeButton">
-                <img src="logo/nativityChurchLogo.png" alt="logo" title="logo">
-            </button>
-        </div>
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <!-- back to homescreen -->
+                <a class="footer-logo" href="index.html">
+                    <img src="logo/nativityChurchLogo.png" alt="logo" title="logo" width="750" height="1016">
+                </a>
+            </div>
 
-        <!-- nav to other pg of the website -->
-        <div>
-            <h4><u>Content</u></h4>
-            <nav>
-                <button class="index"><a href='index.html'>Home</a></button>
-                <!-- <button class="aboutBtn"><a href='about.html'>About Us</a></button> -->
-                <button class="clergyBtn"><a href='clergy.html'>Contact Us</a></button>
-                <button class="scaramentBtn"><a href='scarament.html'>Sacraments & Pastoral Services</a></button>
-                <button class="ministryBtn"><a href='ministry.html'>Ministries</a></button>
-                <button class="donateBtn"><a href='donate.html'>Donate</a></button>
-            </nav>
-        </div>
-
-        <!-- for the google form -->
-        <div>
-            <h4><u>Connect with us</u></h4>
-            <img src="image/qrCode.jpg" alt="QR code to access website on mobile" title="qr code">
-        </div>
-
-        <div>
-            <h4><u>Reaching out?</u></h4>
-            <p><b>Email: </b>cnbvm.secretariat@catholic.org.sg</p>
-            <p><b>Phone no.: </b>+65 6280 0980</p>
-            <p><b>Address: </b>1259 Upper Serangoon Road Singapore 534795</p>
+            <!-- nav to other pg of the website -->
             <div>
-                <a href="https://mycatholic.sg/parish/nativityofblessedvirgin" target="_blank" class="web Logo"></a>
+                <h2 class="footer-heading">Content</h2>
+                <nav aria-label="Footer">
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <!-- <li><a href="about.html">About Us</a></li> -->
+                        <li><a href="clergy.html">Contact Us</a></li>
+                        <li><a href="scarament.html">Sacraments &amp; Pastoral Services</a></li>
+                        <li><a href="ministry.html">Ministries</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                    </ul>
+                </nav>
+            </div>
 
-                <a href="https://www.facebook.com/ChurchOfTheNativityOfTheBlessedVirginMary/mentions/" target="_blank"
-                    class="fb Logo"></a>
+            <!-- for the google form -->
+            <div>
+                <h2 class="footer-heading">Connect with us</h2>
+                <img class="footer-qr" src="image/qrCode.jpg" alt="QR code to access website on mobile" title="qr code"
+                    width="350" height="350">
+            </div>
 
-                <a href="https://www.instagram.com/nativitychurchsg/" target="_blank" class="ig Logo"></a>
+            <div class="footer-contact">
+                <h2 class="footer-heading">Reaching out?</h2>
+                <p><b>Email: </b><a href="mailto:cnbvm.secretariat@catholic.org.sg">cnbvm.secretariat@catholic.org.sg</a></p>
+                <p><b>Phone no.: </b><a href="tel:+6562800980">+65 6280 0980</a></p>
+                <p><b>Address: </b><a
+                        href="https://www.google.com/maps/search/?api=1&amp;query=1259+Upper+Serangoon+Road+Singapore+534795"
+                        target="_blank" rel="noopener">1259 Upper Serangoon Road Singapore 534795</a></p>
+                <div class="social">
+                    <a href="https://mycatholic.sg/parish/nativityofblessedvirgin" target="_blank" rel="noopener"
+                        class="social-link" aria-label="myCatholic.sg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></a>
 
+                    <a href="https://www.facebook.com/ChurchOfTheNativityOfTheBlessedVirginMary/mentions/" target="_blank"
+                        rel="noopener" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21h2.9z"/></svg></a>
+
+                    <a href="https://www.instagram.com/nativitychurchsg/" target="_blank" rel="noopener"
+                        class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+                </div>
             </div>
         </div>
 
-        <h6>© 2026 Church of the Nativity of the Blessed Virgin Mary. All rights reserved. Website designed and
-            developed by Catarina Chai.</h6>
+        <div class="container footer-bottom">
+            <p>© 2026 Church of the Nativity of the Blessed Virgin Mary. All rights reserved. Website designed and
+                developed by Samuel Yee.</p>
+        </div>
     </footer>
 </body>
 

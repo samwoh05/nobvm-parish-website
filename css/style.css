@@ -1,2415 +1,1844 @@
+/*=================================================
+    Church of the Nativity of the Blessed Virgin Mary
+    Stylesheet
+=================================================*/
+
 /*=======================
          fonts
 =======================*/
 @font-face {
-    font-family: Gloock_Font;
-    src: url("../font/Gloock-Regular.woff");
+    font-family: "Gloock";
+    src: url("../font/Gloock-Regular.woff") format("woff");
+    font-weight: 400;
+    font-display: swap;
 }
 
+/* DM Sans (all weights) loads from Google Fonts in each page's <head>;
+   the bundled regular weight is the offline fallback */
 @font-face {
-    font-family: Montserrat_Font;
-    src: url("../font/Montserrat-Bold.woff");
+    font-family: "DM Sans Local";
+    src: url("../font/DMSans-Regular.woff") format("woff");
+    font-weight: 400;
+    font-display: swap;
 }
 
-@font-face {
-    font-family: DMSans_Font;
-    src: url("../font/DMSans-Regular.woff");
+/*=======================
+         tokens
+=======================*/
+:root {
+    color-scheme: light;
+
+    /* colour — warm white plaster, deep ink, Marian blue */
+    --paper: #FAF8F4;
+    --stone: #F2EEE6;
+    --line: #E1DACD;
+    --ink: #1C2530;
+    --muted: #55606B;
+    --marian: #24467A;
+    --marian-deep: #18325A;
+    --marian-tint: #E6ECF5;
+    --on-dark: #F7F4EE;
+    --on-dark-muted: #C9D1DC;
+
+    /* type */
+    --font-display: "Gloock", "Songti SC", "Noto Serif SC", "Noto Serif CJK SC", Georgia, serif;
+    --font-body: "DM Sans", "DM Sans Local", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-quote: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif;
+
+    --fs-display: clamp(2.75rem, 1.35rem + 5.4vw, 5.75rem);
+    --fs-h1: clamp(2.25rem, 1.55rem + 2.9vw, 4rem);
+    --fs-h2: clamp(1.875rem, 1.4rem + 1.9vw, 2.875rem);
+    --fs-h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+    --fs-lead: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4375rem);
+
+    /* shape & space */
+    --radius-lg: 22px;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --gutter: clamp(1rem, 4vw, 2.5rem);
+    --section-y: clamp(4rem, 3rem + 5vw, 7.5rem);
+    --header-h: 84px;
+
+    --shadow: 0 1px 2px rgba(28, 37, 48, .06), 0 18px 40px -18px rgba(24, 50, 90, .28);
+    --ease: cubic-bezier(.2, .7, .2, 1);
+
+    /* gothic lancet arch, echoing the church windows */
+    --arch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 125' preserveAspectRatio='none'%3E%3Cpath d='M0 125V52C0 24 22 5 50 0c28 5 50 24 50 52v73z'/%3E%3C/svg%3E");
+
+    /* icons */
+    --i-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M6 13l6 6 6-6'/%3E%3C/svg%3E");
+    --i-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
 }
+
 /*============================
-        * & elements 
+        reset & elements
 =============================*/
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
-    color: #2F3E46;
+    margin: 0;
+    padding: 0;
 }
 
 html {
     scroll-behavior: smooth;
-}
-
-html,
-body {
-    max-width: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
-    background-color: transparent;
-}
-
-button {
-    background-color: transparent;
-    border: none;
+    min-height: 100vh;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 img {
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.75);
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.12;
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+b,
+strong {
+    font-weight: 650;
+}
+
+a {
+    color: var(--marian);
+    text-decoration-thickness: 1px;
+    text-underline-offset: .22em;
+    transition: color .2s var(--ease);
+}
+
+a:hover {
+    color: var(--marian-deep);
+}
+
+:focus-visible {
+    outline: 3px solid var(--marian);
+    outline-offset: 3px;
     border-radius: 6px;
 }
 
-p,
-a,
-td {
-    font-family: Montserrat_Font;
+[id] {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
-/* ======================
-            menus
-========================*/
-.menuGrid {
-    display: grid;
-    grid-template-columns: auto auto 1fr;
-    max-height: min-content;
-    padding: 2vh 2vw;
-    background-color: #F7FBFC;
-    border-bottom: 2px solid #2F3E46;
+button {
+    font: inherit;
 }
 
-/* logo */
-.menuGrid div:nth-child(1) {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+main {
+    display: block;
 }
 
-.menuGrid img {
-    max-height: 22.5vh;
-    width: auto;
-    box-shadow: none;
+/*============================
+        layout helpers
+=============================*/
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
 }
 
-/* name */
-.menuGrid div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+.section {
+    padding-block: var(--section-y);
 }
 
-.menuGrid div:nth-child(2) * {
-    text-align: left;
-    font-size: clamp(0.85rem, 1.75vw, 1.75rem);
-    font-family: Gloock_Font;
+.section--stone {
+    background-color: var(--stone);
 }
 
-.menuGrid div:nth-child(2) a {
+.section-title {
+    font-size: var(--fs-h2);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+}
+
+.lead {
+    font-family: var(--font-quote);
+    font-style: italic;
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -6rem;
+    z-index: 100;
+    padding: .75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: var(--ink);
+    color: var(--on-dark);
+    font-weight: 600;
     text-decoration: none;
 }
 
-/* nav bar */
-.menuGrid nav {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    width: 100%;
+.skip-link:focus {
+    top: 1rem;
+    color: var(--on-dark);
 }
 
-.menuGrid>nav>button {
-    display: flex;
-    align-items: flex-end;
+/*============================
+           buttons
+=============================*/
+.btn {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    padding: 0.5vh 0.25vw;
-}
-
-.menuGrid>nav>button>a {
-    font-size: clamp(0.6rem, 0.85vw, 0.9rem);
+    gap: .6rem;
+    min-height: 3.25rem;
+    padding: .7rem 1.5rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background-color: transparent;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.2;
     text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), transform .15s var(--ease);
 }
 
-/* sacrament only */
-.menuGrid>nav>button.scaramentBtn>a {
+.btn:hover {
+    background-color: var(--ink);
+    color: var(--paper);
+}
+
+.btn:active {
+    transform: translateY(1px) scale(.99);
+}
+
+.btn--primary {
+    border-color: var(--marian);
+    background-color: var(--marian);
+    color: #fff;
+}
+
+.btn--primary:hover {
+    border-color: var(--marian-deep);
+    background-color: var(--marian-deep);
+    color: #fff;
+}
+
+/* jump-to-section buttons get a small down arrow */
+.btn--jump::after {
+    content: "";
+    flex-shrink: 0;
+    width: 1.05em;
+    height: 1.05em;
+    background-color: currentColor;
+    -webkit-mask: var(--i-arrow-down) center / contain no-repeat;
+    mask: var(--i-arrow-down) center / contain no-repeat;
+    transition: transform .25s var(--ease);
+}
+
+.btn--jump:hover::after {
+    transform: translateY(2px);
+}
+
+/* ======================
+          header
+========================*/
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: rgba(250, 248, 244, .94);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: var(--header-h);
+    padding-block: .65rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.brand:hover {
+    color: var(--ink);
+}
+
+.brand-logo {
+    width: auto;
+    height: 58px;
+    flex-shrink: 0;
+}
+
+.brand-text {
     display: flex;
     flex-direction: column;
+    line-height: 1.2;
+}
+
+.brand-name {
+    max-width: 17em;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+}
+
+.brand-zh {
+    margin-top: .2rem;
+    font-family: var(--font-display);
+    font-size: .95rem;
+    letter-spacing: .14em;
+    color: var(--muted);
+}
+
+/* nav */
+.site-nav ul {
+    display: flex;
     align-items: center;
+    gap: .2rem;
+    list-style: none;
+}
+
+.site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: .5rem .85rem;
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+
+.site-nav a:hover {
+    background-color: var(--stone);
+    color: var(--ink);
+}
+
+.site-nav a[aria-current="page"] {
+    background-color: var(--marian-tint);
+    color: var(--marian);
+    font-weight: 600;
+}
+
+.site-nav a.nav-donate {
+    margin-left: .5rem;
+    padding-inline: 1.35rem;
+    background-color: var(--marian);
+    color: #fff;
+    font-weight: 600;
+}
+
+.site-nav a.nav-donate:hover,
+.site-nav a.nav-donate[aria-current="page"] {
+    background-color: var(--marian-deep);
+    color: #fff;
+}
+
+/* menu button (small screens only) */
+.nav-toggle {
+    display: none;
+    align-items: center;
+    gap: .6rem;
+    flex-shrink: 0;
+    min-height: 3rem;
+    padding: .5rem 1.1rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nav-toggle-icon {
+    position: relative;
+    width: 18px;
+    height: 12px;
+}
+
+.nav-toggle-icon::before,
+.nav-toggle-icon::after,
+.nav-toggle-icon span {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background-color: currentColor;
+    transition: transform .25s var(--ease), opacity .2s var(--ease);
+}
+
+.nav-toggle-icon::before {
+    top: 0;
+}
+
+.nav-toggle-icon span {
+    top: 5px;
+}
+
+.nav-toggle-icon::after {
+    top: 10px;
+}
+
+.nav-open .nav-toggle-icon::before {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.nav-open .nav-toggle-icon span {
+    opacity: 0;
+}
+
+.nav-open .nav-toggle-icon::after {
+    transform: translateY(-5px) rotate(-45deg);
+}
+
+@media (max-width: 1199px) {
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    .site-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        max-height: calc(100vh - var(--header-h));
+        overflow-y: auto;
+        background-color: var(--paper);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 24px 40px -24px rgba(28, 37, 48, .35);
+    }
+
+    .nav-open .site-nav {
+        display: block;
+    }
+
+    .site-nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        max-width: 1200px;
+        margin-inline: auto;
+        padding: .5rem var(--gutter) 1.5rem;
+    }
+
+    .site-nav li+li {
+        border-top: 1px solid var(--line);
+    }
+
+    .site-nav li:last-child {
+        border-top: 0;
+    }
+
+    .site-nav a {
+        display: flex;
+        justify-content: space-between;
+        min-height: 3.75rem;
+        padding: .75rem .25rem;
+        border-radius: 0;
+        font-size: 1.25rem;
+        white-space: normal;
+    }
+
+    .site-nav a::after {
+        content: "";
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-left: 1rem;
+        background-color: currentColor;
+        opacity: .45;
+        -webkit-mask: var(--i-arrow-right) center / contain no-repeat;
+        mask: var(--i-arrow-right) center / contain no-repeat;
+    }
+
+    .site-nav a:hover,
+    .site-nav a[aria-current="page"] {
+        background-color: transparent;
+        color: var(--marian);
+    }
+
+    .site-nav a[aria-current="page"]::after {
+        opacity: 1;
+    }
+
+    .site-nav a.nav-donate {
+        justify-content: center;
+        margin: 1rem 0 0;
+        border-radius: 999px;
+    }
+
+    .site-nav a.nav-donate::after {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --header-h: 76px;
+    }
+
+    .header-inner {
+        gap: .75rem;
+    }
+
+    .brand {
+        gap: .6rem;
+    }
+
+    .brand-logo {
+        height: 46px;
+    }
+
+    .brand-name {
+        font-size: .875rem;
+    }
+
+    .brand-zh {
+        font-size: .8125rem;
+    }
+
+    .nav-toggle {
+        padding-inline: .9rem;
+    }
+}
+
+/*============================
+            FOOTER
+=============================*/
+.site-footer {
+    padding-top: clamp(3rem, 2rem + 4vw, 5rem);
+    background-color: var(--stone);
+    border-top: 1px solid var(--line);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr 1fr 1.6fr;
+    gap: 2.5rem;
+}
+
+.footer-logo {
+    display: inline-block;
+}
+
+.footer-logo img {
+    width: 92px;
+}
+
+.footer-heading {
+    margin-bottom: 1.1rem;
+    font-family: var(--font-body);
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.footer-links {
+    display: grid;
+    gap: .15rem;
+    list-style: none;
+}
+
+.footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    color: var(--ink);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--marian);
+    text-decoration: underline;
+}
+
+.footer-qr {
+    width: 136px;
+    padding: 8px;
+    border-radius: var(--radius);
+    background-color: #fff;
+}
+
+.footer-contact p {
+    margin-bottom: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.footer-contact b {
+    display: block;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--muted);
+}
+
+.footer-contact a {
+    color: var(--ink);
+}
+
+.footer-contact a:hover {
+    color: var(--marian);
+}
+
+.social {
+    display: flex;
+    gap: .75rem;
+    margin-top: 1.25rem;
+}
+
+.social-link {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    color: var(--ink);
+    transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+
+.social-link svg {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.social-link:hover {
+    border-color: var(--marian);
+    background-color: var(--marian);
+    color: #fff;
+}
+
+.footer-bottom {
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    padding-bottom: 2rem;
+}
+
+.footer-bottom p {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: .875rem;
+    color: var(--muted);
+}
+
+@media (max-width: 960px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2.25rem;
+    }
+
+    .footer-logo img {
+        width: 76px;
+    }
+}
+
+/*============================
+        page heroes
+=============================*/
+.page-hero {
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    border-bottom: 1px solid var(--line);
+}
+
+.page-hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    align-items: center;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+}
+
+.page-title {
+    font-size: var(--fs-h1);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.page-sub {
+    max-width: 30em;
+    margin-top: 1rem;
+    font-family: var(--font-quote);
+    font-style: italic;
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.jump-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 2rem;
+}
+
+.page-hero-media img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+}
+
+@media (max-width: 860px) {
+    .page-hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-hero-media img {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+@media (max-width: 560px) {
+    .jump-links {
+        flex-direction: column;
+    }
+
+    .jump-links .btn {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
 
 /* ======================
             HOME
 ========================*/
-body.indexpg::before {
+.hero {
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) clamp(3.5rem, 2rem + 5vw, 6.5rem);
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    align-items: center;
+    gap: clamp(2rem, 1rem + 5vw, 6rem);
+}
+
+.hero h1 {
+    font-size: var(--fs-display);
+    line-height: .98;
+    letter-spacing: .015em;
+}
+
+.hero h1::after {
     content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url('../image/background_2.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    filter: blur(4px);
-    transform: scale(1.15);
-    z-index: -1;
+    display: block;
+    width: 72px;
+    height: 2px;
+    margin-top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    background-color: var(--marian);
 }
 
-main {
-    min-height: 100vh;
-    background-color: transparent;
+.hero-sub {
+    margin-top: 1.25rem;
 }
 
-/*============================
-            FOOTER  
-=============================*/
-footer {
-    border-top: 2px solid #2F3E46;
-    background-color: #F7FBFC;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(2, auto);
-    max-width: 100vw;
-    padding: 2rem 3vw 1rem 3vw;
-    gap: 1.5rem;
-}
-
-footer img {
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-}
-
-/* specific grid pos */
-footer>.logo {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: center;
-    align-self: center;
-}
-
-footer>h6 {
-    grid-row: 2;
-    grid-column: 1;
-    justify-self: center;
-    text-align: center;
-    font-size: clamp(0.5rem, 0.6vw, 0.75rem);
-    opacity: 0.6;
-}
-
-footer>div:nth-of-type(2) {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    text-align: left;
-}
-
-footer>div:nth-of-type(3) {
-    grid-column: 3;
-    grid-row: 1 / span 2;
-    text-align: left;
-}
-
-footer>div:nth-of-type(4) {
-    grid-column: 4;
-    grid-row: 1 / span 2;
-    text-align: left;
+.hero-actions {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
 }
 
-footer>div:nth-of-type(4)>div {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+.hero-media {
+    justify-self: end;
+    width: 100%;
+    max-width: 460px;
 }
 
-footer>div:nth-of-type(3)>img {
-    height: 15vh;
-    width: auto;
-    margin-top: 1rem;
+.arch {
+    -webkit-mask: var(--arch) center / 100% 100% no-repeat;
+    mask: var(--arch) center / 100% 100% no-repeat;
 }
 
-footer img {
-    width: clamp(50px, 7.5vw, 100px);
+.hero-media img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 30%;
 }
 
-footer nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+@media (max-width: 860px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-media {
+        justify-self: center;
+        max-width: 380px;
+    }
 }
 
-footer button {
-    text-align: left;
-    font-size: clamp(0.6rem, 0.75vw, 0.85rem);
-    border: none;
-    color: #2F3E46;
-    padding: 0;
-    background: none;
-}
+@media (max-width: 560px) {
+    .hero-actions {
+        flex-direction: column;
+    }
 
-footer nav button a {
-    text-decoration: none;
-    color: #2F3E46;
-}
-
-footer nav button a:hover {
-    opacity: 0.6;
-}
-
-footer>div>h4 {
-    padding: 0 0 1rem 0;
-    font-size: clamp(0.85rem, 1.25vw, 1.25rem);
-}
-
-footer>div>p {
-    font-size: clamp(0.6rem, 0.85vw, 0.9rem);
-}
-
-/* ======================
-         ccs tile
-========================*/
-.Logo {
-    width: clamp(40px, 5vw, 75px);
-    height: clamp(40px, 5vw, 75px);
-    background-image: url('../image/socialSprites.jpg');
-    background-repeat: no-repeat;
-    background-size: 300% auto;
-    display: inline-block;
-    text-decoration: none;
-    border-radius: 50%;
-}
-
-.web {
-    background-position: 0 0;
-}
-
-.fb {
-    background-position: 50% 0;
-}
-
-.ig {
-    background-position: 100% 0;
-}
-
-/* ======================
-        home article
-========================*/
-#home {
-    background-color: transparent;
-    display: grid;
-    grid-template-rows: repeat(3, auto);
-    gap: 0%;
-}
-
-#home>div:nth-child(1) {
-    min-height: 105vh;
-    display: grid;
-    grid-template-rows: 3fr 1fr 1fr;
-    text-align: center;
-    place-items: center;
-    border-bottom: 2px solid #192434;
-}
-
-#home>div:nth-child(1)>h1 {
-    text-align: center;
-    align-self: self-end;
-    font-size: clamp(3rem, 10vw, 10rem);
-    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-#home>div:nth-child(1)>div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    max-width: 100vw;
-    min-width: 90vw;
-}
-
-#home> div:nth-child(1)>p{
-    font-size: clamp(3rem, 3vw, 3rem);
-    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
-}
-
-#home>div:nth-child(1) a {
-    font-size: clamp(0.85rem, 2vw, 2rem);
-    border: solid 5px #2F3E46;
-    border-radius: 0.25vw;
-    min-width: 20vw;
-    text-decoration: none;
-    background-color: rgba(47, 62, 70, 0.67);
-    color: #f7fbfcbe;
-}
-
-#massSchedule h1,
-#holyHour h1,
-#confessionSch h1 {
-    grid-row: 1;
-    grid-column: 1/span 2;
-    text-align: center;
-    max-height: fit-content;
-    font-size: clamp(2.75rem, 5.5vw, 6rem);
-    padding: 2vh 2vw;
-    font-family: Gloock_Font;
+    .hero-actions .btn {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
 
 /* ======================
          mass schedule
 ========================*/
-#massSchedule {
+.mass-layout {
     display: grid;
-    grid-template-columns: 3fr 3fr;
-    grid-template-rows: min-content auto;
-    min-height: 150vh;
-    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.489), #F7FBFC);
-    max-width: 100vw;
-    padding: 5vh 0vw;
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
+    gap: clamp(2rem, 1rem + 5vw, 6rem);
 }
 
-#massSchedule>div:nth-of-type(1) {
-    grid-row: 2;
-    grid-column: 1;
-    display: grid;
-    /* grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, auto); */
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(2, auto);
-    padding: 2vh 2vw;
-    row-gap: 5vh;
-    border-right: 6px solid #2F3E46;
+.mass-media {
+    position: relative;
+    padding: 0 14% 22% 0;
 }
 
-/* images */
-/* #massSchedule>div:nth-of-type(1)>div:nth-child(1) {
-    grid-row: 1/span 2;
-    grid-column: 1/span 2;
-}
-
-#massSchedule>div:nth-of-type(1)>div:nth-child(2) {
-    grid-row: 1 / span 2;
-    grid-column: 3 / span 2;
-    align-self: center;
-}
-
-#massSchedule>div:nth-of-type(1)>div:nth-child(3) {
-    grid-row: 2/span 2;
-    grid-column: 1/span 4;
-    align-self: self-end;
-    justify-self: center;
-} */
-
-#massSchedule>div:nth-of-type(1)>div:nth-child(1) {
-    grid-row: 1;
-    justify-self: center;
-
-}
-#massSchedule>div:nth-of-type(1)>div:nth-child(2) {
-    grid-row: 2;
-    justify-self: center;
-
-}
-
-#massSchedule>div:nth-of-type(1)>div:nth-child(1)>img {
-    max-width: 35vw;
-    height: auto;
-}
-
-#massSchedule>div:nth-of-type(1)>div:nth-child(2)>img {
-    max-height: 50vh;
-}
-
-#massSchedule>div:nth-of-type(1)>div:nth-child(3)>img {
-    max-width: 40vw;
-}
-
-/* details */
-#massSchedule>div:nth-of-type(2) {
-    grid-row: 2;
-    grid-column: 2;
-    padding: 0vh 2vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-
-#massSchedule h3 {
-    font-size: clamp(1rem, 2vw, 2.5rem);
-    padding-top: 5vh;
-}
-
-#massSchedule p {
-    font-size: clamp(0.75rem, 1.5vw, 1.75rem);
-}
-
-#massSchedule * :not(#massSchedule>h1), #confessionSch * :not(#confessionSch h1) {
-    font-family: DMSans_Font;
-
-}
-#massSchedule #mass {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: min-content min-content;
-    border: 3px solid #2F3E46;
-    border-radius: 8px;
-    padding: 0.5vh 2vw;
-    min-height: 10vh;
-    align-content: end;
-    margin: 1vh 0vw;
-    background-color: #f8fafc78;
-}
-
-#massSchedule #mass>p:nth-of-type(1) {
-    grid-column: 1;
-    grid-row: 2;
-    border-right: 3px solid #2F3E46;
-}
-
-#massSchedule #mass>p:nth-of-type(2) {
-    grid-column: 2;
-    grid-row: 2;
-    text-align: center;
-}
-
-#massSchedule #mass>p:nth-of-type(3) {
-    grid-column: 3;
-    grid-row: 2;
-    text-align: center;
-}
-
-#massSchedule #mass>h4 {
-    grid-column: 1/span 3;
-    grid-row: 1;
-    font-size: clamp(1.5rem, 3vw, 4rem);
-    align-self: end;
-}
-
-#massSchedule #mass>h4>small {
-    font-size: clamp(0.75rem, 1.5vw, 2rem);
-    color: #2F3E46;
-    text-decoration: none;
-}
-
-/* ======================
-    confession schedule
-========================*/
-#confessionSch {
-    min-height: 50vh;
-    background-color: rgba(0, 0, 0, 0.489);
-    display: flex;
-    justify-content: center;
-    padding: 3vh 1vw;
-}
-
-#confessionSch>div {
-    background-color: #192434d8;
-    border-radius: 25px;
-    min-height: 75vh;
-    padding: 3vh 3vw;
-    display: grid;
-    grid-template-rows: min-content auto;
-    grid-template-columns: 3fr 2fr;
-    border: 5px solid #F7FBFC;
-}
-
-#confessionSch>div>div:nth-of-type(2) * {
-    text-align: center;
-    padding: 0vh 2vw;
-    color: #F7FBFC;
-}
-
-#confessionSch h1,
-#confessionSch p {
-    color: #F7FBFC;
-}
-
-#confessionSch img {
-    max-width: 35vw;
+.mass-media img {
     width: 100%;
-    height: auto;
-    display: block;
+    object-fit: cover;
 }
 
-#confessionSch>div>div:nth-of-type(1) {
-    grid-column: 1/span 2;
-    grid-row: 1;
-    align-items: center;
-    text-align: center;
+.mass-media>div:first-child img {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-lg);
 }
 
-#confessionSch>div>div:nth-of-type(3) {
-    padding: 2vh 0vw;
-    align-items: center;
-    display: grid;
+.mass-media>div:last-child {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 62%;
 }
 
-#confessionSch>div>div:nth-of-type(2) {
-    padding: 3vh 1vw;
+.mass-media>div:last-child img {
+    aspect-ratio: 4 / 3;
+    border: 6px solid var(--paper);
+    border-radius: calc(var(--radius) + 6px);
+    box-shadow: var(--shadow);
+}
+
+.mass-group {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: .25rem;
+    font-family: var(--font-body);
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    color: var(--marian);
 }
 
-#confessionSch>div>div:nth-of-type(2)>div {
-    border: 3px dashed #F7FBFC;
-    padding: 5vh 0vw;
-    border-radius: 15px;
+.mass-group::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--line);
 }
 
-#confessionSch>div>div:nth-of-type(2)>div>p {
-    font-size: clamp(1rem, 2.5vw, 3rem);
+.mass-row+.mass-group {
+    margin-top: 2.75rem;
 }
 
-#confessionSch>div i {
-    font-size: clamp(0.6rem, 1.15vw, 1.5rem);
+.mass-row {
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 1fr) 1.7fr auto;
+    align-items: baseline;
+    gap: .35rem 1.5rem;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--line);
 }
 
-#confessionSch>div>div:nth-of-type(2)>p {
-    align-self: center;
-    margin-top: auto;
-    margin-bottom: auto;
+.mass-row h4 {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.mass-time {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 1.2rem + .5vw, 1.625rem);
+    line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+}
+
+.mass-lang {
+    justify-self: end;
+    padding: .3rem .85rem;
+    border-radius: 999px;
+    background-color: var(--stone);
+    color: var(--muted);
+    font-size: .9375rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: 860px) {
+    .mass-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .mass-media {
+        order: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding: 0;
+    }
+
+    .mass-media>div:last-child {
+        position: static;
+        width: auto;
+    }
+
+    .mass-media>div img,
+    .mass-media>div:first-child img,
+    .mass-media>div:last-child img {
+        aspect-ratio: 1;
+        border: 0;
+        border-radius: var(--radius);
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .mass-row {
+        grid-template-columns: 1fr auto;
+    }
+
+    .mass-row h4 {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .mass-lang {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .mass-time {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
 }
 
 /* ======================
-        holy hour
+        confession
 ========================*/
-#holyHour {
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.489), #c9480263), url('../image/church_3.png');
-    min-height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#holyHour * {
-    color: #F7FBFC;
-    text-align: center;
-}
-
-#holyHour>h1 {
-    font-size: clamp(3rem, 10vw, 12rem);
-    padding: 0%;
-}
-
-#holyHour>p:nth-of-type(1) {
-    font-size: clamp(0.65rem, 1vw, 1.25rem);
-}
-
-#holyHour>div {
-    padding-top: 15vh;
+.split {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 99vw;
+    grid-template-columns: 7fr 5fr;
+    align-items: center;
+    gap: clamp(2rem, 1rem + 5vw, 6rem);
 }
 
-#holyHour>div img {
-    width: clamp(30px, 5vw, 75px);
-    box-shadow: none;
+.split-media img {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
 }
 
-#holyHour>div>div:nth-of-type(2) {
-    border-left: 5px solid #F7FBFC;
-    border-right: 5px solid #F7FBFC;
+.split-body .section-title {
+    margin-bottom: .75rem;
 }
 
-#holyHour>div p {
-    font-size: clamp(0.75rem, 1.5vw, 1.75rem);
-    padding: 3vh;
+.info-card {
+    max-width: 30rem;
+    margin-top: 2rem;
+    padding: 1.5rem 1.75rem;
+    border-left: 4px solid var(--marian);
+    border-radius: var(--radius-sm) var(--radius) var(--radius) var(--radius-sm);
+    background-color: var(--paper);
+}
+
+.info-card-label {
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--marian);
+}
+
+.info-card-time {
+    margin-block: .25rem .15rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.625rem, 1.3rem + 1vw, 2.125rem);
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.info-card-place {
+    color: var(--muted);
+}
+
+.verse {
+    max-width: 32em;
+    margin-top: 1.75rem;
+    font-family: var(--font-quote);
+    font-style: italic;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+@media (max-width: 860px) {
+    .split {
+        grid-template-columns: 1fr;
+    }
+
+    .split-media {
+        order: -1;
+    }
+
+    .split-media img {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+/* ======================
+         holy hour
+========================*/
+.holy-panel {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background-color: var(--marian-deep);
+    color: var(--on-dark);
+}
+
+.holy-body {
+    padding: clamp(2rem, 1rem + 4vw, 4.5rem);
+}
+
+.holy-body .section-title {
+    margin-bottom: .75rem;
+    color: var(--on-dark);
+}
+
+.holy-body .lead {
+    color: var(--on-dark-muted);
+}
+
+.holy-list {
+    display: grid;
+    gap: 1.1rem;
+    margin-top: 2.25rem;
+    list-style: none;
+}
+
+.holy-list li {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    font-size: 1.1875rem;
+    font-weight: 500;
+}
+
+.holy-list img {
+    flex-shrink: 0;
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: .8rem;
+    border: 1px solid rgba(247, 244, 238, .35);
+    border-radius: 50%;
+}
+
+.holy-media {
+    position: relative;
+    min-height: 100%;
+}
+
+.holy-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 860px) {
+    .holy-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .holy-media {
+        order: -1;
+        aspect-ratio: 16 / 10;
+    }
 }
 
 /*============================
-            clergy  
+        contact us
 =============================*/
-#contactMenu>div {
-    min-height: 105vh;
-    display: grid;
-    grid-template-rows: 3fr 1fr 1fr;
-    text-align: center;
-    place-items: center;
-}
-
-#contactMenu::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url('../image/background_1.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    filter: blur(2px);
-    transform: scale(1.15);
-    z-index: -1;
-}
-
-#contactMenu>div:nth-child(1)>h1 {
-    text-align: center;
-    align-self: self-end;
-    font-size: clamp(3rem, 10vw, 12rem);
-    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-#contactMenu> div:nth-child(1)>p{
-    font-size: clamp(3rem, 3vw, 3rem);
-    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-#contactMenu>div:nth-child(1)>div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    max-width: 100vw;
-    min-width: 90vw;
-}
-
-#contactMenu>div:nth-child(1) a {
-    font-size: clamp(0.85rem, 2vw, 2.5rem);
-    border: solid 5px #2F3E46;
-    border-radius: 0.25vw;
-    min-width: 20vw;
-    text-decoration: none;
-    background-color: rgba(47, 62, 70, 0.67);
-    color: #f7fbfcbe;}
-
-#officeDirectory {
-    background-color: #192434c0;
-    color: #F7FBFC;
-    padding: 5vh 5vw;
-    border-top: 3px solid #F7FBFC;
-}
-
-#officeDirectory h1 {
-    font-size: clamp(2rem, 5vw, 6rem);
-    padding-bottom: 4vh;
-    border-bottom: 5px solid #F7FBFC;
-    margin-bottom: 4vh;
-}
-
 .directoryList {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 3vw;
-    row-gap: 3vh;
+    gap: clamp(1rem, .5rem + 1.5vw, 1.75rem);
 }
 
 .directoryItem {
-    border: 3px solid #F7FBFC;
-    padding: 2vw;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border-radius: var(--radius-lg);
+    background-color: var(--stone);
 }
 
-#officeHours {
-    grid-row: 1/span 2;
-    grid-column: 2;
+.directoryItem--hours {
+    grid-row: span 2;
 }
 
 .directoryItem h3 {
-    font-size: clamp(0.9rem, 1.75vw, 2.25rem);
-    padding-bottom: 1.5vh;
+    margin-bottom: 1rem;
+    font-size: var(--fs-h3);
 }
 
-.directoryItem p {
-    font-size: clamp(0.65rem, 1.1vw, 1.4rem);
-    padding-top: 0.75vh;
+.directoryItem p+p {
+    margin-top: .6rem;
+}
+
+.directoryItem p:not(.directory-contact) {
+    color: var(--muted);
+}
+
+.directory-contact {
+    overflow-wrap: anywhere;
+}
+
+.directoryItem p:not(.directory-contact)+.directory-contact {
+    margin-top: 1.25rem;
+}
+
+.directory-contact b {
+    display: block;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--muted);
+}
+
+.directory-contact a {
+    font-size: 1.1875rem;
+    font-weight: 600;
 }
 
 .officeHoursTable {
     width: 100%;
     border-collapse: collapse;
-    font-size: clamp(0.65rem, 1.1vw, 1.4rem);
+    font-variant-numeric: tabular-nums;
 }
 
 .officeHoursTable td {
-    padding: 1vh 0.5vw;
-    border-bottom: 1px solid #f7fbfc55;
-    text-align: left;
+    padding: .85rem 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
 }
 
 .officeHoursTable tr:last-child td {
-    border-bottom: none;
+    border-bottom: 0;
 }
 
 .officeHoursTable td:first-child {
-    font-weight: bold;
-    width: 30%;
+    padding-right: 1rem;
+    font-weight: 600;
 }
 
-#mainParish {
-    background-color: #192434;
+.officeHoursTable td:last-child {
+    text-align: right;
+    color: var(--muted);
+}
+
+.officeHoursTable tr.is-today td {
+    color: var(--marian);
+    font-weight: 650;
+}
+
+.officeHoursTable tr.is-today td:first-child::before {
+    content: "";
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    margin: 0 .55rem .12rem 0;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+/* priests */
+.priest-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 105vh;
-    padding: 5vh 2vw;
-    column-gap: 3vw;
-    background-image: url('../image/gregoire.jpg');
-    background-position: 10% center;
-    background-repeat: no-repeat;
-    background-size: 40vw auto;
-    border-top: 3px solid #F7FBFC;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 1rem + 2vw, 3rem);
 }
 
-#mainParish *,
-#priest *,
-#officeDirectory * {
-    color: #F7FBFC;
+.priest-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background-color: var(--line);
 }
 
-#mainParish>div:nth-of-type(1) {
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
+.priest h3 {
+    margin-top: 1.5rem;
+    font-size: clamp(1.375rem, 1.25rem + .4vw, 1.625rem);
 }
 
-#mainParish h1 {
-    font-size: clamp(3rem, 10vw, 12rem);
-    border-bottom: 5px solid #F7FBFC;
+.priest-role {
+    margin-top: .3rem;
+    color: var(--marian);
+    font-weight: 600;
 }
 
-#mainParish h2 {
-    padding-top: 10vh;
-    padding-bottom: 2.5vh;
-    font-size: clamp(1.25rem, 3vw, 4rem);
+.priest-contact {
+    margin-top: .9rem;
+    padding-top: .9rem;
+    border-top: 1px solid var(--line);
 }
 
-#mainParish p {
-    padding-top: 0.5vh;
-    font-size: clamp(0.7rem, 1.25vw, 1.5rem);
+.priest-contact p {
+    font-size: 1.0625rem;
+    color: var(--muted);
+    overflow-wrap: anywhere;
 }
 
-
-#mainPriestPhoto {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 3vh 2vw;
+.priest-contact p+p {
+    margin-top: .25rem;
 }
 
-#mainPriestPhoto img {
-    max-width: 35vw;
-    height: auto;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.75);
-    border-radius: 6px;
+@media (max-width: 960px) {
+    .directoryList {
+        grid-template-columns: 1fr;
+    }
+
+    .directoryItem--hours {
+        grid-row: auto;
+    }
+
+    .priest-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
-#otherParishPriests {
-    background-color: #192434;
-    min-width: 95vw;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 3vw 5vh;
-    background-image: url('../image/slanted-background.png');
-    background-position: center -10%;
-    background-repeat: no-repeat;
-    background-size: 100%;
+@media (max-width: 560px) {
+    .priest-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+    }
 }
 
-#priest {
-    min-height: 75vh;
-    display: flex;
-    flex-direction: column;
-    row-gap: 1vh;
-}
-
-#priest img {
-    box-shadow: none;
-    max-width: 25vw;
-}
-
-#priest>p,
-#priest>h3 {
-    text-align: left;
-}
-
-#priest>h3 {
-    font-size: clamp(1rem, 2vw, 2.5rem);
-}
-
-#priest>div>p {
-    border: 3px solid #F7FBFC;
-    min-height: 5vh;
-    padding: 1vh 1vw;
-}
-
-#priest>div {
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.5vh;
-}
-
-#horizontalGallery {
-    background-color: #192434;
-    color: #F7FBFC;
-    border-top: 3px solid #F7FBFC;
+/* gallery */
+.gallery {
+    padding-block: var(--section-y);
+    overflow: hidden;
 }
 
 .scrollable-Horizontal {
-    width: 100%;
     overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
 }
 
 .timeline_H {
     display: flex;
     width: max-content;
+    will-change: transform;
 }
 
-.scrollable-Horizontal img {
-    height: 30vh;
-    display: block;
-    flex-shrink: 0;
+.timeline_H img {
+    width: auto;
+    height: clamp(190px, 12rem + 8vw, 320px);
+    margin-right: 1rem;
+    border-radius: var(--radius);
+    object-fit: cover;
 }
 
 /*============================
-            sacrament  
+        sacraments
 =============================*/
-.sacramentNPastroalMenue {
+.sacrament-index {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, .5rem + 1.5vw, 1.75rem);
 }
 
-.sacramentMenue {
-    grid-column: 1;
-    display: grid;
-    grid-template-rows: 2fr 1fr 3fr;
-    min-height: 105vh;
-    background-image: url('../image/left.png');
-    background-color: #192434;
-    background-size: auto 90%;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    padding: 4vw 4vh;
+.menu-card {
+    padding: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+    border-radius: var(--radius-lg);
+    background-color: var(--stone);
 }
 
-.pastroalMenue {
-    grid-column: 2;
-    display: grid;
-    grid-template-rows: 2fr 1fr 3fr;
-    min-height: 105vh;
-    padding: 4vw 4vh;
-    background-image: url('../image/right.png');
-    background-color: #e8d9b5;
-    background-size: auto 73%;
-    background-repeat: no-repeat;
-    background-position: left bottom;
+.menu-card h1,
+.menu-card h2 {
+    font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+    text-transform: uppercase;
+    letter-spacing: .03em;
 }
 
-/* text alignment per side */
-.sacramentMenue * {
-    text-align: left;
+.menu-card>p {
+    margin-top: .4rem;
 }
 
-.pastroalMenue * {
-    text-align: right;
+.menu-links {
+    margin-top: 1.75rem;
+    border-top: 1px solid var(--line);
+    list-style: none;
 }
 
-/* headings */
-.sacramentMenue h1,
-.pastroalMenue h1 {
-    font-size: clamp(2.5rem, 6.5vw, 7rem);
-    line-height: 1;
-    padding: 3vh 0vw;
-    margin-bottom: 0.5rem;
-    align-self: flex-end;
-}
-
-.sacramentMenue h1 {
-    color: #e8d9b5;
-}
-
-.pastroalMenue h1 {
-    color: #192434;
-}
-
-/* subtitle */
-.sacramentMenue p,
-.pastroalMenue p {
-    font-size: clamp(0.65rem, 1.1vw, 1rem);
-    letter-spacing: 0.08em;
-    margin-bottom: 3rem;
-    opacity: 0.6;
-}
-
-.sacramentMenue p {
-    color: #e8d9b5;
-}
-
-.pastroalMenue p {
-    color: #192434;
-}
-
-/* link container */
-.sacramentMenue>div,
-.pastroalMenue>div {
+.menu-links a {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: auto;
-    padding-bottom: 2rem;
-}
-
-.sacramentMenue>div>div,
-.pastroalMenue>div>div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    background: none;
-    flex-wrap: wrap;
-}
-
-.pastroalMenue>div>div {
-    align-items: flex-end;
-}
-
-/* links */
-.sacramentMenue a,
-.pastroalMenue a {
-    font-size: clamp(0.6rem, 0.9vw, 0.85rem);
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    opacity: 1;
-    width: fit-content;
-    padding: 0.4rem 1rem;
-    border: 1px solid;
-    transition: opacity 0.2s, background 0.2s;
-}
-
-.sacramentMenue a {
-    color: #e8d9b5;
-    border-color: rgba(232, 217, 181, 0.4);
-}
-
-.pastroalMenue a {
-    color: #192434;
-    border-color: rgba(25, 36, 52, 0.3);
-}
-
-.sacramentMenue a:hover {
-    background: rgba(232, 217, 181, 0.1);
-    border-color: #e8d9b5;
-}
-
-.pastroalMenue a:hover {
-    background: rgba(25, 36, 52, 0.08);
-    border-color: #192434;
-}
-
-#sacrament,
-#pastroal {
-    height: fit-content;
-    display: grid;
-    grid-template-rows: 1fr;
-    padding: 0vh 0vw;
-    border-top: solid 3px #F7FBFC;
-}
-
-#sacrament {
-    background-color: #192434;
-    grid-template-columns: 2fr 3fr;
-}
-
-#pastroal {
-    background-color: #e8d9b5;
-    grid-template-columns: 3fr 2fr;
-    border-top: solid 3px #2F3E46;
-}
-
-#sacrament>div:nth-of-type(1) {
-    background-image: url("../image/church_2.jpg");
-    border-top-right-radius: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-#sacrament>div:nth-of-type(2) {
-    background-color: #192434;
-    padding: 5vh 5vw;
-}
-
-#pastroal>div:nth-of-type(2) {
-    background-image: url("../image/church_donation_bg.jpg");
-    border-top-left-radius: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-#pastroal>div:nth-of-type(1) {
-    background-color: #e8d9b5;
-    padding: 5vh 5vw;
-}
-
-#sacrament * {
-    color: #F7FBFC;
-}
-
-#pastroal * {
-    color: #192434;
-}
-
-#sacrament h3,
-#pastroal h3 {
-    font-size: clamp(1.5rem, 3.5vw, 4.5rem);
-}
-
-.sacramentpg main>section:not(.sacramentNPastroalMenue, #sacrament, #pastroal, #house, #sick) {
-    min-height: 105vh;
-    background-color: #F7FBFC;
-    padding: 5vh 5vw;
-    border-top: 3px solid #192434;
-}
-
-#house {
-    height: max-content;
-    background-color: #F7FBFC;
-    padding: 5vh 5vw;
-    border-top: 3px solid #192434;
-}
-
-.sacramentpg main>section:not(.sacramentNPastroalMenue) h2 {
-    font-size: clamp(2rem, 4.5vw, 5.5rem);
-}
-
-.sacramentpg main>section:not(.sacramentNPastroalMenue) p {
-    font-size: clamp(0.65rem, 1vw, 1.5rem);
-    padding: 3vh 0vw;
-}
-
-/* content on the left/right */
-.left {
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    column-gap: 3vw;
-}
-
-.right {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    column-gap: 3vw;
-}
-
-/* shared dark section styles */
-#confession,
-#sick,
-#wedding,
-#infant,
-#rcia,
-#house,
-#catechism {
-    position: relative;
-    overflow: hidden;
-    background-color: transparent !important;
-    border-top: 3px solid #F7FBFC !important;
-}
-
-#confession *,
-#sick *,
-#wedding *,
-#infant *,
-#rcia *,
-#house *,
-#catechism * {
-    color: #F7FBFC;
-}
-
-#sick b,
-#wedding b {
-    color: #b64646;
-}
-
-#infant b,
-#rcia b,
-#catechism b,
-#house b {
-    color: #e8d9b5;
-}
-
-#infant p,
-#rcia div>div>p,
-#catechism p {
-    padding: 1.5vh 0vw;
-}
-
-/* shared ::before blurred backgrounds */
-#confession::before,
-#sick::before,
-#wedding::before,
-#infant::before,
-#rcia::before,
-#house::before,
-#catechism::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    filter: blur(4px);
-    transform: scale(1.05);
-    z-index: 0;
-}
-
-#confession::before {
-    background-image: linear-gradient(#0a0a0ac7, #0a0a0ac7), url('../image/confession_1.jpg');
-}
-
-#sick::before {
-    background-image: linear-gradient(#0a0a0ac7, #0a0a0ac7), url('../image/annoiting-of-the-sick.jpg');
-}
-
-#wedding::before {
-    background-image: linear-gradient(#0a0a0ac7, #0a0a0ac7), url('../image/wedding.jpg');
-}
-
-#infant::before {
-    background-image: linear-gradient(#0a0a0ac7, #0a0a0ac7), url('../image/infant_bap.jpg');
-}
-
-#rcia::before {
-    background-image: linear-gradient(#0a0a0ac7, #0a0a0ac7), url('../image/church_2.jpg');
-}
-
-#house::before {
-    background-image: linear-gradient(#0a0a0ac7, #0a0a0ac7), url('../image/church_priest.jpg');
-}
-
-#catechism::before {
-    background-image: linear-gradient(#0a0a0ac7, #0a0a0ac7), url('../image/cat_class.jpeg');
-}
-
-/* push content above blurred bg */
-#confession>*,
-#sick>*,
-#wedding>*,
-#infant>*,
-#rcia>*,
-#house>*,
-#catechism>* {
-    position: relative;
-    z-index: 1;
-}
-
-/* shared image container */
-#confession div:nth-of-type(2),
-#sick>div:nth-of-type(1),
-#wedding>div:nth-of-type(2),
-#infant>div:nth-of-type(1),
-#rcia>div:nth-of-type(1),
-#house>div:nth-of-type(1),
-#catechism>div:nth-of-type(2) {
-    display: grid;
-    place-items: center;
-    padding: 0.5vh 0vw;
-}
-
-#confession img,
-#sick img,
-#wedding img,
-#infant img,
-#rcia img,
-#house img,
-#catechism img {
-    width: 35vw;
-    height: auto;
-}
-
-/* shared schedule box */
-#confession>div>div,
-#wedding>div>div,
-#infant>div>div,
-#rcia>div>div,
-#house>div>div,
-#catechism>div>div {
-    border: 3px dashed #F7FBFC;
-    padding: 2vh 2vw;
-    border-radius: 15px;
-}
-
-/* shared h3 heading inside dark sections */
-#confession h3,
-#wedding h3,
-#infant h3,
-#rcia h3,
-#house h3,
-#catechism h3 {
-    font-size: clamp(1rem, 2.5vw, 3.5rem);
-    padding: 2vh 0vw;
-}
-
-#confession>div>div>p {
-    font-size: clamp(0.75rem, 1.5vw, 2.5rem);
-    text-align: center;
-}
-
-/* ANOINTING OF THE SICK — table spans full width */
-#sick table {
-    grid-row: 2;
-    grid-column: 1 / span 2;
-}
-
-#hospitalTable {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid rgba(247, 251, 252, 0.6);
-    margin-top: 2vh;
-    font-size: clamp(0.55rem, 0.85vw, 0.9rem);
-}
-
-#hospitalTable th,
-#hospitalTable td {
-    padding: 1vh 1vw;
-    text-align: left;
-    border-bottom: 1px solid rgba(247, 251, 252, 0.2);
-    color: #F7FBFC;
-    vertical-align: top;
-}
-
-#hospitalTable th {
-    font-family: Gloock_Font;
-    letter-spacing: 0.06em;
-    border-bottom: 1px solid rgba(247, 251, 252, 0.6);
-    padding-bottom: 1.5vh;
-    font-size: clamp(0.65rem, 1vw, 1.25rem);
-}
-
-#hospitalTable tr:last-child td {
-    border-bottom: none;
-}
-
-/* highlight nativity's own row */
-#hospitalTable tr:nth-child(6) {
-    background: rgba(247, 251, 252, 0.08);
-}
-
-#hospitalTable tr:nth-child(6) td:nth-child(2) {
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.75rem;
+    padding-block: .75rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 1.0625rem;
     font-weight: 600;
+    letter-spacing: .06em;
+    text-decoration: none;
 }
 
-#hospitalTable td span {
-    display: block;
+.menu-links a::after {
+    content: "";
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: currentColor;
+    -webkit-mask: var(--i-arrow-down) center / contain no-repeat;
+    mask: var(--i-arrow-down) center / contain no-repeat;
+    opacity: .5;
+    transition: transform .25s var(--ease), opacity .25s var(--ease);
 }
 
-#hospitalTable th:first-child,
-#hospitalTable td:first-child {
-    width: 40%;
+.menu-links a:hover {
+    color: var(--marian);
 }
 
-/*============================
-        donation page  
-=============================*/
-.donatepg {
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.238), #c9480263), url('../image/church_donation_bg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+.menu-links a:hover::after {
+    opacity: 1;
+    transform: translateY(3px);
+}
+
+/* quote dividers */
+.quote-band {
+    background-color: var(--stone);
+}
+
+.quote-band>.container {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    align-items: center;
+    gap: clamp(2rem, 1rem + 5vw, 6rem);
+    padding-block: var(--section-y);
+}
+
+#pastroal>.container {
+    grid-template-columns: 7fr 5fr;
+}
+
+.quote-media {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-lg);
     background-position: center;
+    background-size: cover;
 }
 
-#donationTop {
-    display: grid;
-    min-height: 75vh;
-    grid-template-rows: 3fr 1fr;
-    grid-template-columns: repeat(2, 1fr);
-    padding: 3vh 3vw;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.238), #c9480263);
+#sacrament .quote-media {
+    background-image: url("../image/church_2.jpg");
+    background-position: center 35%;
 }
 
-#donationTop>h1 {
-    font-size: clamp(2rem, 9vw, 12.5rem);
-    color: #192434;
-    align-self: end;
-    justify-self: end;
-    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
-
+#pastroal .quote-media {
+    aspect-ratio: 4 / 3;
+    background-image: url("../image/church_donation_bg.jpg");
+    background-position: 70% center;
 }
 
-#donationTop>p {
-    grid-column: 1;
-    grid-row: 2;
+.quote-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.375rem);
+    line-height: 1.3;
+    text-wrap: balance;
 }
 
-#donationInfo {
-    padding: 5vh 5vw;
-    display: grid;
-    min-height: fit-content;
-    background: linear-gradient(to bottom, #c9480263, #fff4d6);
+.quote-text i {
+    font-style: normal;
 }
 
-#donationInfo>div {
-    display: flex;
-    flex-direction: column;
-    background-color: #f7fbfc8e;
-    border: 3px solid #192434;
-    padding: 5vh 5vw;
-    text-align: center;
-    border-radius: 36px;
+.quote-band .quote-cite {
+    margin-top: 1.5rem;
+    color: var(--marian);
+    font-weight: 600;
+    letter-spacing: .02em;
 }
 
-#donationInfo>div>div {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 860px) {
+
+    .quote-band>.container,
+    #pastroal>.container {
+        grid-template-columns: 1fr;
+    }
+
+    .quote-media,
+    #pastroal .quote-media {
+        order: -1;
+        aspect-ratio: 16 / 9;
+    }
 }
 
-#cash>img,
-#paynow>img {
-    box-shadow: none;
+/* sacrament & service details */
+.feature {
+    padding-block: var(--section-y);
 }
 
-#cash {
-    border-right: 3px solid #192434;
+.feature+.feature {
+    border-top: 1px solid var(--line);
 }
 
-#cash,
-#paynow {
-    padding: 3vh 2vw;
-}
-
-#donationInfo h1 {
-    font-size: clamp(2rem, 5vw, 5.5rem);
-    padding: 0vh 0vw 3vh 0vw;
-}
-
-#donationInfo h3 {
-    font-size: clamp(1.25rem, 2.5vw, 3.5rem);
-    padding: 1vh 0vw;
-}
-
-#donationInfo p {
-    padding: 1vh 0vw;
-}
-
-#paynow div>p {
-    font-size: clamp(0.5rem, 0.75vw, 1.5rem);
-    padding: 1.5vh 0vw;
-}
-
-#paynow div>p:nth-of-type(1) {
-    border: 3px solid #b64646;
-}
-
-/*============================
-        ministry overview
-=============================*/
-#ministryHero {
-    min-height: fit-content;
-    background-color: #192434;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 3vh 5vw;
-}
-
-#ministryHero * {
-    text-align: center;
-}
-
-#ministryHero h1 {
-    font-size: clamp(2.5rem, 7.5vw, 9rem);
-    color: #e8d9b5;
-    line-height: 1;
-    border-bottom: 1px solid #e8d9b5;
-    text-shadow: 3px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-#ministryHero p {
-    font-size: clamp(0.65rem, 0.75vw, 1rem);
-    color: #e8d9b5;
-    opacity: 0.6;
-    letter-spacing: 0.08em;
-    padding: 1vh 0;
-}
-
-/* 2x2 grid of category cards */
-#ministryGrid {
+.feature>.container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    min-height: 80vh;
+    align-items: start;
+    gap: clamp(2rem, 1rem + 5vw, 6rem);
+}
+
+.feature-media img {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+}
+
+.feature-media {
+    height: 100%;
+}
+
+.feature h2 {
+    font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+}
+
+.feature-body>p {
+    max-width: 38em;
+    margin-top: .9rem;
+}
+
+.feature-body>.feature-quote {
+    margin-top: 1.5rem;
+    padding-left: 1.25rem;
+    border-left: 3px solid var(--marian);
+    font-family: var(--font-quote);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--muted);
+}
+
+.feature-body h3 {
+    margin: 2.25rem 0 .75rem;
+    font-family: var(--font-body);
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--marian);
+}
+
+.feature-body>div {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius);
+    background-color: var(--stone);
+}
+
+.feature-body>div p+p {
+    margin-top: .6rem;
+}
+
+.feature-body a[href^="mailto"],
+.feature-body a[href^="tel"] {
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 860px) {
+    .feature>.container {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-media {
+        order: -1;
+        height: auto;
+    }
+
+    .feature-media img {
+        position: static;
+        aspect-ratio: 16 / 10;
+    }
+}
+
+@media (max-width: 960px) {
+    .sacrament-index {
+        grid-template-columns: 1fr;
+    }
+}
+
+/*============================
+          donate
+=============================*/
+.give-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    align-items: start;
+    gap: clamp(1rem, .5rem + 1.5vw, 1.75rem);
+}
+
+.give-card {
+    padding: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+    border-radius: var(--radius-lg);
+    background-color: var(--paper);
+}
+
+.give-card>img {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1.5rem;
+    object-fit: contain;
+}
+
+.give-card h3 {
+    font-size: var(--fs-h3);
+}
+
+.give-card>p {
+    margin-top: .75rem;
+    color: var(--muted);
+}
+
+.paynow-list {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.paynow-list>div {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: .25rem 1rem;
+    align-items: baseline;
+    padding-block: .9rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.paynow-list dt {
+    font-weight: 700;
+}
+
+.paynow-list dd {
+    overflow-wrap: anywhere;
+}
+
+.paynow-list code {
+    padding: .15rem .55rem;
+    border-radius: 6px;
+    background-color: var(--marian-tint);
+    color: var(--marian-deep);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+}
+
+.give-card>.paynow-note {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    background-color: var(--marian-tint);
+    color: var(--marian-deep);
+}
+
+@media (max-width: 860px) {
+    .give-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .paynow-list>div {
+        grid-template-columns: 1fr;
+    }
+}
+
+/*============================
+        ministries
+=============================*/
+.ministry-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, .5rem + 1.5vw, 1.75rem);
 }
 
 .ministry-card {
-    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    text-decoration: none;
     overflow: hidden;
-    border: 1px solid #192434;
-    min-height: 40vh;
+    border-radius: var(--radius-lg);
+    background-color: var(--stone);
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+}
+
+.ministry-card:hover {
+    color: var(--ink);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
 }
 
 .ministry-card-img {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
+    aspect-ratio: 16 / 9;
     background-position: center;
-    transition: transform 0.4s ease;
-    filter: brightness(0.45);
+    background-size: cover;
+    transition: transform .6s var(--ease);
 }
 
 .ministry-card:hover .ministry-card-img {
     transform: scale(1.04);
-    filter: brightness(0.55);
 }
 
 .ministry-card-body {
     position: relative;
-    z-index: 1;
-    padding: 2rem;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.5rem 4.5rem 1.75rem 1.75rem;
+    background-color: var(--stone);
 }
 
 .ministry-card-body h2 {
-    font-size: clamp(1.1rem, 2.5vw, 2.5rem);
-    color: #e8d9b5;
-    line-height: 1.1;
+    font-size: clamp(1.5rem, 1.3rem + .7vw, 1.875rem);
 }
 
 .ministry-card-body p {
-    font-size: clamp(0.6rem, 0.9vw, 0.9rem);
-    color: rgba(232, 217, 181, 0.65);
-    letter-spacing: 0.06em;
-    padding: 0.5rem 0 0 0;
-    margin: 0;
+    margin-top: .5rem;
+    color: var(--muted);
 }
 
-/*============================
-      Ministry Sub-pages
-=============================*/
-.ministrySubHero {
-    min-height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 4vh 5vw;
-    background-size: cover;
-    background-position: center;
-    position: relative;
+.ministry-card-body::after {
+    content: "";
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.6rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background-color: var(--marian);
+    transition: transform .25s var(--ease);
 }
 
-.ministrySubHero *:not(a) {
-    text-align: center;
+.ministry-card-body::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    right: 2.275rem;
+    bottom: 2.375rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: #fff;
+    -webkit-mask: var(--i-arrow-right) center / contain no-repeat;
+    mask: var(--i-arrow-right) center / contain no-repeat;
+    transition: transform .25s var(--ease);
 }
 
-.ministrySubHero h1 {
-    font-size: clamp(2.5rem, 6vw, 7rem);
-    color: #F7FBFC;
-    line-height: 1;
+.ministry-card:hover .ministry-card-body::after,
+.ministry-card:hover .ministry-card-body::before {
+    transform: translateX(3px);
 }
 
-.ministrySubHero p {
-    font-size: clamp(0.65rem, 1.1vw, 1rem);
-    color: rgba(247, 251, 252, 0.6);
-    letter-spacing: .08em;
-    padding-top: .5vh;
-}
-
+/* ministry sub pages */
 .ministryBack {
-    font-family: Montserrat_Font;
-    font-size: clamp(.65rem, .85vw, .9rem);
-    color: rgba(247, 251, 252, .7);
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
     text-decoration: none;
-    letter-spacing: .08em;
-    margin-bottom: auto;
-    padding-top: 2vh;
-    transition: .2s;
 }
 
 .ministryBack:hover {
-    color: #F7FBFC;
+    text-decoration: underline;
 }
 
-.ministrySubContent {
-    background: #192434;
-    padding: 3vh 1vw;
+.ministrySubContent .section-title:not(:first-child) {
+    margin-top: clamp(3.5rem, 2.5rem + 3vw, 5.5rem);
 }
 
-.ministrySubContent h3 {
-    color: #F1ECDB;
-    padding: 0vh 3vw;
-    font-size: clamp(1.25rem, 2.85vw, 3.9rem);
+.ministry-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(1rem, .5rem + 1.5vw, 1.75rem);
 }
 
-.ministryContact {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    text-align: center;
-    padding: 4vh 5vw;
-    background: #192434;
-    border-top: 3px solid #F7FBFC;
-}
-
-.ministryContact p {
-    max-width: 50ch;
-    color: #e8d9b5;
-    font-size: clamp(.75rem, 1vw, 1rem);
-    opacity: .8;
-}
-
-.ministryContactBtn {
-    font-family: Montserrat_Font;
-    font-size: clamp(.65rem, .9vw, .85rem);
-    letter-spacing: .1em;
-    text-decoration: none;
-    color: #192434;
-    background: #e8d9b5;
-    border: 1px solid #e8d9b5;
-    padding: .75rem 2rem;
-    transition: .2s;
-}
-
-.ministryContactBtn:hover {
-    background: transparent;
-    color: #e8d9b5;
-}
-
-/*============================
-        Carousel
-=============================*/
-.carousel-wrapper {
-    display: flex;
-    align-items: center;
-    padding-bottom: 5vh;
-}
-
-.carousel-viewport {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    padding: 2.5vh .5vw;
-}
-
-.carousel-track {
-    display: flex;
-    gap: 1vw;
-    align-items: stretch;
-    will-change: transform;
-}
-
-.carousel-arrow {
-    width: clamp(10px, 2vw, 3vw);
-    height: clamp(10px, 2vw, 3vw);
-    flex-shrink: 0;
-    cursor: pointer;
-    background: transparent;
-    border: solid #F1ECDB;
-    border-width: 0 .45vw .45vw 0;
-}
-
-#nextBtn,
-#nextBtn1 {
-    transform: rotate(-45deg);
-}
-
-#prevBtn,
-#prevBtn1 {
-    transform: rotate(135deg);
-}
-
-/*============================
-        Cards
-=============================*/
 .proj-card {
-    width: 18.5vw;
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
     overflow: hidden;
-    cursor: pointer;
-    border-radius: 1vw;
-    background: #F7FBFC;
-    border: 1px solid rgba(25, 36, 52, .2);
-    transition: width .35s, transform .25s, box-shadow .25s;
-}
-
-.proj-card:hover:not(.open) {
-    transform: translateY(-4px);
-    box-shadow: 5px 10px 8px rgba(0, 0, 0, .15);
-}
-
-.proj-card.open {
-    width: 40vw;
-    box-shadow: 5px 10px 8px rgba(0, 0, 0, .15);
-    cursor: default;
-}
-
-.card-thumb,
-.card-thumb-placeholder {
-    width: 100%;
-    height: 40vh;
-    display: block;
-    flex-shrink: 0;
+    border-radius: var(--radius-lg);
+    background-color: var(--stone);
 }
 
 .card-thumb {
+    width: 100%;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
-    border-radius: 0;
-    box-shadow: none;
-}
-
-.card-thumb-placeholder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #3C1B0F;
-    color: #F1ECDB;
-    font-size: clamp(1rem, 2.5vw, 3rem);
+    background-color: #2E2620;
 }
 
 .card-body {
     display: flex;
-    flex-direction: column;
     flex: 1;
-    padding: 1rem 1.25rem;
+    flex-direction: column;
+    gap: .65rem;
+    padding: 1.5rem 1.5rem 1.75rem;
 }
 
 .card-title {
-    font-family: Gloock_Font;
-    font-size: clamp(0.75rem, 1.25vw, 1.5rem);
-    color: #192434;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.open .card-title {
-    white-space: normal;
-    font-size: clamp(0.9rem, 1.5vw, 1.75rem);
-}
-
-.card-detail {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height .35s, opacity .25s;
-}
-
-.open .card-detail {
-    max-height: 55vh;
-    opacity: 1;
+    font-size: 1.4375rem;
+    line-height: 1.25;
 }
 
 .card-desc {
-    padding: 1vh 0;
-    font-size: clamp(0.65rem, 1.15vw, 1.25rem);
-    line-height: 1.5;
-    color: #192434;
+    color: var(--muted);
+    font-size: 1.0625rem;
+    line-height: 1.6;
 }
 
 .card-link {
-    display: inline-block;
-    padding: 1vh 1vw;
-    border-radius: 1vw;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.875rem;
+    margin-top: auto;
+    padding: .5rem 1.15rem;
+    border: 1.5px solid currentColor;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 600;
     text-decoration: none;
-    font-size: clamp(0.65rem, 1vw, 1.25rem);
-    color: #F1ECDB;
-    background: #192434;
+    transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
 }
 
 .card-link:hover {
-    background: #2c3e50;
+    border-color: var(--marian);
+    background-color: var(--marian);
+    color: #fff;
 }
 
-.tags {
-    display: none;
+.ministryContact {
+    padding-block: var(--section-y);
+    background-color: var(--stone);
+    text-align: center;
+}
+
+.ministryContact p {
+    max-width: 24em;
+    margin-inline: auto;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem);
+    line-height: 1.3;
+}
+
+.ministryContact .btn {
+    margin-top: 2rem;
+}
+
+@media (max-width: 760px) {
+    .ministry-cards {
+        grid-template-columns: 1fr;
+    }
 }
 
 /*============================
-        abt page  
+        about page
 =============================*/
-.abtPg::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.238), #c9480263), url('../image/church_2.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    filter: blur(4px);
-    transform: scale(1.15);
-    z-index: -1;
+.about-text h2 {
+    font-size: var(--fs-h2);
+    text-transform: uppercase;
+    letter-spacing: .03em;
 }
 
-#abtMenu * {
-    color: #F7FBFC;
+.about-text p {
+    margin-top: 1rem;
+    color: var(--muted);
 }
-
-#abtMenu>div:nth-child(1)>h1 {
-    text-align: center;
-    align-self: self-end;
-    font-size: clamp(3rem, 10vw, 12rem);
-}
-
-#abtMenu>div:nth-child(1)>div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    max-width: 100vw;
-    min-width: 90vw;
-}
-
-#abtMenu>div:nth-child(1) a {
-    font-size: clamp(0.85rem, 2vw, 2.5rem);
-    border: solid 5px #F7FBFC;
-    border-radius: 3vw;
-    min-width: 20vw;
-    text-decoration: none;
-    background-color: #e8d9b52e;
-}
-
-#abtMenu>div {
-    min-height: 105vh;
-    display: grid;
-    grid-template-rows: 3fr 1fr 1fr;
-    text-align: center;
-    place-items: center;
-}
-
-.abtPg section:not(#abtMenu) {
-    min-height: 105vh;
-    background-color: #e8d9b5;
-    border-top: 3px solid #F7FBFC;
-}
-
-#abtChurch {
-    background-color: transparent !important;
-    background-image: linear-gradient(to bottom, transparent, #3c3024c7);
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    grid-template-rows: 1fr;
-    padding: 5vh 3vw;
-}
-
-#abtChurch img {
-    max-width: 35vw;
-}
-
-#abtChurch * {
-    text-align: left;
-    color: #F7FBFC;
-}
-
-#abtChurch h1 {
-    font-size: clamp(2.5rem, 7.85vw, 8.9rem);
-}
-
 
 /*============================
-        MOBILE — max 768px
+    reduced motion
 =============================*/
-@media (max-width: 768px) {
-
-    /* --- nav --- */
-    .menuGrid {
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto;
-        padding: 2vh 3vw;
-        gap: 1vh;
-    }
-
-
-    .menuGrid div:nth-child(1) {
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    .menuGrid div:nth-child(2) {
-        grid-column: 2;
-        grid-row: 1;
-    }
-
-    .menuGrid div:nth-child(2) * {
-        font-size: clamp(0.7rem, 3vw, 1rem);
-    }
-
-    .menuGrid img {
-        max-height: 10vh;
-    }
-
-    #massSchedule>div:nth-of-type(1)>div:nth-child(2),
-    #massSchedule>div:nth-of-type(1)>div:nth-child(3) {
-        display: none;
-    }
-
-    #massSchedule>div:nth-of-type(1)>div:nth-child(1) {
-        grid-column: 1 / span 2;
-        grid-row: 1;
-    }
-
-    #massSchedule>div:nth-of-type(1)>div:nth-child(1)>img {
-        max-width: 90vw;
-        width: 100%;
-    }
-
-    #confessionSch>div {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-    }
-
-    #confessionSch>div>div:nth-of-type(1) {
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    /* img moves above the dashed box */
-    #confessionSch>div>div:nth-of-type(3) {
-        grid-column: 1;
-        grid-row: 2;
-        justify-self: center;
-    }
-
-    #confessionSch>div>div:nth-of-type(2) {
-        grid-column: 1;
-        grid-row: 3;
-    }
-
-    #confessionSch img {
-        max-width: 80vw;
-    }
-
-    #confessionSch>div>div:nth-of-type(2)>div>p {
-        font-size: clamp(0.9rem, 4vw, 1.25rem);
-    }
-
-    .menuGrid nav {
-        grid-column: 1 / span 2;
-        grid-row: 2;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 1vh 0;
-    }
-
-    .menuGrid>nav>button>a {
-        font-size: clamp(0.55rem, 2.5vw, 0.75rem);
-    }
-
-    /* --- footer --- */
-    footer {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        padding: 2rem 5vw;
-        gap: 2rem;
-    }
-
-    footer>.logo {
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    footer>div:nth-of-type(2) {
-        grid-column: 1;
-        grid-row: 2;
-    }
-
-    footer>div:nth-of-type(3) {
-        grid-column: 1;
-        grid-row: 3;
-    }
-
-    footer>div:nth-of-type(4) {
-        grid-column: 1;
-        grid-row: 4;
-    }
-
-    footer>h6 {
-        grid-column: 1;
-        grid-row: 5;
-        max-width: 100%;
-        font-size: 0.65rem;
-    }
-
-    footer img {
-        width: clamp(50px, 15vw, 80px);
-    }
-
-    footer>div>h4 {
-        font-size: clamp(0.9rem, 4vw, 1.25rem);
-    }
-
-    footer>div>p {
-        font-size: clamp(0.7rem, 3vw, 0.9rem);
-    }
-
-    footer button {
-        font-size: clamp(0.7rem, 3vw, 0.9rem);
-    }
-
-    footer>div {
-        border-bottom: 1px solid rgba(47, 62, 70, 0.2);
-        padding-bottom: 1.5rem;
-    }
-
-    footer>div:nth-of-type(1) {
-        width: 100%;
-        align-items: center;
-        display: grid;
-        justify-items: center;
-    }
-
-    /* --- home --- */
-    #home>div:nth-child(1) {
-        padding: 2vh 0vw;
-    }
-
-    #home>div:nth-child(1)>h1 {
-        font-size: clamp(2.5rem, 14vw, 5rem);
-
-    }
-
-    #home>div:nth-child(1)>div {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    #home>div:nth-child(1) a {
-        font-size: clamp(0.85rem, 4vw, 1.25rem);
-        min-width: 60vw;
-        text-align: center;
-        padding: 1vh 2vw;
-    }
-
-    /* --- mass schedule --- */
-    #massSchedule {
-        grid-template-columns: 1fr;
-        min-height: unset;
-    }
-
-    #massSchedule h1 {
-        grid-column: 1;
-        font-size: clamp(1.5rem, 7vw, 3rem);
-    }
-
-    #massSchedule>div:nth-of-type(1) {
-        grid-column: 1;
-        border-right: none;
-        display: flex;
-        flex-direction: column;
-        padding: 2vh 4vw;
-        gap: 2vh;
-    }
-
-    /* show only first image, hide the rest */
-    #massSchedule>div:nth-of-type(1)>div:nth-child(2),
-    #massSchedule>div:nth-of-type(1)>div:nth-child(3) {
-        display: none;
-    }
-
-    #massSchedule>div:nth-of-type(1)>div:nth-child(1) {
-        width: 100%;
-        order: -1;
-        /* force image to top */
-    }
-
-    #massSchedule>div:nth-of-type(1)>div:nth-child(1)>img {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        display: block;
-    }
-
-    #massSchedule>div:nth-of-type(2) {
-        grid-row: 3;
-        grid-column: 1;
-        padding: 3vh 4vw;
-    }
-
-    #massSchedule h3 {
-        font-size: clamp(1rem, 5vw, 1.5rem);
-        padding-top: 2vh;
-    }
-
-    #massSchedule p {
-        font-size: clamp(0.75rem, 3.5vw, 1rem);
-    }
-
-    #massSchedule #mass>h4 {
-        font-size: clamp(1.25rem, 6vw, 2rem);
-    }
-
-    #massSchedule #mass>h4>small {
-        font-size: clamp(0.65rem, 3vw, 1rem);
-    }
-
-    /* --- holy hour --- */
-    #holyHour>h1 {
-        font-size: clamp(2.5rem, 14vw, 5rem);
-    }
-
-    #holyHour>div {
-        grid-template-columns: 1fr;
-        padding-top: 5vh;
-    }
-
-    #holyHour>div>div {
-        padding: 1vh 0vw;
-    }
-
-    #holyHour>div>div:nth-of-type(2) {
-        border: none;
-        border-top: 5px solid #F7FBFC;
-        border-bottom: 5px solid #F7FBFC;
-    }
-
-    #holyHour>div p {
-        font-size: clamp(0.75rem, 4vw, 1.25rem);
-    }
-
-    #holyHour>div img {
-        width: clamp(25px, 8vw, 50px);
-    }
-
-    /* --- clergy --- */
-    #mainParish {
-        grid-template-columns: 1fr;
-        background-image: none;
-        padding: 4vh 5vw;
-        border-bottom: 2px solid #F7FBFC;
-    }
-
-    #mainParish>div {
-        grid-column: 1;
-    }
-
-    #mainParish h1 {
-        font-size: clamp(2.5rem, 14vw, 5rem);
-    }
-
-    #mainParish h2 {
-        font-size: clamp(1.1rem, 5vw, 1.75rem);
-        padding-top: 3vh;
-    }
-
-    #mainParish p {
-        font-size: clamp(0.7rem, 3.5vw, 1rem);
-    }
-
-    #otherParishPriests {
-        flex-direction: column;
-        align-items: center;
-        gap: 3vh;
-        padding: 4vh 5vw;
-        background-image: none;
-    }
-
-    #priest {
-        min-height: unset;
-    }
-
-    #priest img {
-        max-width: 70vw;
-    }
-
-    #priest>h3 {
-        font-size: clamp(1rem, 5vw, 1.5rem);
-    }
-
-    .directoryList {
-        grid-template-columns: 1fr;
-    }
-
-    #officeHours {
-        grid-row: auto;
-        grid-column: 1;
-    }
-
-    .directoryItem h3 {
-        font-size: clamp(0.9rem, 4vw, 1.25rem);
-    }
-
-    .directoryItem p {
-        font-size: clamp(0.7rem, 3vw, 1rem);
-    }
-
-    .officeHoursTable {
-        font-size: clamp(0.65rem, 3vw, 1rem);
-    }
-
-    #officeDirectory h1 {
-        font-size: clamp(1.75rem, 8vw, 3rem);
-    }
-
-    /* --- sacrament menu --- */
-    .sacramentNPastroalMenue {
-        grid-template-columns: 1fr;
-    }
-
-    .sacramentMenue {
-        grid-column: 1;
-        min-height: 60vh;
-        background-size: auto 50%;
-        padding: 4vh 5vw;
-    }
-
-    .pastroalMenue {
-        grid-column: 1;
-        min-height: 60vh;
-        background-size: auto 50%;
-        padding: 4vh 5vw;
-    }
-
-    .sacramentMenue h1,
-    .pastroalMenue h1 {
-        font-size: clamp(2.5rem, 12vw, 5rem);
-    }
-
-    .sacramentMenue p,
-    .pastroalMenue p {
-        font-size: clamp(0.65rem, 3vw, 0.9rem);
-        margin-bottom: 1rem;
-    }
-
-    .sacramentMenue a,
-    .pastroalMenue a {
-        font-size: clamp(0.6rem, 3vw, 0.85rem);
-        padding: 0.5rem 1rem;
-    }
-
-    /* breaker sections */
-    #sacrament,
-    #pastroal {
-        grid-template-columns: 1fr;
-    }
-
-    #sacrament>div:nth-of-type(1),
-    #pastroal>div:nth-of-type(2) {
-        min-height: 30vh;
-        border-radius: 0;
-    }
-
-    #sacrament h3,
-    #pastroal h3 {
-        font-size: clamp(1.1rem, 5vw, 2rem);
-    }
-
-    /* sacrament content sections — single col, img first */
-    .left,
-    .right {
-        grid-template-columns: 1fr;
-    }
-
-    /* image always comes first on mobile */
-    .left>div:nth-of-type(2) {
-        order: -1;
-    }
-
-    .right>div:nth-of-type(1) {
-        order: -1;
-    }
-
-    #confession img,
-    #sick img,
-    #wedding img,
-    #infant img,
-    #rcia img,
-    #house img,
-    #catechism img {
-        width: 80vw;
-    }
-
-    .sacramentpg main>section:not(.sacramentNPastroalMenue) h2 {
-        font-size: clamp(1.75rem, 8vw, 3rem);
-    }
-
-    .sacramentpg main>section:not(.sacramentNPastroalMenue) p {
-        font-size: clamp(0.7rem, 3.5vw, 1rem);
-        padding: 1.5vh 0;
-    }
-
-    #confession h3,
-    #wedding h3,
-    #infant h3,
-    #rcia h3,
-    #house h3,
-    #catechism h3 {
-        font-size: clamp(0.9rem, 5vw, 1.5rem);
-    }
-
-    /* hospital table on mobile — stack cells */
-    #sick {
-        grid-template-columns: 1fr;
-    }
-
-    #sick table {
-        grid-column: 1;
-    }
-
-    #hospitalTable {
-        font-size: clamp(0.55rem, 2.5vw, 0.75rem);
-    }
-
-    #hospitalTable th:first-child,
-    #hospitalTable td:first-child {
-        width: 35%;
-    }
-
-    /* --- donation --- */
-    #donationTop {
-        grid-template-columns: 1fr;
-        min-height: 50vh;
-    }
-
-    #donationTop>h1 {
-        font-size: clamp(2rem, 14vw, 5rem);
-        justify-self: center;
-    }
-
-    #donationTop>p {
-        grid-column: 1;
-    }
-
-    #donationInfo>div>div {
-        grid-template-columns: 1fr;
-    }
-
-    #cash {
-        border-right: none;
-        border-bottom: 3px solid #192434;
-    }
-
-    #donationInfo h1 {
-        font-size: clamp(1.75rem, 8vw, 3rem);
-    }
-
-    #donationInfo h3 {
-        font-size: clamp(1.1rem, 5vw, 2rem);
-    }
-
-    #paynow div>p {
-        font-size: clamp(0.65rem, 3vw, 1rem);
-    }
-
-    /* --- ministry --- */
-    #ministryGrid {
-        grid-template-columns: 1fr;
-    }
-
-    .ministry-card {
-        min-height: 35vh;
-    }
-
-    .ministry-card-body h2 {
-        font-size: clamp(1.1rem, 6vw, 2rem);
-    }
-
-    .ministry-card-body p {
-        font-size: clamp(0.65rem, 3vw, 0.9rem);
-    }
-
-    .ministrySubHero h1 {
-        font-size: clamp(2rem, 10vw, 4rem);
-    }
-
-    .ministrySubContent h3 {
-        font-size: clamp(1rem, 5vw, 1.75rem);
-    }
-
-    /* carousel on mobile — show fewer cards */
-    .proj-card {
-        width: 72vw;
-        border-radius: 3vw;
-    }
-
-    .proj-card.open {
-        width: 85vw;
-    }
-
-    .card-title {
-        font-size: clamp(0.85rem, 4vw, 1.25rem);
-    }
-
-    .card-desc {
-        font-size: clamp(0.7rem, 3.5vw, 1rem);
-    }
-
-    .card-link {
-        font-size: clamp(0.7rem, 3.5vw, 1rem);
-    }
-
-    .card-thumb,
-    .card-thumb-placeholder {
-        height: 30vh;
-    }
-
-    .carousel-arrow {
-        width: clamp(8px, 3.5vw, 16px);
-        height: clamp(8px, 3.5vw, 16px);
-        border-width: 0 2px 2px 0;
-    }
-
-    /* --- about --- */
-    #abtChurch {
-        grid-template-columns: 1fr;
-    }
-
-    #abtChurch img {
-        max-width: 90vw;
-    }
-
-    #abtChurch h1 {
-        font-size: clamp(2rem, 10vw, 4rem);
-    }
-
-    #abtMenu>div:nth-child(1)>h1 {
-        font-size: clamp(2.5rem, 14vw, 5rem);
-    }
-
-    #abtMenu>div:nth-child(1)>div {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    #abtMenu>div:nth-child(1) a {
-        font-size: clamp(0.85rem, 4vw, 1.25rem);
-        min-width: 60vw;
-    }
-
-    /* contact us*/
-    #contactMenu>div:nth-child(1)>div {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    #contactMenu>div:nth-child(1) a {
-        min-width: 60vw;
-        font-size: clamp(0.85rem, 4vw, 1.25rem);
-    }
-
-    #mainParish>div {
-        grid-column: 2;
-        display: flex;
-        flex-direction: column;
-    }
-
-    #mainParish {
-        grid-template-columns: 1fr;
-        min-height: fit-content;
-    }
-
-    #mainPriestPhoto {
-        display: flex;
-        max-height: fit-content;
-        grid-column: 1;
-        padding: 2vh 5vw;
-    }
-
-    #mainPriestPhoto img {
-        max-width: 70vw;
-    }
-}
-
-/* mobile short description (less text on small screens) */
-@media (max-width: 768px) {
-    .mobile-short {
-        display: block;
-    }
-
-    .mobile-hide {
-        display: none;
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
     }
-}
 
-@media (min-width: 769px) {
-    .mobile-short {
-        display: none;
+    *,
+    *::before,
+    *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
     }
 
-    .mobile-hide {
-        display: block;
+    .scrollable-Horizontal {
+        overflow-x: auto;
     }
 }

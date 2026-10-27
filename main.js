@@ -35,17 +35,86 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+const prefersLessMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ================================
-//   CONTACT US — highlight today's office hours
+//   HEADER SHADOW & BACK TO TOP
 // ================================
 document.addEventListener('DOMContentLoaded', () => {
-  const rows = document.querySelectorAll('.officeHoursTable tr');
-  if (!rows.length) return;
+  const header = document.querySelector('.site-header');
 
+  const toTop = document.createElement('button');
+  toTop.type = 'button';
+  toTop.className = 'to-top';
+  toTop.setAttribute('aria-label', 'Back to top');
+  toTop.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+  toTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: prefersLessMotion ? 'auto' : 'smooth' });
+  });
+  document.body.appendChild(toTop);
+
+  function onScroll() {
+    if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
+    toTop.classList.toggle('is-shown', window.scrollY > window.innerHeight * 1.2);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+});
+
+// ================================
+//   TODAY — highlight today's Mass and office hours
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', timeZone: 'Asia/Singapore' });
-  rows.forEach(row => {
+  const isWeekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].includes(today);
+
+  // home page: Mass timings
+  document.querySelectorAll('.mass-row').forEach(row => {
+    const day = row.querySelector('h4').textContent.trim();
+    if (day === today || (isWeekday && day === 'Monday - Friday')) row.classList.add('is-today');
+  });
+
+  // contact us: office hours
+  document.querySelectorAll('.officeHoursTable tr').forEach(row => {
     if (row.cells[0].textContent.trim() === today) row.classList.add('is-today');
   });
+});
+
+// ================================
+//   PARALLAX — full-bleed photos drift slightly as you scroll (larger screens only)
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
+  const photos = document.querySelectorAll('[data-parallax]');
+  if (!photos.length || prefersLessMotion) return;
+
+  const largeScreen = window.matchMedia('(min-width: 861px)');
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    photos.forEach(img => {
+      if (!largeScreen.matches) {
+        img.style.transform = '';
+        return;
+      }
+      const box = img.parentElement.getBoundingClientRect();
+      if (box.bottom < 0 || box.top > window.innerHeight) return;
+
+      // -1 when the photo enters at the bottom, 1 when it leaves at the top
+      const progress = (window.innerHeight / 2 - (box.top + box.height / 2)) / (window.innerHeight / 2 + box.height / 2);
+      img.style.transform = `translate3d(0, ${(progress * 28).toFixed(1)}px, 0) scale(1.1)`;
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 });
 
 // ================================
@@ -56,7 +125,7 @@ window.addEventListener('load', () => {
   if (!track) return;
 
   // people who prefer less motion can scroll the gallery themselves
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (prefersLessMotion) return;
 
   const viewport = track.parentElement;
   const imgs = track.querySelectorAll('img');
@@ -284,4 +353,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const items = MINISTRY_GROUPS[list.dataset.ministries] || [];
     items.forEach(item => list.appendChild(buildCard(item)));
   });
+});
+
+// ================================
+//   GENTLE REVEAL — content further down fades up as it scrolls into view
+//   (kept last so it also picks up the ministry cards built above)
+// ================================
+const REVEAL_SELECTOR = [
+  '.section-title', '.mass-group', '.mass-row', '.info-card', '.verse', '.split-media', '.holy-list li',
+  '.directoryItem', '.priest', '.quote-band blockquote', '.quote-media', '.feature > .container > *',
+  '.ministry-card', '.proj-card', '.give-card', '.ministryContact .container > *', '.about-text',
+].join(', ');
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (prefersLessMotion || !('IntersectionObserver' in window)) return;
+
+  let heardBack = false;
+  const observer = new IntersectionObserver(entries => {
+    heardBack = true;
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.classList.add('is-visible');
+      observer.unobserve(el);
+
+      // hand the element back to its normal styles (hover effects etc.) once it has settled
+      setTimeout(() => {
+        el.classList.remove('reveal', 'is-visible');
+        el.style.removeProperty('--reveal-delay');
+      }, 1200);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+
+  document.querySelectorAll(REVEAL_SELECTOR).forEach(el => {
+    // anything already on screen stays as it is; only content further down animates
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+
+    // neighbours in the same row arrive one after another
+    const siblings = [...el.parentElement.children].filter(child => child.matches(REVEAL_SELECTOR));
+    el.style.setProperty('--reveal-delay', `${Math.min(siblings.indexOf(el), 4) * 80}ms`);
+
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+
+  // safety net: if the observer never reports back, show everything rather than leave it hidden
+  setTimeout(() => {
+    if (heardBack) return;
+    observer.disconnect();
+    document.querySelectorAll('.reveal').forEach(el => el.classList.remove('reveal'));
+  }, 3000);
 });

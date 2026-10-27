@@ -277,6 +277,12 @@ main {
     -webkit-backdrop-filter: saturate(1.4) blur(12px);
     backdrop-filter: saturate(1.4) blur(12px);
     border-bottom: 1px solid var(--line);
+    transition: box-shadow .3s var(--ease);
+}
+
+/* soft shadow once the page is scrolled (set by main.js) */
+.site-header.is-scrolled {
+    box-shadow: 0 14px 30px -22px rgba(28, 37, 48, .45);
 }
 
 .header-inner {
@@ -833,41 +839,103 @@ main {
 }
 
 /* ======================
-         mass schedule
+    full-bleed photo + text
+    (photo runs to the edge of the screen, text lines up with the page)
 ========================*/
-.mass-layout {
+.bleed {
+    --bleed-edge: max(var(--gutter), calc((100vw - 1200px) / 2 + var(--gutter)));
+    --bleed-inner: clamp(2rem, 1rem + 4vw, 5.5rem);
     display: grid;
     grid-template-columns: 5fr 7fr;
-    align-items: start;
-    gap: clamp(2rem, 1rem + 5vw, 6rem);
+    align-items: stretch;
 }
 
-.mass-media {
+.bleed--media-right {
+    grid-template-columns: 7fr 5fr;
+}
+
+.bleed-media {
     position: relative;
-    padding: 0 14% 22% 0;
+    overflow: hidden;
+    min-height: clamp(420px, 62vh, 760px);
+    background-color: var(--stone);
 }
 
-.mass-media img {
+.bleed-media>img {
+    position: absolute;
+    inset: 0;
     width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.mass-media>div:first-child img {
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius-lg);
+.bleed-body {
+    align-self: center;
+    padding-block: var(--section-y);
+    padding-inline: var(--bleed-inner) var(--bleed-edge);
 }
 
-.mass-media>div:last-child {
+.bleed--media-right .bleed-body {
+    padding-inline: var(--bleed-edge) var(--bleed-inner);
+}
+
+.bleed--dark {
+    background-color: var(--marian-deep);
+    color: var(--on-dark);
+}
+
+.bleed--dark .bleed-media {
+    background-color: var(--ink);
+}
+
+.bleed--hero .bleed-body {
+    padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+.bleed--hero .bleed-media {
+    min-height: clamp(440px, 72vh, 760px);
+}
+
+@media (max-width: 860px) {
+
+    .bleed,
+    .bleed--media-right {
+        grid-template-columns: 1fr;
+    }
+
+    .bleed-media,
+    .bleed--hero .bleed-media {
+        min-height: 0;
+        aspect-ratio: 16 / 10;
+    }
+
+    .bleed-body,
+    .bleed--media-right .bleed-body {
+        padding: clamp(2.5rem, 2rem + 4vw, 4rem) var(--gutter) var(--section-y);
+    }
+
+    .bleed--hero .bleed-body {
+        padding-bottom: 2.5rem;
+    }
+}
+
+/* ======================
+         mass schedule
+========================*/
+.mass-inset {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 62%;
+    z-index: 1;
+    right: clamp(1rem, 2.5vw, 2.5rem);
+    bottom: clamp(1rem, 2.5vw, 2.5rem);
+    width: min(46%, 300px);
 }
 
-.mass-media>div:last-child img {
+.mass-inset img {
+    width: 100%;
     aspect-ratio: 4 / 3;
-    border: 6px solid var(--paper);
-    border-radius: calc(var(--radius) + 6px);
+    object-fit: cover;
+    border: 5px solid var(--paper);
+    border-radius: calc(var(--radius) + 5px);
     box-shadow: var(--shadow);
 }
 
@@ -927,31 +995,53 @@ main {
     white-space: nowrap;
 }
 
+/* today's Mass, marked by main.js */
+.mass-row.is-today {
+    position: relative;
+}
+
+.mass-row.is-today::before {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: -.85rem;
+    width: 3px;
+    border-radius: 3px;
+    background-color: var(--marian);
+}
+
+.mass-row.is-today h4,
+.mass-row.is-today .mass-time {
+    color: var(--marian);
+}
+
+.mass-row.is-today h4::after,
+.officeHoursTable tr.is-today td:first-child::after {
+    content: "Today";
+    display: inline-block;
+    margin-left: .5rem;
+    padding: .12rem .5rem;
+    border-radius: 999px;
+    background-color: var(--marian);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    vertical-align: .15em;
+}
+
+.mass-row.is-today h4::after {
+    display: table;
+    margin: .3rem 0 0;
+}
+
 @media (max-width: 860px) {
-    .mass-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .mass-media {
-        order: 2;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        padding: 0;
-    }
-
-    .mass-media>div:last-child {
-        position: static;
-        width: auto;
-    }
-
-    .mass-media>div img,
-    .mass-media>div:first-child img,
-    .mass-media>div:last-child img {
-        aspect-ratio: 1;
-        border: 0;
-        border-radius: var(--radius);
-        box-shadow: none;
+    .mass-inset {
+        width: 40%;
     }
 }
 
@@ -1053,19 +1143,6 @@ main {
 /* ======================
          holy hour
 ========================*/
-.holy-panel {
-    display: grid;
-    grid-template-columns: 7fr 5fr;
-    overflow: hidden;
-    border-radius: var(--radius-lg);
-    background-color: var(--marian-deep);
-    color: var(--on-dark);
-}
-
-.holy-body {
-    padding: clamp(2rem, 1rem + 4vw, 4.5rem);
-}
-
 .holy-body .section-title {
     margin-bottom: .75rem;
     color: var(--on-dark);
@@ -1097,30 +1174,6 @@ main {
     padding: .8rem;
     border: 1px solid rgba(247, 244, 238, .35);
     border-radius: 50%;
-}
-
-.holy-media {
-    position: relative;
-    min-height: 100%;
-}
-
-.holy-media img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-@media (max-width: 860px) {
-    .holy-panel {
-        grid-template-columns: 1fr;
-    }
-
-    .holy-media {
-        order: -1;
-        aspect-ratio: 16 / 10;
-    }
 }
 
 /*============================
@@ -1205,16 +1258,6 @@ main {
 .officeHoursTable tr.is-today td {
     color: var(--marian);
     font-weight: 650;
-}
-
-.officeHoursTable tr.is-today td:first-child::before {
-    content: "";
-    display: inline-block;
-    width: .5rem;
-    height: .5rem;
-    margin: 0 .55rem .12rem 0;
-    border-radius: 50%;
-    background-color: currentColor;
 }
 
 /* priests */
@@ -1821,6 +1864,124 @@ main {
 .about-text p {
     margin-top: 1rem;
     color: var(--muted);
+}
+
+/*============================
+    back to top
+=============================*/
+.to-top {
+    position: fixed;
+    z-index: 40;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--ink);
+    color: var(--paper);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity .3s var(--ease), transform .3s var(--ease), visibility .3s, background-color .2s var(--ease);
+}
+
+.to-top.is-shown {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.to-top:hover {
+    background-color: var(--marian);
+}
+
+.to-top:focus-visible {
+    outline-offset: 4px;
+    border-radius: 50%;
+}
+
+.to-top svg {
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+/*============================
+    motion (kept gentle)
+=============================*/
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes settle {
+    from {
+        transform: scale(1.08);
+    }
+
+    to {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+    /* page opening: heading, text and buttons ease in one after another */
+    .hero-text>*,
+    .page-hero-grid>div:first-child>*,
+    .bleed--hero .bleed-body>*,
+    .sacrament-index>* {
+        animation: rise .8s var(--ease) both;
+    }
+
+    :is(.hero-text, .page-hero-grid>div:first-child, .bleed--hero .bleed-body, .sacrament-index)>:nth-child(2) {
+        animation-delay: .08s;
+    }
+
+    :is(.hero-text, .page-hero-grid>div:first-child, .bleed--hero .bleed-body)>:nth-child(3) {
+        animation-delay: .16s;
+    }
+
+    :is(.hero-text, .page-hero-grid>div:first-child, .bleed--hero .bleed-body)>:nth-child(4) {
+        animation-delay: .24s;
+    }
+
+    .hero-media,
+    .page-hero-media {
+        animation: rise 1s .2s var(--ease) both;
+    }
+
+    .hero-media img {
+        animation: settle 1.8s var(--ease) both;
+    }
+
+    /* content further down fades up as it scrolls into view (classes set by main.js) */
+    .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity .7s var(--ease), transform .7s var(--ease);
+        transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    .reveal.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    [data-parallax] {
+        will-change: transform;
+    }
 }
 
 /*============================

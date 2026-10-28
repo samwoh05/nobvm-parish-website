@@ -894,20 +894,20 @@ main {
 }
 
 .hero--portal.portal-ready {
-    --stage-h: calc(100vh - var(--header-h));
+    --stage-h: calc(100vh - var(--header-live, var(--header-h)));
     height: calc(var(--stage-h) * 1.8);
     padding: 0;
 }
 
 @supports (height: 100svh) {
     .hero--portal.portal-ready {
-        --stage-h: calc(100svh - var(--header-h));
+        --stage-h: calc(100svh - var(--header-live, var(--header-h)));
     }
 }
 
 .portal-ready .hero-stage {
     position: sticky;
-    top: var(--header-h);
+    top: var(--header-live, var(--header-h));
     display: flex;
     align-items: center;
     height: var(--stage-h);
@@ -947,6 +947,7 @@ main {
     inset: 0;
     background: linear-gradient(90deg, rgba(14, 22, 34, .82) 0%, rgba(14, 22, 34, .6) 42%, rgba(14, 22, 34, .18) 100%);
     opacity: var(--shade, 0);
+    transition: opacity .35s var(--ease);
 }
 
 @keyframes fade-in {

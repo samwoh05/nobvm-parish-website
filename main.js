@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const stage = hero.querySelector('.hero-stage');
   const grid = hero.querySelector('.hero-grid');
   const frame = hero.querySelector('.hero-portal-frame');
+  const text = hero.querySelector('.hero-text');
   const bg = hero.querySelector('.hero-bg');
   const photo = bg.querySelector('img');
   const header = document.querySelector('.site-header');
@@ -137,16 +138,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const ease = t => t * t * (3 - 2 * t);
 
   let start = null;
+  let textBox = null;
   let ticking = false;
 
   function measure() {
-    document.documentElement.style.setProperty('--header-h', `${header ? header.offsetHeight : 84}px`);
+    // the header's real height, for the sticky stage only (never fed back into the header itself)
+    hero.style.setProperty('--header-live', `${header ? header.offsetHeight : 84}px`);
     // where the arch frame sits inside the stage (offsets ignore the opening animation's movement)
     start = {
       x: grid.offsetLeft + frame.offsetLeft,
       y: grid.offsetTop + frame.offsetTop,
       w: frame.offsetWidth,
       h: frame.offsetHeight,
+    };
+    textBox = {
+      x: grid.offsetLeft + text.offsetLeft,
+      y: grid.offsetTop + text.offsetTop,
+      w: text.offsetWidth,
+      h: text.offsetHeight,
     };
   }
 
@@ -186,8 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const fy = lerp(ty0 + STATUE.y * s0, ty1 + STATUE.y * s1, t);
     photo.style.transform = `translate3d(${(fx - STATUE.x * s).toFixed(1)}px, ${(fy - STATUE.y * s).toFixed(1)}px, 0) scale(${s.toFixed(4)})`;
 
-    bg.style.setProperty('--shade', t.toFixed(3));
-    hero.classList.toggle('is-open', t > .45);
+    // the moment the photo reaches the heading and buttons: dim it and turn the text light,
+    // so the text is never dark-on-photo
+    const behindText = x < textBox.x + textBox.w && x + w > textBox.x && y < textBox.y + textBox.h && y + h > textBox.y;
+    bg.style.setProperty('--shade', behindText ? Math.max(t, .6).toFixed(3) : '0');
+    hero.classList.toggle('is-open', behindText);
   }
 
   function requestUpdate() {
@@ -203,6 +215,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', requestUpdate, { passive: true });
   window.addEventListener('resize', () => { measure(); update(); });
+
+  // re-measure whenever the layout settles or shifts (fonts arriving, header height, screen size)
+  if ('ResizeObserver' in window) {
+    const watcher = new ResizeObserver(() => { measure(); update(); });
+    [stage, grid, frame, text, header].forEach(el => { if (el) watcher.observe(el); });
+  }
   if (document.fonts) document.fonts.ready.then(() => { measure(); update(); });
 });
 

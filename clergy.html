@@ -25,13 +25,13 @@
     <link rel="preload" href="font/Gloock-Regular.woff" as="font" type="font/woff" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
     <!-- link to external css file under css folder -->
-    <link href="css/style.css?v=20261028-8" type="text/css" rel="stylesheet">
+    <link href="css/style.css?v=20261028-10" type="text/css" rel="stylesheet">
 
     <!-- link to external js file -->
-    <script src="main.js?v=20261028-8" defer></script>
+    <script src="main.js?v=20261028-10" defer></script>
     <!-- <link rel="manifest" href="manifest.json"> -->
 
     <meta name="theme-color" content="#FAF8F4">
@@ -183,47 +183,57 @@
             </div>
         </section>
 
-        <!-- Parish priests -->
-        <section id="mainParish" class="section section--stone">
+        <!-- Parish priests (editorial layout) -->
+        <section id="mainParish" class="section priests-editorial">
             <div class="container">
-                <h2 class="section-title">Our Priests</h2>
+                <div class="priests-head">
+                    <h2 class="priests-title">Our<br>Priests</h2>
+                    <ul class="priests-index" aria-label="Our priests">
+                        <li><a href="#priest-giang">Rev Fr Gregoire van Giang</a></li>
+                        <li><a href="#priest-john">Rev Fr Sam Thadatheil John</a></li>
+                        <li><a href="#priest-wee">Rev Fr Kevin Wee</a></li>
+                    </ul>
+                </div>
                 <div class="priest-grid">
-                    <div class="priest">
-                        <div class="priest-photo arch" id="mainPriestPhoto">
-                            <img src="image/gregoire.jpg" alt="Rev Fr Gregoire van Giang" width="458" height="458"
-                                loading="lazy">
+                    <article class="priest" id="priest-giang">
+                        <div class="priest-photo" id="mainPriestPhoto">
+                            <img src="image/gregoire.jpg" alt="Rev Fr Gregoire van Giang" width="458" height="458" loading="lazy">
                         </div>
-                        <h3>Rev Fr Gregoire van Giang</h3>
-                        <p class="priest-role">Parish Priest</p>
-                        <div class="priest-contact">
-                            <p>Phone: <a href="tel:+6567379285">+65 6737 9285</a></p>
-                            <p>Email: <a href="mailto:giang@catholic.org.sg">giang@catholic.org.sg</a></p>
+                        <div class="priest-caption">
+                            <h3>Rev Fr Gregoire van Giang</h3>
+                            <p class="priest-role">Parish Priest</p>
+                            <div class="priest-contact">
+                                <p>Phone: <a href="tel:+6567379285">+65 6737 9285</a></p>
+                                <p>Email: <a href="mailto:giang@catholic.org.sg">giang@catholic.org.sg</a></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="priest">
-                        <div class="priest-photo arch">
-                            <img src="image/john.jpg" alt="Rev Fr Sam Thadatheil John" width="458" height="458"
-                                loading="lazy">
+                    </article>
+                    <article class="priest priest--caption-first" id="priest-john">
+                        <div class="priest-photo">
+                            <img src="image/john.jpg" alt="Rev Fr Sam Thadatheil John" width="458" height="458" loading="lazy">
                         </div>
-                        <h3>Rev Fr Sam Thadatheil John</h3>
-                        <p class="priest-role">Assistant Priest</p>
-                        <div class="priest-contact">
-                            <p>Phone: <a href="tel:+6562919272">+65 6291 9272</a></p>
-                            <p>Email: <a href="mailto:sam.john@catholic.org.sg">sam.john@catholic.org.sg</a></p>
+                        <div class="priest-caption">
+                            <h3>Rev Fr Sam Thadatheil John</h3>
+                            <p class="priest-role">Assistant Priest</p>
+                            <div class="priest-contact">
+                                <p>Phone: <a href="tel:+6562919272">+65 6291 9272</a></p>
+                                <p>Email: <a href="mailto:sam.john@catholic.org.sg">sam.john@catholic.org.sg</a></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="priest">
-                        <div class="priest-photo arch">
-                            <img src="image/kevin_wee.jpg" alt="Rev Fr Kevin Wee" width="419" height="419"
-                                loading="lazy">
+                    </article>
+                    <article class="priest" id="priest-wee">
+                        <div class="priest-photo">
+                            <img src="image/kevin_wee.jpg" alt="Rev Fr Kevin Wee" width="419" height="419" loading="lazy">
                         </div>
-                        <h3>Rev Fr Kevin Wee</h3>
-                        <p class="priest-role">Assistant Parish Priest</p>
-                        <div class="priest-contact">
-                            <p>Phone: <a href="tel:+6562919272">+65 6291 9272</a></p>
-                            <p>Email: <a href="mailto:kevin.wee@catholic.org.sg">kevin.wee@catholic.org.sg</a></p>
+                        <div class="priest-caption">
+                            <h3>Rev Fr Kevin Wee</h3>
+                            <p class="priest-role">Assistant Parish Priest</p>
+                            <div class="priest-contact">
+                                <p>Phone: <a href="tel:+6562919272">+65 6291 9272</a></p>
+                                <p>Email: <a href="mailto:kevin.wee@catholic.org.sg">kevin.wee@catholic.org.sg</a></p>
+                            </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>

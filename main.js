@@ -106,6 +106,107 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 // ================================
+//   HOME HERO — the doorway arch opens into a full background photo as you scroll
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
+  const hero = document.querySelector('.hero--portal');
+  if (!hero || prefersLessMotion) return; // without motion the still arch view stays
+
+  const stage = hero.querySelector('.hero-stage');
+  const grid = hero.querySelector('.hero-grid');
+  const frame = hero.querySelector('.hero-portal-frame');
+  const bg = hero.querySelector('.hero-bg');
+  const photo = bg.querySelector('img');
+  const header = document.querySelector('.site-header');
+
+  // the doorway behind the statue in background_2.jpg (768 × 1024): outer edge of the stone moulding,
+  // from its point down past the statue's pedestal; the arch springs 123 px below the point
+  const IMG = { w: 768, h: 1024 };
+  const DOOR = { x: 318, y: 664, w: 142, h: 271 };
+  const SPRING = 123 / 271;
+  const STATUE = { x: 389, y: 735 }; // kept in view once the photo fills the screen
+
+  // one side of an equilateral (Gothic) arch: u across the width (0 → .5), v up the arch (0 → 1)
+  const ARC = Array.from({ length: 18 }, (_, i) => {
+    const angle = Math.PI - (i / 17) * (Math.PI / 3);
+    return { u: 1 + Math.cos(angle), v: Math.sin(angle) / Math.sin(Math.PI / 3) };
+  });
+
+  const clamp = (n, lo, hi) => Math.min(Math.max(n, lo), hi);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const ease = t => t * t * (3 - 2 * t);
+
+  let start = null;
+  let ticking = false;
+
+  function measure() {
+    document.documentElement.style.setProperty('--header-h', `${header ? header.offsetHeight : 84}px`);
+    // where the arch frame sits inside the stage (offsets ignore the opening animation's movement)
+    start = {
+      x: grid.offsetLeft + frame.offsetLeft,
+      y: grid.offsetTop + frame.offsetTop,
+      w: frame.offsetWidth,
+      h: frame.offsetHeight,
+    };
+  }
+
+  function archPolygon(x, y, w, h, archH) {
+    const pts = [[x, y + h], [x, y + archH]];
+    ARC.forEach(({ u, v }) => pts.push([x + u * w, y + archH * (1 - v)]));
+    [...ARC].reverse().forEach(({ u, v }) => pts.push([x + (1 - u) * w, y + archH * (1 - v)]));
+    pts.push([x + w, y + archH], [x + w, y + h]);
+    return `polygon(${pts.map(([px, py]) => `${px.toFixed(1)}px ${py.toFixed(1)}px`).join(', ')})`;
+  }
+
+  function update() {
+    ticking = false;
+    const W = stage.clientWidth;
+    const H = stage.clientHeight;
+    const distance = hero.offsetHeight - H;
+    const headerH = header ? header.offsetHeight : 0;
+    const t = ease(clamp((headerH - hero.getBoundingClientRect().top) / distance, 0, 1));
+
+    // frame: from the doorway arch to the whole stage, the point flattening as it grows
+    const x = lerp(start.x, 0, t);
+    const y = lerp(start.y, 0, t);
+    const w = lerp(start.w, W, t);
+    const h = lerp(start.h, H, t);
+    bg.style.clipPath = archPolygon(x, y, w, h, start.h * SPRING * (1 - t));
+
+    // photo: the doorway fills the arch at first, then the whole church fills the screen
+    const s0 = start.w / DOOR.w;
+    const s1 = Math.max(W / IMG.w, H / IMG.h);
+    const s = s0 * Math.pow(s1 / s0, t);
+    const tx0 = start.x - DOOR.x * s0;
+    const ty0 = start.y - DOOR.y * s0;
+    const tx1 = clamp(W / 2 - STATUE.x * s1, W - IMG.w * s1, 0);
+    const ty1 = clamp(H * .55 - STATUE.y * s1, H - IMG.h * s1, 0);
+    // move the statue smoothly between its start and end positions while the scale changes
+    const fx = lerp(tx0 + STATUE.x * s0, tx1 + STATUE.x * s1, t);
+    const fy = lerp(ty0 + STATUE.y * s0, ty1 + STATUE.y * s1, t);
+    photo.style.transform = `translate3d(${(fx - STATUE.x * s).toFixed(1)}px, ${(fy - STATUE.y * s).toFixed(1)}px, 0) scale(${s.toFixed(4)})`;
+
+    bg.style.setProperty('--shade', t.toFixed(3));
+    hero.classList.toggle('is-open', t > .45);
+  }
+
+  function requestUpdate() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  hero.classList.add('portal-ready');
+  measure();
+  update();
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', () => { measure(); update(); });
+  if (document.fonts) document.fonts.ready.then(() => { measure(); update(); });
+});
+
+// ================================
 //   TODAY — highlight today's Mass and office hours
 // ================================
 document.addEventListener('DOMContentLoaded', () => {

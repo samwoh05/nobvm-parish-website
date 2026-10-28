@@ -92,7 +92,15 @@
     <main id="main">
         <!-- home page -->
         <article id="home">
-            <section class="hero">
+            <section class="hero hero--portal">
+                <div class="hero-stage">
+                    <!-- full photo: starts inside the doorway arch and opens up into the background as you
+                         scroll (positioned by main.js) -->
+                    <div class="hero-bg" aria-hidden="true">
+                        <img src="image/background_2.jpg" alt="" width="768" height="1024" fetchpriority="high">
+                        <div class="hero-shade"></div>
+                    </div>
+
                 <div class="container hero-grid">
                     <div class="hero-text">
                         <h1>NATIVITY CHURCH</h1>
@@ -104,9 +112,9 @@
                             <a class="btn btn--jump" href="#holyHour">Holy Hour</a>
                         </div>
                     </div>
-                    <div class="hero-media arch">
-                        <img src="image/background_2.jpg" alt="" width="768" height="1024" fetchpriority="high">
-                    </div>
+                    <!-- arch frame, lined up with the church doorway behind the statue -->
+                    <div class="hero-media hero-portal-frame"></div>
+                </div>
                 </div>
             </section>
 

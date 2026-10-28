@@ -73,6 +73,9 @@
     /* gothic lancet arch, echoing the church windows */
     --arch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 125' preserveAspectRatio='none'%3E%3Cpath d='M0 125V52C0 24 22 5 50 0c28 5 50 24 50 52v73z'/%3E%3C/svg%3E");
 
+    /* the church doorway behind the statue (142 × 271 px in background_2.jpg, arch springs at 123 px) */
+    --lancet: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 142 271' preserveAspectRatio='none'%3E%3Cpath d='M0 271V123A142 142 0 0 1 71 0A142 142 0 0 1 142 123V271z'/%3E%3C/svg%3E");
+
     /* icons */
     --i-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M6 13l6 6 6-6'/%3E%3C/svg%3E");
     --i-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
@@ -866,6 +869,181 @@ main {
     .hero-actions .btn {
         width: 100%;
         justify-content: space-between;
+    }
+}
+
+/* ======================
+    home hero: the doorway "portal"
+    The arch frame lines up with the doorway behind the statue; as you scroll it opens
+    into a full background photo (main.js adds .portal-ready and drives the motion).
+========================*/
+.hero-portal-frame {
+    justify-self: end;
+    width: auto;
+    max-width: none;
+    height: clamp(380px, calc((100vh - var(--header-h)) * .78), 640px);
+    aspect-ratio: 142 / 271;
+    /* without the script: a still view of the doorway, cropped to the same arch */
+    background: url("../image/background_2.jpg") 50.8% 88.2% / 540.85% auto no-repeat;
+    -webkit-mask: var(--lancet) center / 100% 100% no-repeat;
+    mask: var(--lancet) center / 100% 100% no-repeat;
+}
+
+.hero-bg {
+    display: none;
+}
+
+.hero--portal.portal-ready {
+    --stage-h: calc(100vh - var(--header-h));
+    height: calc(var(--stage-h) * 1.8);
+    padding: 0;
+}
+
+@supports (height: 100svh) {
+    .hero--portal.portal-ready {
+        --stage-h: calc(100svh - var(--header-h));
+    }
+}
+
+.portal-ready .hero-stage {
+    position: sticky;
+    top: var(--header-h);
+    display: flex;
+    align-items: center;
+    height: var(--stage-h);
+    overflow: hidden;
+}
+
+.portal-ready .hero-grid {
+    position: relative;
+    z-index: 1;
+}
+
+.portal-ready .hero-portal-frame {
+    visibility: hidden;
+    animation: none;
+}
+
+.portal-ready .hero-bg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    animation: fade-in 1s .15s var(--ease) both;
+}
+
+.hero-bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 768px;
+    max-width: none;
+    height: 1024px;
+    transform-origin: 0 0;
+}
+
+.hero-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(14, 22, 34, .82) 0%, rgba(14, 22, 34, .6) 42%, rgba(14, 22, 34, .18) 100%);
+    opacity: var(--shade, 0);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+/* once the photo has opened up behind the text, the text turns light */
+.hero--portal .hero-text h1,
+.hero--portal .hero-sub,
+.hero--portal .hero-actions .btn {
+    transition: color .4s var(--ease), border-color .4s var(--ease), background-color .25s var(--ease);
+}
+
+.hero--portal .hero-text h1::after {
+    transition: background-color .4s var(--ease);
+}
+
+.hero--portal.is-open .hero-text h1 {
+    color: #fff;
+}
+
+.hero--portal.is-open .hero-text h1::after {
+    background-color: var(--on-dark);
+}
+
+.hero--portal.is-open .hero-sub {
+    color: var(--on-dark-muted);
+}
+
+.hero--portal.is-open .hero-actions .btn {
+    border-color: rgba(255, 255, 255, .85);
+    color: #fff;
+}
+
+.hero--portal.is-open .hero-actions .btn::before {
+    background-color: var(--paper);
+}
+
+.hero--portal.is-open .hero-actions .btn:hover {
+    color: var(--ink);
+}
+
+.hero--portal.is-open :focus-visible {
+    outline-color: #fff;
+}
+
+@media (max-width: 860px) {
+    .hero-portal-frame {
+        justify-self: center;
+        height: min(64vh, 520px);
+    }
+
+    /* phones and tablets: arch above, text below, all within one screen */
+    .portal-ready .hero-grid {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: clamp(1rem, 3vh, 1.75rem);
+        height: 100%;
+        padding-block: 1rem 1.25rem;
+    }
+
+    .portal-ready .hero-portal-frame {
+        order: -1;
+        align-self: center;
+        height: clamp(170px, calc(var(--stage-h) - 360px), 46vh);
+    }
+
+    .portal-ready .hero h1 {
+        font-size: clamp(2.5rem, 1.5rem + 5vw, 3.5rem);
+    }
+
+    .portal-ready .hero h1::after {
+        margin-top: 1rem;
+    }
+
+    .portal-ready .hero-sub {
+        margin-top: .75rem;
+    }
+
+    .portal-ready .hero-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: .6rem;
+        margin-top: 1.25rem;
+    }
+
+    .portal-ready .hero-actions .btn {
+        width: auto;
+        min-height: 3rem;
+        padding-inline: 1.15rem;
+    }
+
+    .hero-shade {
+        background: linear-gradient(0deg, rgba(14, 22, 34, .86) 0%, rgba(14, 22, 34, .62) 55%, rgba(14, 22, 34, .25) 100%);
     }
 }
 

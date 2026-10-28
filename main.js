@@ -53,12 +53,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.body.appendChild(toTop);
 
+  // thin line under the header showing how far down the page you are
+  const progress = document.createElement('div');
+  progress.className = 'scroll-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  if (header) header.appendChild(progress);
+
   function onScroll() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.setProperty('--progress', scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0);
     if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
     toTop.classList.toggle('is-shown', window.scrollY > window.innerHeight * 1.2);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
   onScroll();
 });
 

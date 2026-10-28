@@ -43,13 +43,21 @@
     /* type */
     --font-display: "Gloock", "Songti SC", "Noto Serif SC", "Noto Serif CJK SC", Georgia, serif;
     --font-body: "DM Sans", "DM Sans Local", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
-    --font-quote: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif;
+    --font-quote: var(--font-body);
 
     --fs-display: clamp(2.75rem, 1.35rem + 5.4vw, 5.75rem);
     --fs-h1: clamp(2.25rem, 1.55rem + 2.9vw, 4rem);
     --fs-h2: clamp(1.875rem, 1.4rem + 1.9vw, 2.875rem);
     --fs-h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
     --fs-lead: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4375rem);
+    --fs-body: 1.125rem;
+    --fs-small: 1rem;
+    --fs-label: .8125rem;
+    --tracking-display: .02em;
+    --tracking-label: .14em;
+    --tracking-caps: .06em;
+    --leading-display: 1.08;
+    --leading-body: 1.65;
 
     /* shape & space */
     --radius-lg: 22px;
@@ -92,9 +100,9 @@ body {
     background-color: var(--paper);
     color: var(--ink);
     font-family: var(--font-body);
-    font-size: 1.125rem;
+    font-size: var(--fs-body);
     font-weight: 400;
-    line-height: 1.65;
+    line-height: var(--leading-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -112,7 +120,7 @@ h3,
 h4 {
     font-family: var(--font-display);
     font-weight: 400;
-    line-height: 1.12;
+    line-height: var(--leading-display);
     text-wrap: balance;
 }
 
@@ -175,7 +183,7 @@ main {
 .section-title {
     font-size: var(--fs-h2);
     text-transform: uppercase;
-    letter-spacing: .03em;
+    letter-spacing: var(--tracking-display);
     margin-bottom: clamp(1.75rem, 1rem + 2.5vw, 3rem);
 }
 
@@ -328,7 +336,7 @@ main {
     margin-top: .2rem;
     font-family: var(--font-display);
     font-size: .95rem;
-    letter-spacing: .14em;
+    letter-spacing: var(--tracking-label);
     color: var(--muted);
 }
 
@@ -577,9 +585,9 @@ main {
 .footer-heading {
     margin-bottom: 1.1rem;
     font-family: var(--font-body);
-    font-size: .8125rem;
+    font-size: var(--fs-label);
     font-weight: 700;
-    letter-spacing: .14em;
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--muted);
 }
@@ -621,9 +629,11 @@ main {
 
 .footer-contact b {
     display: block;
-    font-size: .8125rem;
-    font-weight: 600;
-    letter-spacing: .04em;
+    margin-bottom: .1rem;
+    font-size: var(--fs-label);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
     color: var(--muted);
 }
 
@@ -710,7 +720,7 @@ main {
 .page-title {
     font-size: var(--fs-h1);
     text-transform: uppercase;
-    letter-spacing: .03em;
+    letter-spacing: var(--tracking-display);
 }
 
 .page-sub {
@@ -775,7 +785,7 @@ main {
 .hero h1 {
     font-size: var(--fs-display);
     line-height: .98;
-    letter-spacing: .015em;
+    letter-spacing: var(--tracking-display);
 }
 
 .hero h1::after {
@@ -947,7 +957,7 @@ main {
     font-family: var(--font-body);
     font-size: .875rem;
     font-weight: 700;
-    letter-spacing: .16em;
+    letter-spacing: var(--tracking-label);
     color: var(--marian);
 }
 
@@ -1028,7 +1038,7 @@ main {
     font-family: var(--font-body);
     font-size: .6875rem;
     font-weight: 700;
-    letter-spacing: .08em;
+    letter-spacing: var(--tracking-label);
     line-height: 1.4;
     text-transform: uppercase;
     vertical-align: .15em;
@@ -1097,9 +1107,9 @@ main {
 }
 
 .info-card-label {
-    font-size: .875rem;
+    font-size: var(--fs-label);
     font-weight: 700;
-    letter-spacing: .14em;
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--marian);
 }
@@ -1218,9 +1228,11 @@ main {
 
 .directory-contact b {
     display: block;
-    font-size: .8125rem;
-    font-weight: 600;
-    letter-spacing: .04em;
+    margin-bottom: .1rem;
+    font-size: var(--fs-label);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
     color: var(--muted);
 }
 
@@ -1367,7 +1379,7 @@ main {
 .menu-card h2 {
     font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
     text-transform: uppercase;
-    letter-spacing: .03em;
+    letter-spacing: var(--tracking-display);
 }
 
 .menu-card>p {
@@ -1391,7 +1403,7 @@ main {
     color: var(--ink);
     font-size: 1.0625rem;
     font-weight: 600;
-    letter-spacing: .06em;
+    letter-spacing: var(--tracking-caps);
     text-decoration: none;
 }
 
@@ -1466,7 +1478,7 @@ main {
     margin-top: 1.5rem;
     color: var(--marian);
     font-weight: 600;
-    letter-spacing: .02em;
+    letter-spacing: var(--tracking-display);
 }
 
 @media (max-width: 860px) {
@@ -1534,9 +1546,9 @@ main {
 .feature-body h3 {
     margin: 2.25rem 0 .75rem;
     font-family: var(--font-body);
-    font-size: .875rem;
+    font-size: var(--fs-label);
     font-weight: 700;
-    letter-spacing: .14em;
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--marian);
 }
@@ -1637,10 +1649,11 @@ main {
     border-radius: 6px;
     background-color: var(--marian-tint);
     color: var(--marian-deep);
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-family: var(--font-body);
+    font-variant-numeric: tabular-nums;
     font-size: 1.25rem;
     font-weight: 600;
-    letter-spacing: .06em;
+    letter-spacing: var(--tracking-caps);
 }
 
 .give-card>.paynow-note {
@@ -1858,12 +1871,155 @@ main {
 .about-text h2 {
     font-size: var(--fs-h2);
     text-transform: uppercase;
-    letter-spacing: .03em;
+    letter-spacing: var(--tracking-display);
 }
 
 .about-text p {
     margin-top: 1rem;
     color: var(--muted);
+}
+
+/*============================
+    interactive touches
+=============================*/
+/* reading progress line along the bottom of the header (width set by main.js) */
+.scroll-progress {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--marian);
+    transform: scaleX(var(--progress, 0));
+    transform-origin: 0 50%;
+    pointer-events: none;
+}
+
+/* nav links: underline slides in on hover */
+@media (min-width: 1200px) {
+    .site-nav a:not(.nav-donate) {
+        position: relative;
+    }
+
+    .site-nav a:not(.nav-donate)::after {
+        content: "";
+        position: absolute;
+        left: .85rem;
+        right: .85rem;
+        bottom: .4rem;
+        height: 1.5px;
+        background-color: currentColor;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .3s var(--ease);
+    }
+
+    .site-nav a:not(.nav-donate):not([aria-current]):hover {
+        background-color: transparent;
+        color: var(--marian);
+    }
+
+    .site-nav a:not(.nav-donate):not([aria-current]):hover::after {
+        transform: scaleX(1);
+    }
+}
+
+/* buttons: colour sweeps up from below */
+.btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--ink);
+    transform: translateY(101%);
+    transition: transform .35s var(--ease);
+}
+
+.btn:hover::before {
+    transform: none;
+}
+
+.btn:hover {
+    background-color: transparent;
+}
+
+.btn--primary::before {
+    background-color: var(--marian-deep);
+}
+
+.btn--primary:hover {
+    background-color: var(--marian);
+}
+
+/* section titles get a short rule that draws in as they appear */
+.section-title::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 2px;
+    margin-top: .9rem;
+    background-color: var(--marian);
+    transition: width .8s .2s var(--ease);
+}
+
+.section-title.reveal::after {
+    width: 0;
+}
+
+.section-title.reveal.is-visible::after {
+    width: 56px;
+}
+
+.bleed--dark .section-title::after {
+    background-color: var(--on-dark-muted);
+}
+
+/* cards and photos respond to the pointer */
+.proj-card {
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+}
+
+.proj-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+
+.card-thumb,
+.priest-photo img {
+    transition: transform .6s var(--ease);
+}
+
+.card-body {
+    position: relative;
+    background-color: var(--stone);
+}
+
+.proj-card:hover .card-thumb,
+.priest:hover .priest-photo img {
+    transform: scale(1.04);
+}
+
+.mass-row {
+    transition: background-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+
+.mass-row:hover {
+    background-color: var(--stone);
+    box-shadow: -.85rem 0 0 var(--stone), .85rem 0 0 var(--stone);
+}
+
+.officeHoursTable tr {
+    transition: background-color .2s var(--ease);
+}
+
+.officeHoursTable tbody tr:hover {
+    background-color: rgba(250, 248, 244, .7);
 }
 
 /*============================

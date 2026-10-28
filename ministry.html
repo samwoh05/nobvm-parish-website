@@ -45,10 +45,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400..700;1,400..700&family=Oswald:wght@500..700&display=swap" rel="stylesheet">
 
     <!-- link to external css file under css folder -->
-    <link href="css/style.css?v=20261028-14" type="text/css" rel="stylesheet">
+    <link href="css/style.css?v=20261028-17" type="text/css" rel="stylesheet">
 
     <!-- link to external js file -->
-    <script src="main.js?v=20261028-14" defer></script>
+    <script src="main.js?v=20261028-17" defer></script>
     <!-- <link rel="manifest" href="manifest.json"> -->
 
     <meta name="theme-color" content="#FAF8F4">
@@ -112,40 +112,80 @@
             </div>
         </section>
 
-        <!-- 4 category cards -->
-        <section id="ministryGrid" class="section">
-            <div class="container ministry-cards">
-                <a href="ministry-prayer.html" class="ministry-card">
-                    <div class="ministry-card-img" style="background-image: url('image/church_2.jpg')"></div>
-                    <div class="ministry-card-body">
-                        <h2>Prayer &amp; Liturgy</h2>
-                        <p>Altar Servers, Choir, Lectors, Wardens and more</p>
-                    </div>
-                </a>
+        <!-- jump straight to a category (all ministries are on this page) -->
+        <nav class="ministry-jumps" aria-label="Ministry categories">
+            <div class="container">
+                <div class="ministry-jump-grid">
+                    <a href="#prayer-liturgy" class="ministry-jump">
+                        <span class="ministry-jump-title">Prayer &amp; Liturgy</span>
+                        <span class="ministry-jump-desc">Altar Servers, Choir, Lectors, Wardens and more</span>
+                    </a>
+                    <a href="#pastoral-care" class="ministry-jump">
+                        <span class="ministry-jump-title">Pastoral Care</span>
+                        <span class="ministry-jump-desc">Funeral Ministry, Bereavement, SSVP and more</span>
+                    </a>
+                    <a href="#faith-formation" class="ministry-jump">
+                        <span class="ministry-jump-title">Faith Formation</span>
+                        <span class="ministry-jump-desc">Catechesis, RCIA, Adult Faith Formation and more</span>
+                    </a>
+                    <a href="#community-life" class="ministry-jump">
+                        <span class="ministry-jump-title">Community Life</span>
+                        <span class="ministry-jump-desc">Couples for Christ, NCC, Chinese &amp; Teochew Group and more</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
 
-                <a href="ministry-pastoral.html" class="ministry-card">
-                    <div class="ministry-card-img" style="background-image: url('image/annoiting-of-the-sick.jpg')"></div>
-                    <div class="ministry-card-body">
-                        <h2>Pastoral Care</h2>
-                        <p>Funeral Ministry, Bereavement, SSVP and more</p>
-                    </div>
-                </a>
+        <!-- ministries by category (cards are built by main.js) -->
+        <section id="prayer-liturgy" class="section ministry-group">
+            <div class="container">
+                <div class="ministry-group-head">
+                    <h2 class="section-title">Prayer &amp; Liturgy</h2>
+                    <p class="lead">serving God through worship and prayer</p>
+                </div>
+                <h3 class="ministry-sub">Liturgy</h3>
+                <div class="ministry-list" data-ministries="liturgy"></div>
+                <h3 class="ministry-sub">Prayer</h3>
+                <div class="ministry-list" data-ministries="prayer"></div>
+                <p class="ministry-group-contact"><a href="mailto:cnbvm.secretariat@catholic.org.sg" class="btn">Contact the Parish Office</a></p>
+            </div>
+        </section>
+        <section id="pastoral-care" class="section ministry-group section--stone">
+            <div class="container">
+                <div class="ministry-group-head">
+                    <h2 class="section-title">Pastoral Care</h2>
+                    <p class="lead">walking alongside our community in times of need</p>
+                </div>
+                <div class="ministry-list" data-ministries="pastoral"></div>
+                <p class="ministry-group-contact"><a href="mailto:pastoraloffice.cnbvm@catholic.org.sg" class="btn">Contact the Pastoral Office</a></p>
+            </div>
+        </section>
+        <section id="faith-formation" class="section ministry-group">
+            <div class="container">
+                <div class="ministry-group-head">
+                    <h2 class="section-title">Faith Formation</h2>
+                    <p class="lead">growing together in knowledge and love of God</p>
+                </div>
+                <div class="ministry-list" data-ministries="faith"></div>
+                <p class="ministry-group-contact"><a href="mailto:cnbvm.secretariat@catholic.org.sg" class="btn">Contact the Parish Office</a></p>
+            </div>
+        </section>
+        <section id="community-life" class="section ministry-group section--stone">
+            <div class="container">
+                <div class="ministry-group-head">
+                    <h2 class="section-title">Community Life</h2>
+                    <p class="lead">building bonds in faith and fellowship</p>
+                </div>
+                <div class="ministry-list" data-ministries="community"></div>
+                <p class="ministry-group-contact"><a href="mailto:cnbvm.secretariat@catholic.org.sg" class="btn">Contact the Parish Office</a></p>
+            </div>
+        </section>
 
-                <a href="ministry-faith.html" class="ministry-card">
-                    <div class="ministry-card-img" style="background-image: url('image/cat_class.jpeg')"></div>
-                    <div class="ministry-card-body">
-                        <h2>Faith Formation</h2>
-                        <p>Catechesis, RCIA, Adult Faith Formation and more</p>
-                    </div>
-                </a>
-
-                <a href="ministry-community.html" class="ministry-card">
-                    <div class="ministry-card-img" style="background-image: url('image/church_1.jpg')"></div>
-                    <div class="ministry-card-body">
-                        <h2>Community Life</h2>
-                        <p>Couples for Christ, NCC, Chinese &amp; Teochew Group and more</p>
-                    </div>
-                </a>
+        <!-- contact -->
+        <section class="ministryContact">
+            <div class="container">
+                <p>Interested in joining a ministry? Reach out to us and we'll connect you with the right team.</p>
+                <a href="mailto:cnbvm.secretariat@catholic.org.sg" class="ministryContactBtn btn btn--primary">Contact the Parish Office</a>
             </div>
         </section>
     </main>

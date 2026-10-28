@@ -515,4 +515,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const items = MINISTRY_GROUPS[list.dataset.ministries] || [];
     items.forEach(item => list.appendChild(buildCard(item)));
   });
+
+  // links like ministry.html#faith-formation: the cards above the target were only just added,
+  // so jump to the section again now that the page has its full height
+  const target = location.hash && document.querySelector('[data-ministries]') && document.getElementById(location.hash.slice(1));
+  if (target) target.scrollIntoView({ behavior: 'instant' });
 });

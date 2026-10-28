@@ -1126,6 +1126,192 @@ main {
 }
 
 /* ======================
+    home: "find what you need" shortcuts
+========================*/
+.quick-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .75rem;
+    list-style: none;
+}
+
+.quick-grid a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 100%;
+    min-height: 4.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    background-color: var(--paper);
+    color: var(--ink);
+    font-size: 1.1875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-decoration: none;
+    transition: background-color .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+}
+
+.quick-grid a small {
+    display: block;
+    margin-top: .2rem;
+    font-size: var(--fs-small);
+    font-weight: 400;
+    color: var(--muted);
+    transition: color .25s var(--ease);
+}
+
+.quick-grid a::after {
+    content: "";
+    flex-shrink: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: currentColor;
+    opacity: .5;
+    -webkit-mask: var(--i-arrow-right) center / contain no-repeat;
+    mask: var(--i-arrow-right) center / contain no-repeat;
+    transition: transform .25s var(--ease), opacity .25s var(--ease);
+}
+
+.quick-grid a:hover {
+    background-color: var(--marian);
+    color: #fff;
+}
+
+.quick-grid a:hover small {
+    color: var(--on-dark-muted);
+}
+
+.quick-grid a:hover::after {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+@media (max-width: 960px) {
+    .quick-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .quick-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .quick-grid a {
+        min-height: 4rem;
+        padding: .85rem 1rem;
+        font-size: 1.0625rem;
+    }
+}
+
+/* ======================
+    ministries: one page, jump buttons per category
+========================*/
+.ministry-jumps {
+    padding-block: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0;
+}
+
+.ministry-jump-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .75rem;
+}
+
+.ministry-jump {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+    border-radius: var(--radius);
+    background-color: var(--stone);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background-color .25s var(--ease), color .25s var(--ease);
+}
+
+.ministry-jump-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.ministry-jump-title::after {
+    content: "";
+    flex-shrink: 0;
+    width: 1.15rem;
+    height: 1.15rem;
+    background-color: currentColor;
+    opacity: .5;
+    -webkit-mask: var(--i-arrow-down) center / contain no-repeat;
+    mask: var(--i-arrow-down) center / contain no-repeat;
+}
+
+.ministry-jump-desc {
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+}
+
+.ministry-jump:hover {
+    background-color: var(--marian);
+    color: #fff;
+}
+
+.ministry-jump:hover .ministry-jump-desc {
+    color: var(--on-dark-muted);
+}
+
+.ministry-group-head {
+    margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.ministry-group-head .section-title {
+    margin-bottom: .5rem;
+}
+
+.ministry-sub {
+    margin: 2.5rem 0 1rem;
+    font-family: var(--font-body);
+    font-size: var(--fs-label);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--marian);
+}
+
+.ministry-group-head+.ministry-sub {
+    margin-top: 0;
+}
+
+.ministry-group-contact {
+    margin-top: 2rem;
+}
+
+.section--stone .proj-card,
+.section--stone .proj-card .card-body {
+    background-color: var(--paper);
+}
+
+@media (max-width: 860px) {
+    .ministry-jump-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .ministry-jump-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ======================
          mass schedule
 ========================*/
 .mass-inset {

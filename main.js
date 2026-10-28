@@ -72,6 +72,40 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ================================
+//   PAGE TRANSITION — a brief branded screen between pages of this site
+// ================================
+(() => {
+  const root = document.documentElement;
+  const samePage = path => path.replace(/index\.html$/, '');
+
+  // arriving from another page: lift the curtain once this page has painted
+  if (root.classList.contains('is-arriving')) {
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('is-arriving')));
+  }
+
+  document.addEventListener('click', e => {
+    if (prefersLessMotion || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+    const link = e.target.closest('a[href]');
+    if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+
+    const url = new URL(link.href, location.href);
+    if (url.origin !== location.origin) return; // other websites, email and phone links
+    if (samePage(url.pathname) === samePage(location.pathname) && url.hash) return; // a jump within this page
+
+    e.preventDefault();
+    try { sessionStorage.setItem('nativity-transition', '1'); } catch (err) { }
+    root.classList.add('is-leaving');
+    setTimeout(() => { location.href = url.href; }, 320);
+  });
+
+  // pages restored by the browser's back button shouldn't stay covered
+  window.addEventListener('pageshow', e => {
+    if (e.persisted) root.classList.remove('is-leaving', 'is-arriving');
+  });
+})();
+
+// ================================
 //   TODAY — highlight today's Mass and office hours
 // ================================
 document.addEventListener('DOMContentLoaded', () => {

@@ -563,6 +563,7 @@ main {
             FOOTER
 =============================*/
 .site-footer {
+    --footer-gap: clamp(2.5rem, 2rem + 2vw, 4rem);
     padding-top: clamp(3rem, 2rem + 4vw, 5rem);
     background-color: var(--stone);
     border-top: 1px solid var(--line);
@@ -570,16 +571,29 @@ main {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: .8fr 1.2fr 1fr 1.6fr;
-    gap: 2.5rem;
+    grid-template-columns: minmax(180px, 1fr) 1.1fr 1fr 1.5fr;
+    gap: 2.5rem clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+
+/* the church sketch stands on the footer's divider line, like the building on its ground */
+.footer-brand {
+    align-self: end;
+    margin-bottom: calc(-1 * var(--footer-gap) - 2px);
 }
 
 .footer-logo {
-    display: inline-block;
+    display: block;
+    width: fit-content;
+    transition: transform .4s var(--ease);
+}
+
+.footer-logo:hover {
+    transform: translateY(-4px);
 }
 
 .footer-logo img {
-    width: 92px;
+    width: auto;
+    height: clamp(230px, 120px + 12vw, 320px);
 }
 
 .footer-heading {
@@ -674,20 +688,31 @@ main {
 }
 
 .footer-bottom {
-    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    margin-top: var(--footer-gap);
     padding-bottom: 2rem;
 }
 
 .footer-bottom p {
     padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid #CFC6B6;
     font-size: .875rem;
     color: var(--muted);
 }
 
+/* smaller screens: info first, then the church standing centred on the line */
 @media (max-width: 960px) {
     .footer-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+        order: 99;
+        justify-self: center;
+    }
+
+    .footer-logo img {
+        height: clamp(190px, 120px + 14vw, 260px);
     }
 }
 
@@ -695,10 +720,6 @@ main {
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 2.25rem;
-    }
-
-    .footer-logo img {
-        width: 76px;
     }
 }
 

@@ -2448,7 +2448,8 @@ html::after {
     position: fixed;
     inset: 0;
     z-index: 100;
-    background: var(--paper) url("../logo/nativityChurchLogo.png") center / auto 104px no-repeat;
+    --curtain-logo: clamp(200px, 34vh, 300px);
+    background: var(--paper) url("../logo/nativityChurchLogo.png") center / auto var(--curtain-logo) no-repeat;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -2469,11 +2470,11 @@ html.is-arriving::after {
 
 @keyframes curtain-logo {
     from {
-        background-size: auto 104px;
+        background-size: auto var(--curtain-logo);
     }
 
     to {
-        background-size: auto 112px;
+        background-size: auto calc(var(--curtain-logo) * 1.06);
     }
 }
 

@@ -330,7 +330,7 @@ const CONTACT_PASTORAL = 'mailto:pastoraloffice.cnbvm@catholic.org.sg';
 const LITURGY_MINISTRIES = [
   {
     title: 'Altar Servers',
-    image: 'image/church_2.jpg',
+    image: 'image/Altar Servers.jpg',
     description: 'Altar servers assist the priest during Mass and other liturgical celebrations, serving at the altar with reverence and devotion.',
     contact: CONTACT_SECRETARIAT
   },

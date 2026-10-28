@@ -2165,15 +2165,6 @@ main {
     height: 2px;
     margin-top: .9rem;
     background-color: var(--marian);
-    transition: width .8s .2s var(--ease);
-}
-
-.section-title.reveal::after {
-    width: 0;
-}
-
-.section-title.reveal.is-visible::after {
-    width: 56px;
 }
 
 .bleed--dark .section-title::after {
@@ -2383,21 +2374,51 @@ html.is-arriving::after {
         animation: settle 1.8s var(--ease) both;
     }
 
-    /* content further down fades up as it scrolls into view (classes set by main.js) */
-    .reveal {
-        opacity: 0;
-        transform: translateY(22px);
-        transition: opacity .7s var(--ease), transform .7s var(--ease);
-        transition-delay: var(--reveal-delay, 0ms);
-    }
-
-    .reveal.is-visible {
-        opacity: 1;
-        transform: none;
-    }
 
     [data-parallax] {
         will-change: transform;
+    }
+}
+
+/* content fades up as it scrolls into view. Driven purely by scroll position in the browser
+   (no script), so nothing can ever be left hidden; browsers without support just show it all. */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        :is(.section-title, .mass-group, .mass-row, .info-card, .verse, .split-media, .holy-list li,
+            .directoryItem, .priest, .quote-band blockquote, .quote-media, .feature>.container>*,
+            .ministry-card, .proj-card, .give-card, .ministryContact .container>*, .about-text) {
+            animation: scroll-reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 45%;
+        }
+
+        .section-title::after {
+            animation: rule-draw linear both;
+            animation-timeline: view();
+            animation-range: entry 30% cover 40%;
+        }
+    }
+}
+
+@keyframes scroll-reveal {
+    from {
+        opacity: 0;
+        translate: 0 24px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+@keyframes rule-draw {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 56px;
     }
 }
 

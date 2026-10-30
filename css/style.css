@@ -700,6 +700,217 @@ main {
     color: var(--muted);
 }
 
+/* map: a wide strip under the footer columns, beside the church sketch */
+.footer-map {
+    position: relative;
+    height: clamp(210px, 160px + 6vw, 270px);
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background-color: var(--line);
+    isolation: isolate;
+}
+
+/* the map image is centred on the church, so cropping to any shape keeps it in the middle */
+.footer-map-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    /* zoomed in a little (the image is larger than shown, so it stays sharp); centred on the church */
+    transform: scale(1.4);
+    transition: transform .9s var(--ease);
+}
+
+.footer-map:hover .footer-map-img {
+    transform: scale(1.46);
+}
+
+/* pin: the church sketch in a white badge, its point exactly on the church, with a soft pulse */
+.footer-map-pin {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    margin: -4.7rem 0 0 -2rem;
+    border: 3px solid var(--marian);
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 10px 22px -8px rgba(24, 50, 90, .55);
+    transition: transform .35s var(--ease);
+}
+
+.footer-map-pin img {
+    width: auto;
+    height: 2.7rem;
+}
+
+/* the point of the pin */
+.footer-map-pin::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -.55rem;
+    border: .55rem solid transparent;
+    border-top: .7rem solid var(--marian);
+    border-bottom: 0;
+}
+
+/* a soft ring that pulses out from the exact spot */
+.footer-map-pin::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: calc(100% + .7rem);
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: -.55rem 0 0 -.55rem;
+    border-radius: 50%;
+    background-color: rgba(36, 70, 122, .35);
+    animation: map-pulse 2.4s var(--ease) infinite;
+}
+
+@keyframes map-pulse {
+    from {
+        transform: scale(.6);
+        opacity: .9;
+    }
+
+    to {
+        transform: scale(2.6);
+        opacity: 0;
+    }
+}
+
+.footer-map:hover .footer-map-pin {
+    transform: translateY(-4px);
+}
+
+.footer-map-credit {
+    position: absolute;
+    right: .5rem;
+    bottom: .4rem;
+    z-index: 2;
+    padding: .1rem .45rem;
+    border-radius: 4px;
+    background-color: rgba(250, 248, 244, .85);
+    color: var(--muted);
+    font-size: .75rem;
+    text-decoration: none;
+}
+
+.footer-map-credit:hover {
+    color: var(--marian);
+    text-decoration: underline;
+}
+
+/* the whole map opens Google Maps; the card names the church and invites directions */
+.footer-map-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: .75rem;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.footer-map-link:focus-visible {
+    outline-offset: -4px;
+    border-radius: var(--radius-lg);
+}
+
+.footer-map-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .55rem;
+    max-width: 17rem;
+    padding: .9rem 1rem 1rem;
+    border-radius: var(--radius);
+    background-color: rgba(250, 248, 244, .94);
+    box-shadow: var(--shadow);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    transition: transform .35s var(--ease);
+}
+
+.footer-map:hover .footer-map-card {
+    transform: translateY(-3px);
+}
+
+.footer-map-name {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.footer-map-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    min-height: 2.5rem;
+    padding: .45rem 1rem;
+    border-radius: 999px;
+    background-color: var(--marian);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color .25s var(--ease);
+}
+
+.footer-map-cta::after {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    background-color: currentColor;
+    -webkit-mask: var(--i-arrow-right) center / contain no-repeat;
+    mask: var(--i-arrow-right) center / contain no-repeat;
+    transition: transform .25s var(--ease);
+}
+
+.footer-map:hover .footer-map-cta {
+    background-color: var(--marian-deep);
+}
+
+.footer-map:hover .footer-map-cta::after {
+    transform: translateX(3px);
+}
+
+@media (min-width: 961px) {
+    .footer-brand {
+        grid-row: 1 / span 2;
+    }
+
+    .footer-map {
+        grid-column: 2 / -1;
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 960px) {
+    .footer-map {
+        grid-column: 1 / -1;
+    }
+}
+
+/* phones: taller, so the name card never covers the church's pin in the middle */
+@media (max-width: 560px) {
+    .footer-map {
+        height: 300px;
+    }
+}
+
 /* smaller screens: info first, then the church standing centred on the line */
 @media (max-width: 960px) {
     .footer-grid {

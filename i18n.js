@@ -6,6 +6,7 @@
 //   (names, address, PayNow details people must type into their bank app).
 // ================================
 const I18N = {
+  "Get directions": {"zh": "查看路线", "ta": "வழிகாட்டுதல் பெறுக"},
   "Skip to content": {"zh": "跳到主要内容", "ta": "முதன்மை உள்ளடக்கத்துக்குச் செல்லவும்"},
   "Menu": {"zh": "菜单", "ta": "பட்டியல்"},
   "Home": {"zh": "主页", "ta": "முகப்பு"},

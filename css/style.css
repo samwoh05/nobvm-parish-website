@@ -572,8 +572,8 @@ main {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: minmax(180px, 1fr) 1.1fr 1fr 1.5fr;
-    gap: 2.5rem clamp(1.5rem, 1rem + 2vw, 3rem);
+    grid-template-columns: auto minmax(16rem, 1fr) minmax(20rem, 1.9fr);
+    gap: 2.25rem clamp(1.5rem, 1rem + 2vw, 3rem);
 }
 
 /* the church sketch stands on the footer's divider line, like the building on its ground */
@@ -594,7 +594,7 @@ main {
 
 .footer-logo img {
     width: auto;
-    height: clamp(230px, 120px + 12vw, 320px);
+    height: clamp(200px, 150px + 5vw, 250px);
 }
 
 .footer-heading {
@@ -605,34 +605,6 @@ main {
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--muted);
-}
-
-.footer-links {
-    display: grid;
-    gap: .15rem;
-    list-style: none;
-}
-
-.footer-links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.5rem;
-    color: var(--ink);
-    font-size: 1.1875rem;
-    font-weight: 500;
-    text-decoration: none;
-}
-
-.footer-links a:hover {
-    color: var(--marian);
-    text-decoration: underline;
-}
-
-.footer-qr {
-    width: 136px;
-    padding: 8px;
-    border-radius: var(--radius);
-    background-color: #fff;
 }
 
 .footer-contact p {
@@ -700,10 +672,11 @@ main {
     color: var(--muted);
 }
 
-/* map: a wide strip under the footer columns, beside the church sketch */
+/* map: the right-hand column, as tall as the row beside it */
 .footer-map {
     position: relative;
-    height: clamp(210px, 160px + 6vw, 270px);
+    align-self: stretch;
+    min-height: 15rem;
     overflow: hidden;
     border-radius: var(--radius-lg);
     background-color: var(--line);
@@ -796,8 +769,8 @@ main {
 
 .footer-map-credit {
     position: absolute;
+    top: .4rem;
     right: .5rem;
-    bottom: .4rem;
     z-index: 2;
     padding: .1rem .45rem;
     border-radius: 4px;
@@ -829,18 +802,9 @@ main {
     border-radius: var(--radius-lg);
 }
 
+/* just the "Get directions" button; the church's name is there for screen readers */
 .footer-map-card {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: .55rem;
-    max-width: 17rem;
-    padding: .9rem 1rem 1rem;
-    border-radius: var(--radius);
-    background-color: rgba(250, 248, 244, .94);
-    box-shadow: var(--shadow);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
     transition: transform .35s var(--ease);
 }
 
@@ -863,6 +827,7 @@ main {
     padding: .45rem 1rem;
     border-radius: 999px;
     background-color: var(--marian);
+    box-shadow: 0 8px 18px -8px rgba(24, 50, 90, .6);
     color: #fff;
     font-size: 1rem;
     font-weight: 600;
@@ -887,34 +852,10 @@ main {
     transform: translateX(3px);
 }
 
-@media (min-width: 961px) {
-    .footer-brand {
-        grid-row: 1 / span 2;
-    }
-
-    .footer-map {
-        grid-column: 2 / -1;
-        grid-row: 2;
-    }
-}
-
-@media (max-width: 960px) {
-    .footer-map {
-        grid-column: 1 / -1;
-    }
-}
-
-/* phones: taller, so the name card never covers the church's pin in the middle */
-@media (max-width: 560px) {
-    .footer-map {
-        height: 300px;
-    }
-}
-
-/* smaller screens: info first, then the church standing centred on the line */
+/* tablets: contact and map side by side, then the church centred on its line */
 @media (max-width: 960px) {
     .footer-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(15rem, 1fr) 1.3fr;
     }
 
     .footer-brand {
@@ -924,14 +865,24 @@ main {
     }
 
     .footer-logo img {
-        height: clamp(190px, 120px + 14vw, 260px);
+        height: clamp(170px, 130px + 8vw, 220px);
     }
 }
 
+/* phones: one column, a shorter map */
 @media (max-width: 560px) {
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: 2.25rem;
+        gap: 1.75rem;
+    }
+
+    .footer-map {
+        min-height: 0;
+        height: 210px;
+    }
+
+    .footer-logo img {
+        height: 150px;
     }
 }
 

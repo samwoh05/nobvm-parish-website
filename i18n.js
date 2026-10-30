@@ -241,13 +241,13 @@ const I18N = {
 
 const NativityI18n = (() => {
   const LANGS = [
-    { code: 'en', html: 'en', label: 'English' },
-    { code: 'zh', html: 'zh-Hans', label: '中文' },
-    { code: 'ta', html: 'ta', label: 'தமிழ்' },
+    { code: 'en', html: 'en', label: 'English', short: 'EN', hint: '' },
+    { code: 'zh', html: 'zh-Hans', label: '中文', short: '中文', hint: 'Chinese' },
+    { code: 'ta', html: 'ta', label: 'தமிழ்', short: 'தமிழ்', hint: 'Tamil' },
   ];
   const STORE = 'nativity-lang';
   const INLINE = new Set(['B', 'I', 'EM', 'STRONG', 'SMALL', 'BR', 'U', 'CODE']);
-  const SKIP = 'script, style, noscript, code, .brand-name, .brand-zh, .lang-bar, .timeline_H';
+  const SKIP = 'script, style, noscript, code, .brand-name, .brand-zh, .lang-menu, .timeline_H';
   const norm = s => s.replace(/\s+/g, ' ').trim();
 
   let entries = null;
@@ -295,34 +295,84 @@ const NativityI18n = (() => {
       link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400..700&display=swap';
       document.head.appendChild(link);
     }
-    document.querySelectorAll('.lang-switch button').forEach(b => {
-      b.setAttribute('aria-pressed', String(b.dataset.lang === code));
+    const label = document.querySelector('.lang-current');
+    if (label) label.textContent = lang.short;
+    document.querySelectorAll('.lang-option').forEach(b => {
+      b.setAttribute('aria-checked', String(b.dataset.lang === code));
     });
   }
 
-  function buildBar() {
-    const bar = document.createElement('div');
-    bar.className = 'lang-bar';
-    bar.innerHTML = `
-      <div class="container lang-bar-inner">
-        <div class="lang-switch" role="group" aria-label="Language · 语言 · மொழி">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
-            aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
-          ${LANGS.map(l => `<button type="button" data-lang="${l.code}" lang="${l.html}" aria-pressed="false">${l.label}</button>`).join('')}
-        </div>
-      </div>`;
-    bar.addEventListener('click', e => {
-      const btn = e.target.closest('button[data-lang]');
-      if (!btn || btn.dataset.lang === current) return;
-      apply(btn.dataset.lang);
-      try { localStorage.setItem(STORE, btn.dataset.lang); } catch (err) { }
+  // dropdown in the header's top-right corner: globe + current language, opens a small menu
+  function buildDropdown() {
+    const inner = document.querySelector('.header-inner');
+    if (!inner) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'lang-dd';
+    wrap.innerHTML = `
+      <button type="button" class="lang-trigger" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu"
+        aria-label="Language · 语言 · மொழி">
+        <svg class="lang-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+          aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        <span class="lang-current">EN</span>
+        <svg class="lang-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul class="lang-menu" id="lang-menu" role="menu" aria-label="Language · 语言 · மொழி">
+        ${LANGS.map((l, i) => `<li role="none" style="--i:${i}">
+          <button type="button" class="lang-option" role="menuitemradio" aria-checked="false" data-lang="${l.code}" lang="${l.html}" tabindex="-1">
+            <span class="lang-name">${l.label}</span>${l.hint ? `<span class="lang-hint" lang="en">${l.hint}</span>` : ''}
+          </button></li>`).join('')}
+      </ul>`;
+    inner.appendChild(wrap);
+
+    const trigger = wrap.querySelector('.lang-trigger');
+    const options = [...wrap.querySelectorAll('.lang-option')];
+    const isOpen = () => wrap.classList.contains('is-open');
+
+    function open(focusCurrent) {
+      // only one header panel at a time: close the phone menu if it's open
+      const header = document.querySelector('.site-header');
+      const navToggle = document.querySelector('.nav-toggle');
+      if (header && header.classList.contains('nav-open') && navToggle) navToggle.click();
+      wrap.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      if (focusCurrent) (options.find(o => o.dataset.lang === current) || options[0]).focus();
+    }
+    function close(returnFocus) {
+      if (!isOpen()) return;
+      wrap.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      if (returnFocus) trigger.focus();
+    }
+
+    trigger.addEventListener('click', () => (isOpen() ? close(false) : open(false)));
+    trigger.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); e.stopPropagation(); open(true); }
     });
-    const header = document.querySelector('.site-header');
-    if (header) header.before(bar);
+    wrap.addEventListener('keydown', e => {
+      const i = options.indexOf(document.activeElement);
+      if (e.key === 'Escape') { e.preventDefault(); close(true); }
+      else if (i > -1 && e.key === 'ArrowDown') { e.preventDefault(); options[(i + 1) % options.length].focus(); }
+      else if (i > -1 && e.key === 'ArrowUp') { e.preventDefault(); options[(i - 1 + options.length) % options.length].focus(); }
+      else if (i > -1 && e.key === 'Home') { e.preventDefault(); options[0].focus(); }
+      else if (i > -1 && e.key === 'End') { e.preventDefault(); options[options.length - 1].focus(); }
+      else if (e.key === 'Tab') close(false);
+    });
+    options.forEach(o => o.addEventListener('click', () => {
+      if (o.dataset.lang !== current) {
+        apply(o.dataset.lang);
+        try { localStorage.setItem(STORE, o.dataset.lang); } catch (err) { }
+      }
+      close(true);
+    }));
+    document.addEventListener('click', e => { if (!wrap.contains(e.target)) close(false); });
+    // opening the phone menu closes this one
+    const navToggle = document.querySelector('.nav-toggle');
+    if (navToggle) navToggle.addEventListener('click', () => close(false));
   }
 
   function start() {
-    buildBar();
+    buildDropdown();
     let code = 'en';
     const fromUrl = (location.search.match(/[?&]lang=(en|zh|ta)\b/) || [])[1];
     try { code = fromUrl || localStorage.getItem(STORE) || 'en'; } catch (err) { code = fromUrl || 'en'; }

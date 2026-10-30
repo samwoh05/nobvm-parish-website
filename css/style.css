@@ -197,7 +197,9 @@ main {
 .skip-link {
     position: absolute;
     left: 1rem;
-    top: -6rem;
+    top: 1rem;
+    /* parked above the screen by its own height, so longer translations stay hidden too */
+    transform: translateY(calc(-100% - 2rem));
     z-index: 100;
     padding: .75rem 1.25rem;
     border-radius: var(--radius-sm);
@@ -208,7 +210,7 @@ main {
 }
 
 .skip-link:focus {
-    top: 1rem;
+    transform: none;
     color: var(--on-dark);
 }
 
@@ -2479,62 +2481,201 @@ html.is-arriving::after {
 }
 
 /*============================
-    language bar (English / 中文 / தமிழ்) — built by i18n.js
+    language dropdown (English / 中文 / தமிழ்) — built by i18n.js, top-right of the header
 =============================*/
 .i18n-pending body {
     visibility: hidden;
 }
 
-.lang-bar {
-    background-color: var(--marian-deep);
-    color: var(--on-dark);
+.lang-dd {
+    position: relative;
+    flex-shrink: 0;
 }
 
-.lang-bar-inner {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.lang-switch {
-    display: flex;
+.lang-trigger {
+    display: inline-flex;
     align-items: center;
-    gap: .25rem;
-    padding-block: .3rem;
-}
-
-.lang-switch svg {
-    width: 1.1rem;
-    height: 1.1rem;
-    margin-right: .35rem;
-    color: var(--on-dark-muted);
-}
-
-.lang-switch button {
-    min-height: 2.25rem;
-    padding: .25rem .8rem;
-    border: 0;
+    gap: .4rem;
+    min-height: 2.75rem;
+    padding: .4rem .8rem;
+    border: 1.5px solid var(--line);
     border-radius: 999px;
-    background: transparent;
-    color: var(--on-dark);
+    background-color: transparent;
+    color: var(--ink);
     font-family: var(--font-body);
-    font-size: 1.0625rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color .2s var(--ease), background-color .2s var(--ease), color .2s var(--ease);
+}
+
+.lang-trigger:hover,
+.lang-dd.is-open .lang-trigger {
+    border-color: var(--marian);
+    color: var(--marian);
+}
+
+.lang-globe {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.lang-chevron {
+    width: .95rem;
+    height: .95rem;
+    opacity: .6;
+    transition: transform .3s var(--ease);
+}
+
+.lang-dd.is-open .lang-chevron {
+    transform: rotate(180deg);
+}
+
+/* the menu: fades and slides open from the top-right corner */
+.lang-menu {
+    position: absolute;
+    top: calc(100% + .5rem);
+    right: 0;
+    z-index: 60;
+    min-width: 11.5rem;
+    padding: .4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background-color: var(--paper);
+    box-shadow: 0 20px 44px -18px rgba(24, 50, 90, .35), 0 2px 6px rgba(28, 37, 48, .06);
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(.96);
+    transform-origin: top right;
+    transition: opacity .22s var(--ease), transform .28s var(--ease), visibility .28s;
+}
+
+.lang-dd.is-open .lang-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    /* become focusable at once when opening; still fade out when closing */
+    transition: opacity .22s var(--ease), transform .28s var(--ease), visibility 0s;
+}
+
+.lang-menu li {
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+
+.lang-dd.is-open .lang-menu li {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i) * 45ms + 60ms);
+}
+
+.lang-option {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    width: 100%;
+    min-height: 2.9rem;
+    padding: .6rem .9rem .6rem 2.1rem;
+    position: relative;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: left;
     cursor: pointer;
     transition: background-color .2s var(--ease), color .2s var(--ease);
 }
 
-.lang-switch button:hover {
-    background-color: rgba(255, 255, 255, .12);
+.lang-hint {
+    color: var(--muted);
+    font-size: .9375rem;
+    font-weight: 400;
 }
 
-.lang-switch button[aria-pressed="true"] {
-    background-color: var(--paper);
-    color: var(--marian-deep);
+.lang-option:hover,
+.lang-option:focus-visible {
+    background-color: var(--stone);
+    outline: none;
 }
 
-.lang-switch button:focus-visible {
-    outline-color: #fff;
+/* tick beside the language in use */
+.lang-option[aria-checked="true"] {
+    color: var(--marian);
+}
+
+.lang-option[aria-checked="true"]::before {
+    content: "";
+    position: absolute;
+    left: .75rem;
+    top: 50%;
+    width: .85rem;
+    height: .85rem;
+    margin-top: -.45rem;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* desktop: a little space after the Donate button */
+@media (min-width: 1200px) {
+    .lang-dd {
+        margin-left: -.5rem;
+    }
+}
+
+/* phones: Menu and language become compact square buttons (icon above its word), so the
+   church name keeps its room */
+@media (max-width: 600px) {
+    .header-inner {
+        gap: .5rem;
+    }
+
+    .brand {
+        margin-right: auto;
+    }
+
+    .nav-toggle,
+    .lang-trigger {
+        flex-direction: column;
+        justify-content: center;
+        gap: .25rem;
+        min-width: 3.4rem;
+        min-height: 3.4rem;
+        padding: .35rem .45rem;
+        border-radius: 14px;
+        font-size: .75rem;
+        line-height: 1;
+    }
+
+    .lang-trigger {
+        border-color: var(--ink);
+    }
+
+    .lang-globe {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+
+    .lang-chevron {
+        display: none;
+    }
+}
+
+/* Tamil menu labels are long: let them wrap onto two short lines on desktop */
+@media (min-width: 1200px) {
+    html[lang="ta"] .site-nav a {
+        max-width: 9.5em;
+        white-space: normal;
+        line-height: 1.2;
+        text-align: center;
+    }
 }
 
 /* the "Today" tag in each language */

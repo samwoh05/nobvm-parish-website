@@ -37,8 +37,8 @@
     --on-dark-muted: #C9D1DC;
 
     /* type */
-    --font-display: "Oswald", "Gloock", "Songti SC", "Noto Serif SC", "Noto Serif CJK SC", Georgia, serif;
-    --font-body: "Athelas", "Crimson Pro", "Songti SC", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-display: "Oswald", "Gloock", "Noto Sans Tamil", "Tamil Sangam MN", "Songti SC", "Noto Serif SC", "Noto Serif CJK SC", Georgia, serif;
+    --font-body: "Athelas", "Crimson Pro", "Noto Sans Tamil", "Tamil Sangam MN", "Songti SC", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
     --font-quote: var(--font-body);
 
     --fs-display: clamp(2.75rem, 1.35rem + 5.4vw, 5.75rem);
@@ -2475,6 +2475,87 @@ html.is-arriving::after {
 
     to {
         background-size: auto calc(var(--curtain-logo) * 1.06);
+    }
+}
+
+/*============================
+    language bar (English / 中文 / தமிழ்) — built by i18n.js
+=============================*/
+.i18n-pending body {
+    visibility: hidden;
+}
+
+.lang-bar {
+    background-color: var(--marian-deep);
+    color: var(--on-dark);
+}
+
+.lang-bar-inner {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.lang-switch {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    padding-block: .3rem;
+}
+
+.lang-switch svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: .35rem;
+    color: var(--on-dark-muted);
+}
+
+.lang-switch button {
+    min-height: 2.25rem;
+    padding: .25rem .8rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--on-dark);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+
+.lang-switch button:hover {
+    background-color: rgba(255, 255, 255, .12);
+}
+
+.lang-switch button[aria-pressed="true"] {
+    background-color: var(--paper);
+    color: var(--marian-deep);
+}
+
+.lang-switch button:focus-visible {
+    outline-color: #fff;
+}
+
+/* the "Today" tag in each language */
+html[lang="zh-Hans"] .mass-row.is-today h4::after,
+html[lang="zh-Hans"] .officeHoursTable tr.is-today td:first-child::after {
+    content: "今天";
+    letter-spacing: .1em;
+}
+
+html[lang="ta"] .mass-row.is-today h4::after,
+html[lang="ta"] .officeHoursTable tr.is-today td:first-child::after {
+    content: "இன்று";
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+/* Tamil words run long: give the desktop menu a little more room */
+@media (min-width: 1200px) {
+    html[lang="ta"] .site-nav a {
+        padding-inline: .6rem;
+        font-size: .9375rem;
     }
 }
 

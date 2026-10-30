@@ -521,3 +521,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const target = location.hash && document.querySelector('[data-ministries]') && document.getElementById(location.hash.slice(1));
   if (target) target.scrollIntoView({ behavior: 'instant' });
 });
+
+// ================================
+//   LANGUAGE — start last, so the ministry cards above are translated too (see i18n.js)
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.NativityI18n) NativityI18n.start();
+  else document.documentElement.classList.remove('i18n-pending');
+});

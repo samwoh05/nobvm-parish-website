@@ -225,6 +225,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ================================
+//   SACRAMENTS — the two quote bands (St Peter of Alcantara, Acts 2:42)
+//   appear one letter at a time
+// ================================
+document.addEventListener('DOMContentLoaded', () => {
+  const quotes = document.querySelectorAll('.quote-band .quote-text');
+  if (!quotes.length || prefersLessMotion || !('IntersectionObserver' in window)) return;
+
+  const STEP = 34; // ms between letters
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+  // whole letters, so Tamil vowel signs and Chinese characters are never split apart
+  const letters = text => ('Segmenter' in Intl
+    ? [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(text)].map(s => s.segment)
+    : Array.from(text));
+
+  function type(quote) {
+    const cite = quote.parentElement.querySelector('.quote-cite');
+    const text = quote.textContent.replace(/\s+/g, ' ').trim();
+    const parts = letters(text);
+    // screen readers get the sentence once; the animated letters are for the eye only
+    quote.innerHTML = `<span class="sr-only">${esc(text)}</span><span class="type-chars" aria-hidden="true">${
+      parts.map((c, i) => `<span style="--d:${i}">${esc(c)}</span>`).join('')}</span>`;
+    if (cite) {
+      cite.style.setProperty('--after', `${parts.length * STEP}ms`);
+      cite.classList.remove('is-typed');
+      void cite.offsetWidth; // restart the fade if the language changes
+      cite.classList.add('is-typed');
+    }
+    quote.dataset.typed = 'true';
+  }
+
+  // each quote starts once it's on screen; until then it stays as plain, readable text
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      type(entry.target);
+    });
+  }, { threshold: 0.5 });
+  quotes.forEach(q => observer.observe(q));
+
+  // switching language puts back the plain sentence; type the new one out again
+  document.addEventListener('nativity:language', () => {
+    quotes.forEach(q => { if (q.dataset.typed) type(q); });
+  });
+});
+
+// ================================
 //   TODAY — highlight today's Mass and office hours
 // ================================
 document.addEventListener('DOMContentLoaded', () => {

@@ -1879,6 +1879,36 @@ main {
     font-style: normal;
 }
 
+/* Sacraments page quotes type themselves out, letter by letter (main.js) */
+.type-chars>span {
+    opacity: 0;
+    animation: type-in .14s ease-out forwards;
+    animation-delay: calc(var(--d) * 34ms);
+}
+
+@keyframes type-in {
+    to {
+        opacity: 1;
+    }
+}
+
+.quote-cite.is-typed {
+    animation: rise .7s var(--ease) both;
+    animation-delay: var(--after, 0ms);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .quote-band .quote-cite {
     margin-top: 1.5rem;
     color: var(--marian);

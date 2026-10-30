@@ -300,6 +300,7 @@ const NativityI18n = (() => {
     document.querySelectorAll('.lang-option').forEach(b => {
       b.setAttribute('aria-checked', String(b.dataset.lang === code));
     });
+    document.dispatchEvent(new CustomEvent('nativity:language', { detail: code }));
   }
 
   // dropdown in the header's top-right corner: globe + current language, opens a small menu

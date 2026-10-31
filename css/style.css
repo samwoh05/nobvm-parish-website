@@ -667,6 +667,8 @@ main {
 
 .footer-bottom p {
     padding-top: 1.5rem;
+    /* room for the back-to-top button, so it never sits on the words */
+    padding-right: 4rem;
     border-top: 1px solid #CFC6B6;
     font-size: 1rem;
     color: var(--muted);
@@ -883,6 +885,16 @@ main {
 
     .footer-logo img {
         height: 150px;
+    }
+
+    .footer-bottom {
+        padding-bottom: 1.5rem;
+    }
+
+    .footer-bottom p {
+        padding-top: 1.1rem;
+        font-size: .8125rem;
+        line-height: 1.55;
     }
 }
 
@@ -2860,6 +2872,44 @@ html.is-arriving::after {
     }
 }
 
+/* small phones: slightly smaller buttons (still easy to tap) so the church name stays on two lines */
+@media (max-width: 374px) {
+    .nav-toggle,
+    .lang-trigger {
+        min-width: 3rem;
+        min-height: 3rem;
+        padding-inline: .3rem;
+    }
+
+    html[lang="ta"] .nav-toggle,
+    html[lang="ta"] .lang-trigger {
+        font-size: .6875rem;
+    }
+}
+
+@media (max-width: 359px) {
+    .header-inner {
+        gap: .4rem;
+    }
+
+    .brand {
+        gap: .45rem;
+    }
+
+    .brand-logo {
+        height: 42px;
+    }
+
+    .brand-name {
+        font-size: .875rem;
+        line-height: 1.15;
+    }
+
+    .brand-zh {
+        font-size: .75rem;
+    }
+}
+
 /* Tamil menu labels are long: let them wrap onto two short lines on desktop */
 @media (min-width: 1200px) {
     html[lang="ta"] .site-nav a {
@@ -2889,6 +2939,56 @@ html[lang="ta"] .officeHoursTable tr.is-today td:first-child::after {
     html[lang="ta"] .site-nav a {
         padding-inline: .6rem;
         font-size: .9375rem;
+    }
+}
+
+/* the About page's menu has one extra link (About Us): fit it without squeezing the church name
+   onto a third line, so the header is the same height on every page */
+@media (min-width: 1200px) {
+    .site-nav:has(li:nth-child(6)) {
+        flex-shrink: 0;
+    }
+
+    html:not([lang="ta"]) .site-nav ul:has(> li:nth-child(6)) a[href="sacrament.html"] {
+        max-width: 10em;
+        white-space: normal;
+        line-height: 1.2;
+        text-align: center;
+        text-wrap: balance;
+    }
+
+    html[lang="ta"] .site-nav ul:has(> li:nth-child(6)) {
+        gap: 0;
+    }
+
+    html[lang="ta"] .site-nav ul:has(> li:nth-child(6)) a {
+        padding-inline: .45rem;
+        font-size: .875rem;
+    }
+
+    html[lang="ta"] .site-nav ul:has(> li:nth-child(6)) a.nav-donate {
+        margin-left: .25rem;
+        padding-inline: 1rem;
+    }
+}
+
+/* Tamil has some very long single words. On phones the big headings shrink with the screen so
+   those words fit, and break inside a word only as a last resort, so pages never scroll sideways */
+@media (max-width: 600px) {
+    html[lang="ta"] :is(main, .site-footer) {
+        overflow-wrap: anywhere;
+    }
+
+    html[lang="ta"] .page-title {
+        font-size: min(var(--fs-h1), 8.6vw);
+    }
+
+    html[lang="ta"] .menu-card :is(h1, h2) {
+        font-size: min(2rem, 7vw);
+    }
+
+    html[lang="ta"] .officeHoursTable {
+        font-size: 1.0625rem;
     }
 }
 

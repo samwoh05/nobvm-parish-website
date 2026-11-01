@@ -120,12 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const photo = bg.querySelector('img');
   const header = document.querySelector('.site-header');
 
-  // the doorway behind the statue in background_2.jpg (768 × 1024): outer edge of the stone moulding,
-  // from its point down past the statue's pedestal; the arch springs 123 px below the point
-  const IMG = { w: 768, h: 1024 };
-  const DOOR = { x: 318, y: 664, w: 142, h: 271 };
-  const SPRING = 123 / 271;
-  const STATUE = { x: 389, y: 735 }; // kept in view once the photo fills the screen
+  // the doorway behind the statue in parish-front.jpg (1080 × 1920): outer edge of the stone moulding,
+  // from its point down to the foot of the photo; the arch springs 252 px below the point (top of the columns)
+  const IMG = { w: 1080, h: 1920 };
+  const DOOR = { x: 383, y: 1295, w: 333, h: 625 };
+  const SPRING = 252 / 625;
+  const STATUE = { x: 538, y: 1560 }; // kept in view once the photo fills the screen
 
   // one side of an equilateral (Gothic) arch: u across the width (0 → .5), v up the arch (0 → 1)
   const ARC = Array.from({ length: 18 }, (_, i) => {
@@ -195,11 +195,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const fy = lerp(ty0 + STATUE.y * s0, ty1 + STATUE.y * s1, t);
     photo.style.transform = `translate3d(${(fx - STATUE.x * s).toFixed(1)}px, ${(fy - STATUE.y * s).toFixed(1)}px, 0) scale(${s.toFixed(4)})`;
 
-    // the moment the photo reaches the heading and buttons: dim it and turn the text light,
-    // so the text is never dark-on-photo
-    const behindText = x < textBox.x + textBox.w && x + w > textBox.x && y < textBox.y + textBox.h && y + h > textBox.y;
+    // once the photo covers the whole heading and buttons: dim it and turn the text light
+    // (switching earlier would leave part of the light text on the pale page)
+    const behindText = x <= textBox.x + 2 && x + w >= textBox.x + textBox.w - 2 &&
+      y <= textBox.y + 2 && y + h >= textBox.y + textBox.h - 2;
     bg.style.setProperty('--shade', behindText ? Math.max(t, .6).toFixed(3) : '0');
     hero.classList.toggle('is-open', behindText);
+    // while the photo is only partly under the text, the text gets a soft pale backing so it reads on both
+    const touching = x < textBox.x + textBox.w && x + w > textBox.x && y < textBox.y + textBox.h && y + h > textBox.y;
+    hero.classList.toggle('is-crossing', touching && !behindText);
   }
 
   function requestUpdate() {
@@ -328,40 +332,113 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ================================
-//   CONTACT US — horizontal gallery
+//   CONTACT US — inverted perspective carousel
+//   The photos line the inside of a ring and you stand inside it: the photo straight ahead is furthest
+//   away, the ones at the sides curve towards you. It turns slowly, pauses under the mouse, and can be
+//   dragged or swiped round. People who prefer less motion get a still ring they can drag.
 // ================================
-window.addEventListener('load', () => {
-  const track = document.querySelector('.timeline_H');
-  if (!track) return;
+document.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.querySelector('.gallery');
+  const scene = gallery && gallery.querySelector('.scrollable-Horizontal');
+  const ring = scene && scene.querySelector('.timeline_H');
+  if (!ring) return;
 
-  // people who prefer less motion can scroll the gallery themselves
-  if (prefersLessMotion) return;
+  const all = [...ring.querySelectorAll('img')];
+  const speed = 4; // degrees per second, increase to turn faster
 
-  const viewport = track.parentElement;
-  const imgs = track.querySelectorAll('img');
-  const half = imgs.length / 2;
+  let panels = all;
+  let step = 0;
+  let radius = 0;
+  let panelW = 0;
+  let angle = 0; // how far the ring has turned, in degrees
+  let hovering = false;
+  let inView = false;
+  let drag = null;
+  let last = 0;
+  let frame = 0;
 
-  let pos = 0;
-  let paused = false;
-  const speed = 0.5; // px per frame, increase to go faster
+  function size() {
+    const W = scene.clientWidth;
+    // small screens show one of each photo (the copies are only there to fill the wide ring)
+    const compact = W < 700;
+    gallery.classList.toggle('is-compact', compact);
+    panels = compact ? all.filter(img => !img.hasAttribute('aria-hidden')) : all;
+    step = 360 / panels.length;
 
-  viewport.addEventListener('mouseenter', () => { paused = true; });
-  viewport.addEventListener('mouseleave', () => { paused = false; });
-
-  function scroll() {
-    // width of the first set of images (including spacing)
-    const loopWidth = imgs[half].offsetLeft - imgs[0].offsetLeft;
-
-    if (!paused) pos += speed;
-
-    // reset once we've scrolled exactly one full set
-    if (pos >= loopWidth) pos -= loopWidth;
-
-    track.style.transform = `translateX(-${pos}px)`;
-    requestAnimationFrame(scroll);
+    radius = Math.min(W * .48, 720);
+    panelW = 2 * radius * Math.tan(Math.PI / panels.length) - (compact ? 12 : 14);
+    const panelH = panelW * 1.3;
+    // seen from a third of the way out from the middle: you stand inside the ring
+    gallery.style.setProperty('--ring-p', `${radius.toFixed(1)}px`);
+    gallery.style.setProperty('--ring-z', `${(radius * 2 / 3).toFixed(1)}px`);
+    gallery.style.setProperty('--panel-w', `${panelW.toFixed(1)}px`);
+    gallery.style.setProperty('--panel-h', `${panelH.toFixed(1)}px`);
+    gallery.style.setProperty('--ring-h', `${(panelH * 1.3).toFixed(1)}px`);
   }
 
-  requestAnimationFrame(scroll);
+  function place() {
+    panels.forEach((img, i) => {
+      // this photo's angle from straight ahead, between -180 and 180
+      const a = ((i * step + angle) % 360 + 540) % 360 - 180;
+      img.style.transform = `rotateY(${a.toFixed(2)}deg) translateZ(${(-radius).toFixed(1)}px)`;
+      // photos swinging round past the sides (towards and behind you) fade away
+      const fade = Math.min(Math.max((88 - Math.abs(a)) / 18, 0), 1);
+      img.style.opacity = fade.toFixed(3);
+      img.style.visibility = fade > 0 ? 'visible' : 'hidden';
+    });
+  }
+
+  function tick(now) {
+    frame = 0;
+    const dt = last ? Math.min(now - last, 64) / 1000 : 0;
+    last = now;
+    if (!hovering && !drag) angle += speed * dt;
+    place();
+    if (inView) frame = requestAnimationFrame(tick);
+  }
+
+  function start() {
+    if (frame || prefersLessMotion) return;
+    last = 0;
+    frame = requestAnimationFrame(tick);
+  }
+
+  gallery.classList.add('is-ring');
+  size();
+  place();
+
+  // only turn while the gallery is on screen
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    if (inView) start();
+  }).observe(scene);
+
+  scene.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hovering = true; });
+  scene.addEventListener('pointerleave', () => { hovering = false; });
+
+  // drag or swipe sideways to turn the ring (up-and-down swipes still scroll the page)
+  scene.addEventListener('pointerdown', e => {
+    drag = { x: e.clientX, angle };
+    scene.setPointerCapture(e.pointerId);
+    scene.classList.add('is-dragging');
+  });
+  scene.addEventListener('pointermove', e => {
+    if (!drag) return;
+    angle = drag.angle - (e.clientX - drag.x) * (step / panelW);
+    place();
+  });
+  const release = () => {
+    drag = null;
+    scene.classList.remove('is-dragging');
+  };
+  scene.addEventListener('pointerup', release);
+  scene.addEventListener('pointercancel', release);
+
+  window.addEventListener('resize', () => {
+    size();
+    all.forEach(img => { img.style.transform = ''; });
+    place();
+  });
 });
 
 //////////////////
@@ -544,7 +621,7 @@ function buildCard(item) {
   card.className = 'proj-card';
 
   card.innerHTML = `
-    <img class="card-thumb" src="${item.image}" alt="${item.title}" loading="lazy">
+    <div class="card-media"><img class="card-thumb" src="${item.image}" alt="${item.title}" loading="lazy"></div>
     <div class="card-body">
       <h3 class="card-title">${item.title}</h3>
       <p class="card-desc">${item.description}</p>

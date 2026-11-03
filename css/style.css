@@ -2069,6 +2069,7 @@ main {
 /* quote dividers */
 .quote-band {
     background-color: var(--stone);
+    overflow-x: clip;
 }
 
 .quote-band>.container {
@@ -2083,20 +2084,32 @@ main {
     grid-template-columns: 7fr 5fr;
 }
 
+/* no frame: the photo fills the band from top to bottom and runs off the screen edge on its side */
 .quote-media {
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius-lg);
+    align-self: stretch;
+    min-height: clamp(360px, 36vw, 560px);
+    margin-block: calc(-1 * var(--section-y));
+    background-color: var(--line);
     background-position: center;
     background-size: cover;
 }
 
+.quote-media:first-child {
+    margin-left: calc(-1 * var(--screen-edge));
+}
+
+blockquote+.quote-media {
+    margin-right: calc(-1 * var(--screen-edge));
+}
+
 #sacrament .quote-media {
-    background-image: url("../image/jesusstatue.jpg");
-    background-position: center 35%;
+    /* cropped from jesusstatue.jpg so the statue's face is exactly in the middle: it stays centred
+       whatever shape the frame is (the 54% keeps the whole figure in view when the top and bottom are trimmed) */
+    background-image: url("../image/jesusstatue-centred.jpg");
+    background-position: center 54%;
 }
 
 #pastroal .quote-media {
-    aspect-ratio: 4 / 3;
     background-image: url("../image/church_donation_bg.jpg");
     background-position: 70% center;
 }
@@ -2157,10 +2170,14 @@ main {
         grid-template-columns: 1fr;
     }
 
+    /* phones and tablets: edge to edge along the top of the band */
     .quote-media,
-    #pastroal .quote-media {
+    .quote-media:first-child,
+    blockquote+.quote-media {
         order: -1;
+        min-height: 0;
         aspect-ratio: 16 / 9;
+        margin: calc(-1 * var(--section-y)) calc(-1 * var(--gutter)) 0;
     }
 }
 
@@ -3224,7 +3241,7 @@ html[lang="ta"] .officeHoursTable tr.is-today td:first-child::after {
 @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
         :is(.section-title, .mass-group, .mass-row, .info-card, .verse, .holy-list li,
-            .directoryItem, .priest, .quote-band blockquote, .quote-media, .feature-body,
+            .directoryItem, .priest, .quote-band blockquote, .feature-body,
             .ministry-card, .proj-card, .give-card, .ministryContact .container>*, .about-text) {
             animation: scroll-reveal linear both;
             animation-timeline: view();
@@ -3232,13 +3249,13 @@ html[lang="ta"] .officeHoursTable tr.is-today td:first-child::after {
         }
 
         /* photos open from the screen edge they run off, fully open once the whole photo is in view */
-        :is(.split-media, .feature-body+.feature-media img, .bleed--media-right:not(.bleed--hero) .bleed-media) {
+        :is(.split-media, .feature-body+.feature-media img, blockquote+.quote-media, .bleed--media-right:not(.bleed--hero) .bleed-media) {
             animation: unveil-from-right linear both;
             animation-timeline: view();
             animation-range: entry 0% entry 100%;
         }
 
-        :is(.feature-media:first-child img, .bleed--media-left .bleed-media) {
+        :is(.feature-media:first-child img, .quote-media:first-child, .bleed--media-left .bleed-media) {
             animation: unveil-from-left linear both;
             animation-timeline: view();
             animation-range: entry 0% entry 100%;

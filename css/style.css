@@ -2080,7 +2080,7 @@ main {
     padding-block: var(--section-y);
 }
 
-#pastroal>.container {
+#pastoral>.container {
     grid-template-columns: 7fr 5fr;
 }
 
@@ -2109,7 +2109,7 @@ blockquote+.quote-media {
     background-position: center 54%;
 }
 
-#pastroal .quote-media {
+#pastoral .quote-media {
     background-image: url("../image/church_donation_bg.jpg");
     background-position: 70% center;
 }
@@ -2166,7 +2166,7 @@ blockquote+.quote-media {
 @media (max-width: 860px) {
 
     .quote-band>.container,
-    #pastroal>.container {
+    #pastoral>.container {
         grid-template-columns: 1fr;
     }
 

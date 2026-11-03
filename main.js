@@ -530,19 +530,19 @@ const PRAYER_MINISTRIES = [
   },
   {
     title: 'Legion of Mary (English)',
-    image: 'image/church_2.jpg',
+    image: 'image/Legion of Mary Queen Assumed into Heaven praesidium.jpeg',
     description: 'The Legion of Mary is an apostolic organisation of Catholic laity who serve the Church through prayer and active works of mercy.',
     contact: CONTACT_SECRETARIAT
   },
   {
     title: 'Legion of Mary (Mandarin)',
-    image: 'image/church_3.png',
+    image: 'image/Legion of Mary Queen Of Apostles praesidium.jpeg',
     description: '圣母军是天主教平信徒的宗徒组织，通过祈祷和慈善工作服务教会。',
     contact: CONTACT_SECRETARIAT
   },
   {
     title: 'Christian Meditation',
-    image: 'image/Christian Mediation with Our Lady of Silence.jpg',
+    image: 'image/Christian Meditation.jpeg',
     description: 'Christian Meditation offers a contemplative practice of silent prayer, deepening one\'s relationship with God through stillness.',
     contact: CONTACT_SECRETARIAT
   },
@@ -603,7 +603,7 @@ const COMMUNITY_MINISTRIES = [
     description: 'Couples for Christ is a movement that helps married couples grow in their faith and build Christ-centred families and communities.',
      contact: CONTACT_SECRETARIAT 
     },
-  { title: 'Neocatechumenal Way', image: 'image/church_3.png', description: 'The Neocatechumenal Way is a post-baptismal catechetical journey that helps Catholics rediscover and live their baptismal faith more deeply.', contact: CONTACT_SECRETARIAT },
+  { title: 'Neocatechumenal Way', image: 'image/Neocatechumenal Way.jpeg', description: 'The Neocatechumenal Way is a post-baptismal catechetical journey that helps Catholics rediscover and live their baptismal faith more deeply.', contact: CONTACT_SECRETARIAT },
   { title: 'Neighbourhood Christian Community (NCC)', image: 'image/church_1.jpg', description: 'NCCs are small faith communities that gather in homes and neighbourhoods, building relationships and supporting one another in daily Christian living.', contact: CONTACT_SECRETARIAT },
   { title: 'Chinese & Teochew Group', image: 'image/church_3.png', description: '华语及潮州堂区团体定期举办活动，凝聚华语堂区成员，在信仰与文化中共融。', contact: CONTACT_SECRETARIAT },
 ];

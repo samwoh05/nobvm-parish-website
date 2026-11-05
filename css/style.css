@@ -2735,12 +2735,15 @@ blockquote+.quote-media {
     page transition
     (a brief branded screen while moving between pages; classes set by main.js)
 =============================*/
+:root {
+    --curtain-logo: clamp(200px, 34vh, 300px);
+}
+
 html::after {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 100;
-    --curtain-logo: clamp(200px, 34vh, 300px);
     background: var(--paper) url("../logo/nativityChurchLogo.png") center / auto var(--curtain-logo) no-repeat;
     opacity: 0;
     visibility: hidden;
@@ -2767,6 +2770,45 @@ html.is-arriving::after {
 
     to {
         background-size: auto calc(var(--curtain-logo) * 1.06);
+    }
+}
+
+/* the sketch drawing itself on the way to another page (built by main.js), in the same spot as the
+   logo above, so the next page opens on the finished sketch */
+.sketch-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 101;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .32s var(--ease), visibility .32s;
+}
+
+.sketch-curtain canvas {
+    width: auto;
+    height: var(--curtain-logo);
+}
+
+html.is-sketching .sketch-curtain {
+    opacity: 1;
+    visibility: visible;
+}
+
+html.is-sketching::after {
+    background-image: none;
+    animation: none;
+}
+
+.sketch-curtain.is-drawn canvas {
+    animation: sketch-breathe 1.6s var(--ease) infinite alternate;
+}
+
+@keyframes sketch-breathe {
+    to {
+        scale: 1.06;
     }
 }
 

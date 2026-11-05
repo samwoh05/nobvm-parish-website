@@ -72,15 +72,108 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ================================
-//   PAGE TRANSITION — a brief branded screen between pages of this site
+//   PAGE TRANSITION — a brief branded screen between pages of this site.
+//   On the way out, the church sketch draws itself: light pencil lines first, then the ink.
+//   logo/sketch-order.png holds the order the sketch's pixels are drawn in (darker = sooner).
 // ================================
 (() => {
   const root = document.documentElement;
   const samePage = path => path.replace(/index\.html$/, '');
+  const DRAW_MS = 800; // how long the sketch takes to draw
+  let sketch = null; // set once the drawing is ready
 
   // arriving from another page: lift the curtain once this page has painted
   if (root.classList.contains('is-arriving')) {
     requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('is-arriving')));
+  }
+
+  // after the page has loaded, quietly get the drawing ready (until then the plain logo is shown)
+  function prepareSketch() {
+    const load = src => new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+    Promise.all([load('logo/nativityChurchLogo.png'), load('logo/sketch-order.png')]).then(([logoImg, orderImg]) => {
+      const w = logoImg.naturalWidth;
+      const h = logoImg.naturalHeight;
+      const read = img => {
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const x = c.getContext('2d');
+        x.drawImage(img, 0, 0, w, h);
+        return x.getImageData(0, 0, w, h).data;
+      };
+      const logo = read(logoImg);
+      const order = read(orderImg);
+
+      // group the sketch's pixels by drawing step (0 to 254; 255 is empty paper)
+      const starts = new Uint32Array(257);
+      for (let i = 0; i < w * h; i++) starts[order[i * 4] + 1]++;
+      for (let s = 0; s < 256; s++) starts[s + 1] += starts[s];
+      const next = starts.slice(0, 255);
+      const px = new Uint32Array(starts[255]);
+      for (let i = 0; i < w * h; i++) {
+        const s = order[i * 4];
+        if (s < 255) px[next[s]++] = i;
+      }
+
+      const curtain = document.createElement('div');
+      curtain.className = 'sketch-curtain';
+      curtain.setAttribute('aria-hidden', 'true');
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      curtain.appendChild(canvas);
+      document.body.appendChild(curtain);
+      const ctx = canvas.getContext('2d');
+      sketch = { curtain, ctx, out: ctx.createImageData(w, h), logo, px, starts };
+    }).catch(() => { }); // no drawing: the plain logo is used instead
+  }
+
+  // pencil sweeps over the first 70% of the time, the ink follows over the last 70%
+  function drawSketch() {
+    const { curtain, ctx, out, logo, px, starts } = sketch;
+    const d = out.data;
+    d.fill(0);
+    curtain.classList.remove('is-drawn');
+    let pencil = 0;
+    let ink = 0;
+    const reveal = (from, to, strength) => {
+      for (let k = starts[from]; k < starts[to]; k++) {
+        const i = px[k] * 4;
+        d[i] = logo[i];
+        d[i + 1] = logo[i + 1];
+        d[i + 2] = logo[i + 2];
+        d[i + 3] = logo[i + 3] * strength;
+      }
+    };
+    const t0 = performance.now();
+    const frame = now => {
+      const t = Math.min((now - t0) / DRAW_MS, 1);
+      const p = Math.round(Math.min(t / .7, 1) * 255);
+      const k = Math.round(Math.min(Math.max((t - .3) / .7, 0), 1) * 255);
+      if (p > pencil) { reveal(pencil, p, .45); pencil = p; }
+      if (k > ink) { reveal(ink, k, 1); ink = k; }
+      ctx.putImageData(out, 0, 0);
+      if (t < 1) requestAnimationFrame(frame);
+      else curtain.classList.add('is-drawn'); // a slow network: the finished sketch breathes gently
+    };
+    requestAnimationFrame(frame);
+  }
+
+  // start fetching the next page while the sketch draws
+  const prefetch = href => {
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = href;
+    document.head.appendChild(link);
+  };
+
+  if (!prefersLessMotion) {
+    window.addEventListener('load', () => (window.requestIdleCallback || setTimeout)(prepareSketch));
   }
 
   document.addEventListener('click', e => {
@@ -94,14 +187,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (samePage(url.pathname) === samePage(location.pathname) && url.hash) return; // a jump within this page
 
     e.preventDefault();
+    if (root.classList.contains('is-leaving')) return; // already on the way
     try { sessionStorage.setItem('nativity-transition', '1'); } catch (err) { }
-    root.classList.add('is-leaving');
-    setTimeout(() => { location.href = url.href; }, 320);
+    prefetch(url.href);
+    if (sketch) {
+      root.classList.add('is-leaving', 'is-sketching');
+      drawSketch();
+      setTimeout(() => { location.href = url.href; }, DRAW_MS + 80);
+    } else {
+      root.classList.add('is-leaving');
+      setTimeout(() => { location.href = url.href; }, 320);
+    }
   });
 
   // pages restored by the browser's back button shouldn't stay covered
   window.addEventListener('pageshow', e => {
-    if (e.persisted) root.classList.remove('is-leaving', 'is-arriving');
+    if (e.persisted) root.classList.remove('is-leaving', 'is-arriving', 'is-sketching');
   });
 })();
 

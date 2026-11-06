@@ -2752,7 +2752,8 @@ html::after {
 }
 
 html.is-leaving::after,
-html.is-arriving::after {
+html.is-arriving::after,
+html.is-reloading::after {
     opacity: 1;
     visibility: visible;
 }
@@ -2773,8 +2774,8 @@ html.is-arriving::after {
     }
 }
 
-/* the sketch drawing itself on the way to another page (built by main.js), in the same spot as the
-   logo above, so the next page opens on the finished sketch */
+/* the sketch drawing itself on the way to another page or when a page is refreshed (built by
+   main.js), in the same spot as the logo above, so the next page opens on the finished sketch */
 .sketch-curtain {
     position: fixed;
     inset: 0;
@@ -2792,12 +2793,15 @@ html.is-arriving::after {
     height: var(--curtain-logo);
 }
 
-html.is-sketching .sketch-curtain {
+html.is-sketching .sketch-curtain,
+html.is-reloading .sketch-curtain {
     opacity: 1;
     visibility: visible;
 }
 
-html.is-sketching::after {
+/* while the sketch draws (on the way out, or on a refresh) the curtain is plain paper */
+html.is-sketching::after,
+html.is-reloading::after {
     background-image: none;
     animation: none;
 }

@@ -73,29 +73,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ================================
 //   PAGE TRANSITION — a brief branded screen between pages of this site.
-//   On the way out, the church sketch draws itself: light pencil lines first, then the ink.
-//   logo/sketch-order.png holds the order the sketch's pixels are drawn in (darker = sooner).
+//   On the way out, and when a page is refreshed, the church sketch draws itself: light pencil
+//   lines first, then the ink. logo/sketch-order.png holds the order the sketch's pixels are drawn
+//   in (darker = sooner).
 // ================================
 (() => {
   const root = document.documentElement;
   const samePage = path => path.replace(/index\.html$/, '');
   const DRAW_MS = 800; // how long the sketch takes to draw
   let sketch = null; // set once the drawing is ready
+  let preparing = null;
 
   // arriving from another page: lift the curtain once this page has painted
   if (root.classList.contains('is-arriving')) {
     requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('is-arriving')));
   }
 
-  // after the page has loaded, quietly get the drawing ready (until then the plain logo is shown)
+  // get the drawing ready (until then the plain logo is shown); done once per page
   function prepareSketch() {
+    preparing = preparing || buildSketch();
+    return preparing;
+  }
+
+  function buildSketch() {
     const load = src => new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve(img);
       img.onerror = reject;
       img.src = src;
     });
-    Promise.all([load('logo/nativityChurchLogo.png'), load('logo/sketch-order.png')]).then(([logoImg, orderImg]) => {
+    return Promise.all([load('logo/nativityChurchLogo.png'), load('logo/sketch-order.png')]).then(([logoImg, orderImg]) => {
       const w = logoImg.naturalWidth;
       const h = logoImg.naturalHeight;
       const read = img => {
@@ -130,11 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(curtain);
       const ctx = canvas.getContext('2d');
       sketch = { curtain, ctx, out: ctx.createImageData(w, h), logo, px, starts };
-    }).catch(() => { }); // no drawing: the plain logo is used instead
+    });
   }
 
-  // pencil sweeps over the first 70% of the time, the ink follows over the last 70%
-  function drawSketch() {
+  // pencil sweeps over the first 70% of the time, the ink follows over the last 70%;
+  // onDone runs once the sketch is finished (without it, the finished sketch breathes gently)
+  function drawSketch(onDone) {
     const { curtain, ctx, out, logo, px, starts } = sketch;
     const d = out.data;
     d.fill(0);
@@ -159,9 +167,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (k > ink) { reveal(ink, k, 1); ink = k; }
       ctx.putImageData(out, 0, 0);
       if (t < 1) requestAnimationFrame(frame);
+      else if (onDone) onDone();
       else curtain.classList.add('is-drawn'); // a slow network: the finished sketch breathes gently
     };
     requestAnimationFrame(frame);
+  }
+
+  // refreshing the page: the curtain is already up (set in the page's head); draw the sketch,
+  // then lift it. If the drawing can't be made, lift it straight away.
+  if (root.classList.contains('is-reloading')) {
+    const lift = () => root.classList.remove('is-reloading');
+    prepareSketch().then(() => drawSketch(() => setTimeout(lift, 150)), lift);
   }
 
   // start fetching the next page while the sketch draws
@@ -173,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (!prefersLessMotion) {
-    window.addEventListener('load', () => (window.requestIdleCallback || setTimeout)(prepareSketch));
+    window.addEventListener('load', () => (window.requestIdleCallback || setTimeout)(() => prepareSketch().catch(() => { })));
   }
 
   document.addEventListener('click', e => {
@@ -202,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // pages restored by the browser's back button shouldn't stay covered
   window.addEventListener('pageshow', e => {
-    if (e.persisted) root.classList.remove('is-leaving', 'is-arriving', 'is-sketching');
+    if (e.persisted) root.classList.remove('is-leaving', 'is-arriving', 'is-sketching', 'is-reloading');
   });
 })();
 

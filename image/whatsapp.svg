@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+  <!-- WhatsApp: speech bubble with its tail at the bottom left, phone handset inside (drawn to match the site's line icons) -->
+  <path d="M3.4 20.6l1.1-5.1a8.5 8.5 0 1 1 3.8 3.9z"/>
+  <path d="M9.1 8.2c.4-.4 1-.4 1.3 0l.8 1.2c.3.4.2.9-.1 1.2l-.5.5c.6 1.2 1.5 2.2 2.6 2.7l.5-.5c.3-.3.8-.4 1.2-.1l1.2.8c.4.3.4.9 0 1.3l-.6.6c-.6.6-1.6.8-2.4.4-2.1-1-3.8-2.7-4.8-4.8-.4-.8-.2-1.8.4-2.4z" fill="#000" stroke-width="1"/>
+</svg>

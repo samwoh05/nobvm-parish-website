@@ -629,7 +629,7 @@ main {
     color: var(--ink);
 }
 
-.footer-contact a:hover {
+.footer-contact p a:hover {
     color: var(--marian);
 }
 
@@ -655,7 +655,20 @@ main {
     height: 1.3rem;
 }
 
-.social-link:hover {
+/* icons kept as image files (image/whatsapp.svg), drawn in the button's colour so they turn white on hover */
+.social-icon {
+    width: 1.3rem;
+    height: 1.3rem;
+    background-color: currentColor;
+}
+
+.social-icon--whatsapp {
+    -webkit-mask: url("../image/whatsapp.svg") center / contain no-repeat;
+    mask: url("../image/whatsapp.svg") center / contain no-repeat;
+}
+
+/* only real links react to the pointer (the WhatsApp button has no link yet) */
+.social-link[href]:hover {
     border-color: var(--marian);
     background-color: var(--marian);
     color: #fff;

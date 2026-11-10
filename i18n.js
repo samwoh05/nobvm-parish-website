@@ -26,7 +26,7 @@ const I18N = {
   "Nativity Church": {"zh": "圣母圣诞堂", "ta": "நேட்டிவிட்டி ஆலயம்"},
   "Page not found · Nativity Church": {"zh": "找不到页面 · 圣母圣诞堂", "ta": "பக்கம் கிடைக்கவில்லை · நேட்டிவிட்டி ஆலயம்"},
   "NATIVITY CHURCH": {"zh": "圣母圣诞堂", "ta": "நேட்டிவிட்டி ஆலயம்"},
-  "Church of the Blessed Virgin Mary": {"zh": "荣福童贞玛利亚之堂", "ta": "தூய கன்னி மரியாவின் ஆலயம்"},
+  "Church of the Nativity of the Blessed Virgin Mary": {"zh": "圣母圣诞堂", "ta": "தூய கன்னி மரியாவின் பிறப்பு ஆலயம்"},
   "Confession": {"zh": "告解", "ta": "ஒப்புரவு"},
   "Mass Timings": {"zh": "弥撒时间", "ta": "திருப்பலி நேரங்கள்"},
   "Holy Hour": {"zh": "圣时", "ta": "புனித மணி நேரம்"},
